@@ -30,36 +30,36 @@ abstract class TestCase extends BaseTestCase
 
     protected function getPdo()
     {
-        return Mockery::mock(PDOMock::class, array(
+        return Mockery::mock(PDOMock::class, [
             'getAttribute' => 'mysql',
-        ));
+        ]);
     }
 
     protected function getConnection()
     {
-        return Mockery::mock(ConnectionInterface::class, array(
+        return Mockery::mock(ConnectionInterface::class, [
             'getPdo' => $this->getPdo(),
-        ));
+        ]);
     }
 
     protected function getDbManager()
     {
-        return Mockery::mock(Manager::class, array(
+        return Mockery::mock(Manager::class, [
             'getConnection' => $this->getConnection(),
-        ));
+        ]);
     }
 
     protected function getRequest()
     {
-        return Mockery::mock(Request::class, array(
+        return Mockery::mock(Request::class, [
             'getClientIp' => '112.215.171.128',
-        ));
+        ]);
     }
 
     protected function getHostIpinfo()
     {
-        return Mockery::mock(Host::class, array(
-            'getProperties' => array(
+        return Mockery::mock(Host::class, [
+            'getProperties' => [
                 Ipinfo::CITY => 'Bekasi',
                 Ipinfo::COUNTRY => 'ID',
                 Ipinfo::HOSTNAME => '',
@@ -69,14 +69,14 @@ abstract class TestCase extends BaseTestCase
                 Ipinfo::PHONE => '',
                 Ipinfo::POSTAL => '',
                 Ipinfo::REGION => 'West Java',
-            ),
-        ));
+            ],
+        ]);
     }
 
     protected function getClientIpinfo()
     {
-        return Mockery::mock(Host::class, array(
-            'getProperties' => array(
+        return Mockery::mock(Host::class, [
+            'getProperties' => [
                 Ipinfo::CITY => 'Bandung',
                 Ipinfo::COUNTRY => 'ID',
                 Ipinfo::HOSTNAME => '',
@@ -86,69 +86,69 @@ abstract class TestCase extends BaseTestCase
                 Ipinfo::PHONE => '',
                 Ipinfo::POSTAL => '',
                 Ipinfo::REGION => 'West Java',
-            ),
-        ));
+            ],
+        ]);
     }
 
     protected function getLinfoParser()
     {
-        return Mockery::mock(OS::class, array(
+        return Mockery::mock(OS::class, [
             'getOS' => 'Linux',
             'getKernel' => '1.2.3',
             'getCPUArchitecture' => 'x86_64',
             'getWebService' => 'Unknown',
             'getPhpVersion' => '7.1',
             'getDistro' => '',
-            'getCPU' => array(
-                array(
+            'getCPU' => [
+                [
                     'Model' => 'Intel(R) Core(TM) i5-3210M CPU @ 2.50GHz',
-                ),
-                array(
+                ],
+                [
                     'Model' => 'Intel(R) Core(TM) i5-3210M CPU @ 2GHz',
-                ),
-            ),
+                ],
+            ],
             'getModel' => 'Macbook',
-            'getVirtualization' => array(
+            'getVirtualization' => [
                 'method' => 'Qemu/KVM',
-            ),
-            'getRam' => array(
+            ],
+            'getRam' => [
                 'total' => 1000000,
                 'free' => 500000,
                 'swapTotal' => 500000,
                 'swapFree' => 250000,
-            ),
-            'getMounts' => array(
-                array(
+            ],
+            'getMounts' => [
+                [
                     'size' => 1000000,
                     'free' => 500000,
-                ),
-                array(
+                ],
+                [
                     'size' => 1000000,
                     'free' => 500000,
-                ),
-            ),
-            'getUpTime' => array(
+                ],
+            ],
+            'getUpTime' => [
                 'text' => '1 year',
                 'bootedTimestamp' => 1501582800,
-            ),
-        ));
+            ],
+        ]);
     }
 
     protected function getLinfo()
     {
-        return Mockery::mock(Linfo::class, array(
-            '__construct' => array(),
+        return Mockery::mock(Linfo::class, [
+            '__construct' => [],
             'getParser' => $this->getLinfoParser(),
-        ));
+        ]);
     }
 
     protected function getIpinfo()
     {
-        return Mockery::mock(Ipinfo::class, array(
+        return Mockery::mock(Ipinfo::class, [
             'getYourOwnIpDetails' => $this->getHostIpinfo(),
             'getFullIpDetails' => $this->getClientIpinfo(),
-            'getProperties' => array(),
-        ));
+            'getProperties' => [],
+        ]);
     }
 
     protected function getLarinfo()

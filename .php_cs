@@ -4,7 +4,7 @@ return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setRules([
         '@PSR2' => true,
-        'array_syntax' => ['syntax' => 'long'],
+        'array_syntax' => ['syntax' => 'short'],
         'no_extra_consecutive_blank_lines' => [
             'break', 'continue', 'extra', 'return', 'throw', 'use', 
             'parenthesis_brace_block', 'square_brace_block', 

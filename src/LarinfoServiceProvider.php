@@ -3,10 +3,10 @@
 namespace Matriphe\Larinfo;
 
 use DavidePastore\Ipinfo\Ipinfo;
+use Illuminate\Database\Capsule\Manager;
 use Illuminate\Support\ServiceProvider;
 use Linfo\Linfo;
 use Symfony\Component\HttpFoundation\Request;
-use Illuminate\Database\Capsule\Manager;
 
 class LarinfoServiceProvider extends ServiceProvider
 {
@@ -32,7 +32,7 @@ class LarinfoServiceProvider extends ServiceProvider
             if (! empty($token)) {
                 return $larinfo->setIpinfoConfig($token);
             }
-            
+
             $larinfo->setDatabaseConfig(config('database.connections.'.config('database.default')));
 
             return $larinfo;

@@ -78,9 +78,9 @@ class LarinfoTest extends TestCase
         $this->assertSame(2, $serverinfo['cpu_count']);
         $this->assertSame('Macbook', $serverinfo['model']);
         $this->assertSame('Qemu/KVM', $serverinfo['virtualization']);
-        $this->assertSame(array('total' => 1000000, 'free' => 500000), $serverinfo['ram']);
-        $this->assertSame(array('total' => 500000, 'free' => 250000), $serverinfo['swap']);
-        $this->assertSame(array('total' => 2000000, 'free' => 1000000), $serverinfo['disk']);
+        $this->assertSame(['total' => 1000000, 'free' => 500000], $serverinfo['ram']);
+        $this->assertSame(['total' => 500000, 'free' => 250000], $serverinfo['swap']);
+        $this->assertSame(['total' => 2000000, 'free' => 1000000], $serverinfo['disk']);
     }
 
     /**
@@ -93,7 +93,7 @@ class LarinfoTest extends TestCase
         $uptime = $larinfo->getUptime();
 
         $this->assertTrue(is_array($uptime));
-        $this->assertSame(array('uptime' => '1 year', 'booted_at' => '2017-08-01 10:20:00'), $uptime);
+        $this->assertSame(['uptime' => '1 year', 'booted_at' => '2017-08-01 10:20:00'], $uptime);
     }
 
     /**

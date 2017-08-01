@@ -16,8 +16,8 @@ class Larinfo
      * @var array
      * @access protected
      */
-    protected $results = array(
-        'host' => array(
+    protected $results = [
+        'host' => [
             'city' => null,
             'country' => null,
             'hostname' => null,
@@ -27,8 +27,8 @@ class Larinfo
             'phone' => null,
             'postal' => null,
             'region' => null,
-        ),
-        'client' => array(
+        ],
+        'client' => [
             'city' => null,
             'country' => null,
             'hostname' => null,
@@ -38,44 +38,44 @@ class Larinfo
             'phone' => null,
             'postal' => null,
             'region' => null,
-        ),
-        'server' => array(
-            'software' => array(
+        ],
+        'server' => [
+            'software' => [
                 'os' => null,
                 'distro' => null,
                 'kernel' => null,
                 'arc' => null,
                 'webserver' => null,
                 'php' => null,
-            ),
-            'hardware' => array(
+            ],
+            'hardware' => [
                 'cpu' => null,
                 'cpu_count' => null,
                 'model' => null,
                 'virtualization' => null,
-                'ram' => array(
+                'ram' => [
                     'total' => null,
                     'free' => null,
-                ),
-                'swap' => array(
+                ],
+                'swap' => [
                     'total' => null,
                     'free' => null,
-                ),
-                'disk' => array(
+                ],
+                'disk' => [
                     'total' => null,
                     'free' => null,
-                ),
-            ),
-            'uptime' => array(
+                ],
+            ],
+            'uptime' => [
                 'uptime' => null,
                 'booted_at' => null,
-            ),
-        ),
-        'database' => array(
+            ],
+        ],
+        'database' => [
             'driver' => null,
             'version' => null,
-        ),
-    );
+        ],
+    ];
 
     /**
      * Settings for Linfo
@@ -83,8 +83,8 @@ class Larinfo
      * @var array
      * @access protected
      */
-    protected $linfoSettings = array(
-        'show' => array(
+    protected $linfoSettings = [
+        'show' => [
             'kernel' => true,
             'os' => true,
             'ram' => true,
@@ -99,15 +99,15 @@ class Larinfo
 
             'duplicate_mounts' => false,
             'mounts_options' => false,
-        ),
-    );
+        ],
+    ];
 
-    protected $databases = array(
+    protected $databases = [
         'mysql' => 'MySQL',
         'sqlite' => 'SQLite',
         'pgsql' => 'PostgreSQL',
         'oracle' => 'Oracle',
-    );
+    ];
 
     /**
      * Constructor.
@@ -136,7 +136,7 @@ class Larinfo
      * @access public
      * @param mixed $connection (default: [])
      */
-    public function setDatabaseConfig($connection = array())
+    public function setDatabaseConfig($connection = [])
     {
         $this->database->addConnection($connection);
 
@@ -316,13 +316,13 @@ class Larinfo
      * @param  array  $cpus (default: array())
      * @return string
      */
-    protected function getCPUString($cpus = array())
+    protected function getCPUString($cpus = [])
     {
         if (empty($cpus)) {
             return  '';
         }
 
-        $cpuStrings = array();
+        $cpuStrings = [];
 
         foreach ($cpus as $cpu) {
             $model = $cpu['Model'];
@@ -343,7 +343,7 @@ class Larinfo
      * @param  array  $mounts (default: array())
      * @return string
      */
-    protected function getDiskSpace($mounts = array())
+    protected function getDiskSpace($mounts = [])
     {
         $total = $free = 0;
 
@@ -366,7 +366,7 @@ class Larinfo
      * @param  array  $virtualization (default: array())
      * @return string
      */
-    protected function getVirtualizationString($virtualization = array())
+    protected function getVirtualizationString($virtualization = [])
     {
         if (! empty($virtualization['method'])) {
             return $virtualization['method'];
@@ -382,7 +382,7 @@ class Larinfo
      * @param  array  $distro (default: array())
      * @return string
      */
-    protected function getDistroString($distro = array())
+    protected function getDistroString($distro = [])
     {
         if (! empty($distro)) {
             return implode(' ', array_values($distro));
@@ -439,14 +439,14 @@ class Larinfo
         );
 
         $memory = $this->ifExists($linfo->getRam());
-        $ram = array(
+        $ram = [
             'total' => (int) $this->ifExists($memory['total']),
             'free' => (int) $this->ifExists($memory['free']),
-        );
-        $swap = array(
+        ];
+        $swap = [
             'total' => (int) $this->ifExists($memory['swapTotal']),
             'free' => (int) $this->ifExists($memory['swapFree']),
-        );
+        ];
 
         $disk = $this->getDiskSpace($linfo->getMounts());
 
