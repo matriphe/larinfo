@@ -99,6 +99,20 @@ class LarinfoTest extends TestCase
     /**
      * @test
      */
+    public function testDatabaseInfoReturnArray()
+    {
+        $larinfo = $this->getLarinfo();
+
+        $database = $larinfo->getDatabaseInfo();
+
+        $this->assertTrue(is_array($database));
+        $this->assertSame('MySQL', $database['driver']);
+        $this->assertSame('mysql', $database['version']);
+    }
+
+    /**
+     * @test
+     */
     public function testGetInfoReturnArray()
     {
         $larinfo = $this->getLarinfo();
@@ -112,5 +126,6 @@ class LarinfoTest extends TestCase
         $this->assertTrue(is_array($info['server']['hardware']));
         $this->assertTrue(is_array($info['server']['software']));
         $this->assertTrue(is_array($info['server']['uptime']));
+        $this->assertTrue(is_array($info['database']));
     }
 }

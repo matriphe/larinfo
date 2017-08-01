@@ -4,10 +4,13 @@ namespace Matriphe\Larinfo\Tests;
 
 use DavidePastore\Ipinfo\Host;
 use DavidePastore\Ipinfo\Ipinfo;
+use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\ConnectionInterface;
 use Linfo\Linfo;
 use Linfo\OS\OS;
 use Matriphe\Larinfo\Larinfo;
 use Mockery;
+use PDOMock;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,6 +26,27 @@ abstract class TestCase extends BaseTestCase
         Mockery::close();
 
         parent::tearDown();
+    }
+
+    protected function getPdo()
+    {
+        return Mockery::mock(PDOMock::class, array(
+            'getAttribute' => 'mysql',
+        ));
+    }
+
+    protected function getConnection()
+    {
+        return Mockery::mock(ConnectionInterface::class, array(
+            'getPdo' => $this->getPdo(),
+        ));
+    }
+
+    protected function getDbManager()
+    {
+        return Mockery::mock(Manager::class, array(
+            'getConnection' => $this->getConnection(),
+        ));
     }
 
     protected function getRequest()
@@ -129,6 +153,11 @@ abstract class TestCase extends BaseTestCase
 
     protected function getLarinfo()
     {
-        return new Larinfo($this->getIpinfo(), $this->getRequest(), $this->getLinfo());
+        return new Larinfo(
+            $this->getIpinfo(),
+            $this->getRequest(),
+            $this->getLinfo(),
+            $this->getDbManager()
+        );
     }
 }

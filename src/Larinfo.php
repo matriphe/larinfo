@@ -3,7 +3,9 @@
 namespace Matriphe\Larinfo;
 
 use DavidePastore\Ipinfo\Ipinfo;
+use Illuminate\Database\Capsule\Manager as Database;
 use Linfo\Linfo;
+use PDO;
 use Symfony\Component\HttpFoundation\Request;
 
 class Larinfo
@@ -15,12 +17,63 @@ class Larinfo
      * @access protected
      */
     protected $results = array(
-        'host' => array(),
-        'client' => array(),
+        'host' => array(
+            'city' => null,
+            'country' => null,
+            'hostname' => null,
+            'ip' => null,
+            'loc' => null,
+            'org' => null,
+            'phone' => null,
+            'postal' => null,
+            'region' => null,
+        ),
+        'client' => array(
+            'city' => null,
+            'country' => null,
+            'hostname' => null,
+            'ip' => null,
+            'loc' => null,
+            'org' => null,
+            'phone' => null,
+            'postal' => null,
+            'region' => null,
+        ),
         'server' => array(
-            'software' => array(),
-            'hardware' => array(),
-            'uptime' => array(),
+            'software' => array(
+                'os' => null,
+                'distro' => null,
+                'kernel' => null,
+                'arc' => null,
+                'webserver' => null,
+                'php' => null,
+            ),
+            'hardware' => array(
+                'cpu' => null,
+                'cpu_count' => null,
+                'model' => null,
+                'virtualization' => null,
+                'ram' => array(
+                    'total' => null,
+                    'free' => null,
+                ),
+                'swap' => array(
+                    'total' => null,
+                    'free' => null,
+                ),
+                'disk' => array(
+                    'total' => null,
+                    'free' => null,
+                ),
+            ),
+            'uptime' => array(
+                'uptime' => null,
+                'booted_at' => null,
+            ),
+        ),
+        'database' => array(
+            'driver' => null,
+            'version' => null,
         ),
     );
 
@@ -49,6 +102,13 @@ class Larinfo
         ),
     );
 
+    protected $databases = array(
+        'mysql' => 'MySQL',
+        'sqlite' => 'SQLite',
+        'pgsql' => 'PostgreSQL',
+        'oracle' => 'Oracle',
+    );
+
     /**
      * Constructor.
      *
@@ -56,13 +116,31 @@ class Larinfo
      * @param \DavidePastore\Ipinfo\Ipinfo              $ipinfo
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Linfo\Linfo                              $linfo
+     * @param \Illuminate\Database\Capsule\Manager      $database
      */
-    public function __construct(Ipinfo $ipinfo, Request $request, Linfo $linfo)
+    public function __construct(Ipinfo $ipinfo, Request $request, Linfo $linfo, Database $database)
     {
         $this->ipinfo = $ipinfo;
+
         $this->request = $request;
+
         $this->linfo = $linfo;
         $this->linfo->__construct($this->linfoSettings);
+
+        $this->database = $database;
+    }
+
+    /**
+     * Set database connection
+     *
+     * @access public
+     * @param mixed $connection (default: [])
+     */
+    public function setDatabaseConfig($connection = array())
+    {
+        $this->database->addConnection($connection);
+
+        return $this;
     }
 
     /**
@@ -159,6 +237,13 @@ class Larinfo
         return $this->results['server'];
     }
 
+    public function getDatabaseInfo()
+    {
+        $this->databaseInfo();
+
+        return $this->results['database'];
+    }
+
     /**
      * Get all info.
      *
@@ -169,9 +254,31 @@ class Larinfo
     {
         $this->hostIpinfo();
         $this->clientIpinfo();
-        $this->getServerInfo();
+        $this->getServerInfoSoftware();
+        $this->serverInfoHardware();
+        $this->uptime();
+        $this->databaseInfo();
 
         return $this->results;
+    }
+
+    /**
+     * Get database info.
+     *
+     * @access protected
+     */
+    protected function databaseInfo()
+    {
+        $pdo = $this->database->getConnection()->getPdo();
+
+        $version = $this->ifExists($pdo->getAttribute(PDO::ATTR_SERVER_VERSION));
+
+        $driver = $this->ifExists($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
+        $driver = $this->ifExists((! empty($this->databases[$driver]) ? $this->databases[$driver] : null));
+
+        $this->results['database'] = compact('driver', 'version');
+
+        return $this;
     }
 
     /**

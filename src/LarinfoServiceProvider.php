@@ -6,6 +6,7 @@ use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Support\ServiceProvider;
 use Linfo\Linfo;
 use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Database\Capsule\Manager;
 
 class LarinfoServiceProvider extends ServiceProvider
 {
@@ -24,13 +25,15 @@ class LarinfoServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('larinfo', function ($app) {
-            $larinfo = new Larinfo(new Ipinfo(), new Request(), new Linfo());
+            $larinfo = new Larinfo(new Ipinfo(), new Request(), new Linfo(), new Manager());
 
             $token = config('services.ipinfo.token');
 
             if (! empty($token)) {
                 return $larinfo->setIpinfoConfig($token);
             }
+            
+            $larinfo->setDatabaseConfig(config('database.connections.'.config('database.default')));
 
             return $larinfo;
         });
