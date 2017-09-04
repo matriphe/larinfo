@@ -45,7 +45,10 @@
         "laravel": {
             "providers": [
                 "Matriphe\\Larinfo\\LarinfoServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Larinfo": "Matriphe\\Larinfo\\LarinfoFacade"
+            }
         }
     },
     "minimum-stability": "dev",
