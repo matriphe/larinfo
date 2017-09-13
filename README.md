@@ -31,7 +31,13 @@ Still on `config/app.php` file, add this line in `aliases` section.
 To get all info, use `getInfo()` method. It will return this array example.
 
 ```php
-[
+$larinfo = Larinfo::getInfo();
+```
+
+Result of that command is shown below.
+
+```php
+$larinfo = [
    'host'=> [
        'city'=> '104.20.8.94',
        'country'=> 'US',
@@ -95,13 +101,14 @@ To get all info, use `getInfo()` method. It will return this array example.
 
 Other method you can use are:
 
- * `getHostIpinfo` to get host IP info
- * `getClientIpinfo` to get client IP info
- * `getServerInfoSoftware` to get server software info
- * `getServerInfoHardware` to get server hardware info
- * `getUptime` to get server uptime
- * `getServerInfo` to get server info
- * `getDatabaseInfo` to get database info
+ * `getHostIpinfo` to get host IP info (`Larinfo::getHostIpinfo()`)
+ * `getClientIpinfo` to get client IP info (`Larinfo::getClientIpinfo()`)
+ * `getServerInfoSoftware` to get server software info (`Larinfo::getServerInfoSoftware()`)
+ * `getServerInfoHardware` to get server hardware info (`Larinfo::getServerInfoHardware()`)
+ * `getUptime` to get server uptime (`Larinfo::getUptime()`)
+ * `getServerInfo` to get server info (`Larinfo::getServerInfo()`)
+ * `getDatabaseInfo` to get database info (`Larinfo::getDatabaseInfo()`)
+ 
  
 ### Config
 
