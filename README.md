@@ -14,6 +14,8 @@ To install using [Composer](https://getcomposer.org/), just run this command bel
 composer require matriphe/larinfo
 ```
 
+### For Laravel 5.0, 5.1, 5.2, 5.3, and 5.4
+
 Open the `config/app.php` and add this line in `providers` section.
 
 ```php
@@ -25,6 +27,10 @@ Still on `config/app.php` file, add this line in `aliases` section.
 ```php
 'Larinfo' => Matriphe\Larinfo\LarinfoFacade::class,
 ```
+
+### For Laravel 5.5
+
+Nothing to do. It uses Laravel's package auto discovery.
 
 ## Usage
 
