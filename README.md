@@ -34,10 +34,20 @@ Nothing to do. It uses Laravel's package auto discovery.
 
 ## Usage
 
-To get all info, use `getInfo()` method. It will return this array example.
+To get all info, use facade `Larinfo` and call the `getInfo()` method. It will return this array example.
 
 ```php
+use Larinfo;
+
 $larinfo = Larinfo::getInfo();
+```
+
+If you don't want to use facade, just create the implementation of `Matriphe\Larinfo\Larinfo` class.
+
+```php
+use Matriphe\Larinfo\Larinfo;
+
+$larinfo = (new Larinfo())->getInfo();
 ```
 
 Result of that command is shown below.
