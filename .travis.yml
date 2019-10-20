@@ -2,7 +2,7 @@ language:
   - php
 
 env:
-  - LARAVEL_VERSION=5.0.*
+  - LARAVEL_VERSION=5.2.*
 
 matrix:
   include:
