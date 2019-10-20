@@ -16,12 +16,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class TestCase extends BaseTestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         Mockery::close();
 

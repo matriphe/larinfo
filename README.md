@@ -10,8 +10,16 @@ Larinfo provide system information for Laravel 5.x application. It show IP addre
 
 To install using [Composer](https://getcomposer.org/), just run this command below.
 
+### For Laravel > 5.6
+
 ```bash
 composer require matriphe/larinfo
+```
+
+### For Laravel < 5.6
+
+```bash
+composer require matriphe/larinfo:1.0.2
 ```
 
 ### For Laravel 5.0, 5.1, 5.2, 5.3, and 5.4
@@ -28,7 +36,7 @@ Still on `config/app.php` file, add this line in `aliases` section.
 'Larinfo' => Matriphe\Larinfo\LarinfoFacade::class,
 ```
 
-### For Laravel 5.5
+### For Laravel > 5.5
 
 Nothing to do. It uses Laravel's package auto discovery.
 
