@@ -24,7 +24,7 @@ class LarinfoServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('larinfo', function ($app) {
+        $this->app->singleton(LarinfoContract::class, function ($app) {
             $larinfo = new Larinfo(new Ipinfo(), new Request(), new Linfo(), new Manager());
 
             $token = config('services.ipinfo.token');

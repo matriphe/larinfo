@@ -8,7 +8,7 @@ use Linfo\Linfo;
 use PDO;
 use Symfony\Component\HttpFoundation\Request;
 
-class Larinfo
+class Larinfo implements LarinfoContract
 {
     /**
      * Define results

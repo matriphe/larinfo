@@ -8,6 +8,6 @@ class LarinfoFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'larinfo';
+        return LarinfoContract::class;
     }
 }
