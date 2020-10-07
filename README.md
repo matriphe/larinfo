@@ -4,7 +4,7 @@
 [![Total Download](https://img.shields.io/packagist/dt/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 
-Larinfo provide system information for Laravel 5.x application. It show IP address information for host and client, server software versions, and hardware information.
+Larinfo provide system information for Laravel 5+ application. It show IP address information for host and client, server software versions, and hardware information.
 
 ## Installation
 
@@ -125,22 +125,21 @@ $larinfo = [
 
 Other method you can use are:
 
- * `getHostIpinfo` to get host IP info (`Larinfo::getHostIpinfo()`)
- * `getClientIpinfo` to get client IP info (`Larinfo::getClientIpinfo()`)
- * `getServerInfoSoftware` to get server software info (`Larinfo::getServerInfoSoftware()`)
- * `getServerInfoHardware` to get server hardware info (`Larinfo::getServerInfoHardware()`)
- * `getUptime` to get server uptime (`Larinfo::getUptime()`)
- * `getServerInfo` to get server info (`Larinfo::getServerInfo()`)
- * `getDatabaseInfo` to get database info (`Larinfo::getDatabaseInfo()`)
- 
- 
+* `getHostIpinfo` to get host IP info (`Larinfo::getHostIpinfo()`)
+* `getClientIpinfo` to get client IP info (`Larinfo::getClientIpinfo()`)
+* `getServerInfoSoftware` to get server software info (`Larinfo::getServerInfoSoftware()`)
+* `getServerInfoHardware` to get server hardware info (`Larinfo::getServerInfoHardware()`)
+* `getUptime` to get server uptime (`Larinfo::getUptime()`)
+* `getServerInfo` to get server info (`Larinfo::getServerInfo()`)
+* `getDatabaseInfo` to get database info (`Larinfo::getDatabaseInfo()`)
+
 ### Config
 
 IP information is taken using [ipinfo.io](http://ipinfo.io/) service. If you've registered and has token access, put your token in the `config/services.php` in `ipinfo` variable.
 
 ```php
 'ipinfo' => [
-	'token'  => 'your_ipinfo_token',
+    'token'  => 'your_ipinfo_token',
 ],
 ```
 
