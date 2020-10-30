@@ -17,15 +17,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-#      - name: Get Composer cache
-#        id: composer-cache
-#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-#      - name: Set Composer cache
-#        uses: actions/cache@v2
-#        with:
-#          path: ${{ steps.composer-cache.outputs.dir }}
-#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: ${{ runner.os }}-composer-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
