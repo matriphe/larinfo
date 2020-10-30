@@ -17,6 +17,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
@@ -39,6 +47,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
@@ -61,6 +77,14 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
