@@ -2,13 +2,13 @@ name: Larinfo Test
 on: [push, pull_request]
 jobs:
   test:
-    name: Test using Laravel ${{ matrix.laravel-versions }} with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+    name: Test Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.1', '7.2', '7.3', '7.4']
+        php-versions: ['7.1', '7.2', '7.3']
         laravel-versions: ['5.2']
     steps:
       - name: Checkout
