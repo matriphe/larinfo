@@ -1,4 +1,4 @@
-name: Larinfo Test
+name: Larinfo
 on: [push, pull_request]
 jobs:
   test:
