@@ -5,7 +5,7 @@ jobs:
     name: Test using Laravel ${{ matrix.laravel-versions }} with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
         php-versions: ['7.2', '7.3', '7.4']
