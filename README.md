@@ -1,7 +1,6 @@
 # Larinfo
 
 ![Larinfo](https://github.com/matriphe/larinfo/workflows/Larinfo/badge.svg)
-[![Build Status](https://travis-ci.org/matriphe/larinfo.svg?branch=master)](https://travis-ci.org/matriphe/larinfo)
 [![Total Download](https://img.shields.io/packagist/dt/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 
