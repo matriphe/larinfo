@@ -58,7 +58,7 @@ before_install:
   - travis_retry composer require "laravel/framework:${LARAVEL_VERSION}" --no-interaction --no-update
 
 install: 
-  - travis_retry composer update --prefer-source --no-interaction
+  - travis_retry composer update --prefer-dist --no-interaction
 
 before_script:
 
