@@ -1,14 +1,15 @@
 name: Larinfo Test
 on: [push, pull_request]
 jobs:
-  test-5x:
-    name: Test using Laravel 5.x (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+  test:
+    name: Test using Laravel ${{ matrix.laravel-versions }} with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: true
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.1', '7.2', '7.3', '7.4', '8.0']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
+        laravel-versions: ['5.1']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,17 +17,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-      - name: Get Composer cache
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - name: Set Composer cache
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+#      - name: Get Composer cache
+#        id: composer-cache
+#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+#      - name: Set Composer cache
+#        uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: ${{ runner.os }}-composer-
       - name: Install Laravel
-        run: composer require "laravel/framework:5.1"
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}"
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run test
