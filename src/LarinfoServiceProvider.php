@@ -30,7 +30,7 @@ class LarinfoServiceProvider extends ServiceProvider
             $token = config('services.ipinfo.token');
 
             if (! empty($token)) {
-                return $larinfo->setIpinfoConfig($token);
+                $larinfo->setIpinfoConfig($token);
             }
 
             $larinfo->setDatabaseConfig(config('database.connections.'.config('database.default')));
