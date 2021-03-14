@@ -2,16 +2,14 @@
 
 namespace Matriphe\Larinfo\Tests\Entities;
 
-use Linfo\Linfo;
 use Linfo\OS\Darwin;
 use Linfo\OS\Linux;
 use Linfo\OS\OS;
 use Linfo\OS\Windows;
 use Matriphe\Larinfo\Entities\ServerInfo;
 use Mockery;
-use PHPUnit\Framework\TestCase;
 
-class ServerInfoTest extends TestCase
+class ServerInfoTest extends LinfoEntityTestCase
 {
     /**
      * @return array[]
@@ -169,7 +167,7 @@ class ServerInfoTest extends TestCase
      * @param mixed  $parser
      * @param string $expected
      */
-    public function testGetKernelReturnsCorrectValues($parser, string $expected)
+    public function testGetKernelReturnsCorrectValues($parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getKernel());
@@ -206,7 +204,7 @@ class ServerInfoTest extends TestCase
      * @param mixed  $parser
      * @param string $expected
      */
-    public function testGetArchReturnsCorrectValues($parser, string $expected)
+    public function testGetArchReturnsCorrectValues($parser, string $expected):void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getArch());
@@ -243,7 +241,7 @@ class ServerInfoTest extends TestCase
      * @param mixed  $parser
      * @param string $expected
      */
-    public function testGetWebServerReturnsCorrectValues($parser, string $expected)
+    public function testGetWebServerReturnsCorrectValues($parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getWebServer());
@@ -280,7 +278,7 @@ class ServerInfoTest extends TestCase
      * @param mixed  $parser
      * @param string $expected
      */
-    public function testGetPhpVersionReturnsCorrectValues($parser, string $expected)
+    public function testGetPhpVersionReturnsCorrectValues($parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getPhpVersion());
@@ -370,20 +368,9 @@ class ServerInfoTest extends TestCase
      * @param mixed $parser
      * @param array $expected
      */
-    public function testToArrayReturnsCorrectValues($parser, array $expected)
+    public function testToArrayReturnsCorrectValues($parser, array $expected):void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->toArray());
-    }
-
-    /**
-     * @param  mixed $parser
-     * @return Linfo
-     */
-    private function setLinfo($parser): Linfo
-    {
-        return Mockery::mock(Linfo::class, [
-            'getParser' => $parser,
-        ]);
     }
 }
