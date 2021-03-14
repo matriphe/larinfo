@@ -3,36 +3,20 @@
 namespace Matriphe\Larinfo\Entities;
 
 use Illuminate\Contracts\Support\Arrayable;
-use Linfo\Linfo;
 use Linfo\OS\Darwin;
 use Linfo\OS\Linux;
-use Linfo\OS\OS;
 
-final class ServerInfo implements Arrayable
+final class ServerInfo extends LinfoEntity implements Arrayable
 {
     private const OS_UNKNOWN = 'Unknown';
     private const OS_MAC = 'MacOS';
-
-    /**
-     * @var OS|null
-     */
-    private ?OS $linfo;
-
-    /**
-     * ServerInfo constructor.
-     * @param Linfo $linfo
-     */
-    public function __construct(Linfo $linfo)
-    {
-        $this->linfo = $this->parse($linfo);
-    }
 
     /**
      * @return string
      */
     public function getOS(): string
     {
-        if (! $this->linfo instanceof OS) {
+        if ($this->linfo === null) {
             return self::OS_UNKNOWN;
         }
 
@@ -92,7 +76,7 @@ final class ServerInfo implements Arrayable
      */
     public function getKernel(): string
     {
-        if (! $this->linfo instanceof OS) {
+        if ($this->linfo === null) {
             return '';
         }
 
@@ -104,7 +88,7 @@ final class ServerInfo implements Arrayable
      */
     public function getArch(): string
     {
-        if (! $this->linfo instanceof OS) {
+        if ($this->linfo === null) {
             return '';
         }
 
@@ -116,7 +100,7 @@ final class ServerInfo implements Arrayable
      */
     public function getWebServer(): string
     {
-        if (! $this->linfo instanceof OS) {
+        if ($this->linfo === null) {
             return '';
         }
 
@@ -128,7 +112,7 @@ final class ServerInfo implements Arrayable
      */
     public function getPhpVersion(): string
     {
-        if (! $this->linfo instanceof OS) {
+        if ($this->linfo === null) {
             return '';
         }
 
@@ -148,19 +132,5 @@ final class ServerInfo implements Arrayable
             'webserver' => $this->getWebServer(),
             'php' => $this->getPhpVersion(),
         ];
-    }
-
-    /**
-     * @param  Linfo   $linfo
-     * @return OS|null
-     */
-    private function parse(Linfo $linfo): ?OS
-    {
-        $parser = $linfo->getParser();
-        if ($parser === null || ! $parser instanceof OS) {
-            return null;
-        }
-
-        return $parser;
     }
 }
