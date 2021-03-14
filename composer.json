@@ -11,6 +11,7 @@
     ],
     "require": {
         "php": "^7.4|^8.0",
+        "ext-pdo": "*",
         "davidepastore/ipinfo": "^0.6",
         "laravel/framework": "^8.0",
         "linfo/linfo": "^4.0"
