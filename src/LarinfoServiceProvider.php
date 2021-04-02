@@ -39,7 +39,7 @@ class LarinfoServiceProvider extends ServiceProvider
                 'token' => config('services.ipinfo.token'),
             ]);
 
-            $request = new Request();
+            $request = Request::capture();
 
             $linfo = new Linfo(config('larinfo.linfo'));
 

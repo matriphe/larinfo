@@ -74,10 +74,10 @@ class Larinfo implements LarinfoContract, Arrayable
      */
     public function hostIpInfo(): ?GeoIpInfo
     {
-        try {
-            $serverIp = $this->getServerIpAddress();
-            $ipCheck = $this->ipAddressChecker->setIpAddress($serverIp);
+        $serverIp = $this->getServerIpAddress();
+        $ipCheck = $this->ipAddressChecker->setIpAddress($serverIp);
 
+        try {
             return new GeoIpInfo(
                 $this->ipinfo->getYourOwnIpDetails(),
                 $ipCheck->isPrivate() === true ? $serverIp : ''
@@ -105,10 +105,10 @@ class Larinfo implements LarinfoContract, Arrayable
      */
     public function clientIpInfo(): ?GeoIpInfo
     {
-        try {
-            $clientIp = $this->request->ip();
-            $ipCheck = $this->ipAddressChecker->setIpAddress($clientIp);
+        $clientIp = $this->request->ip();
+        $ipCheck = $this->ipAddressChecker->setIpAddress($clientIp);
 
+        try {
             return new GeoIpInfo(
                 $this->ipinfo->getFullIpDetails($clientIp),
                 $ipCheck->isPrivate() === true ? $clientIp : ''
@@ -236,11 +236,7 @@ class Larinfo implements LarinfoContract, Arrayable
      */
     private function getServerIpAddress(): string
     {
-        // for IIS
-        if (! empty($_SERVER['LOCAL_ADDR'])) {
-            return $_SERVER['LOCAL_ADDR'];
-        }
-
-        return $_SERVER['SERVER_ADDR'] ?? '';
+        return $this->request->server('LOCAL_ADDR')
+            ?? $this->request->server('SERVER_ADDR');
     }
 }
