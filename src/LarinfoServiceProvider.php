@@ -11,31 +11,21 @@ use Symfony\Component\HttpFoundation\Request;
 class LarinfoServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
-     *
-     */
-    public function boot()
-    {
-    }
-
-    /**
      * Register the application services.
      *
      */
     public function register()
     {
-        $this->app->singleton(LarinfoContract::class, function ($app) {
-            $larinfo = new Larinfo(new Ipinfo(), new Request(), new Linfo(), new Manager());
+    	$this->app->singleton(LarinfoContract::class, function () {
+            $ipinfo = new Ipinfo([
+            	'token' => config('services.ipinfo.token')
+            ]);
 
-            $token = config('services.ipinfo.token');
+            $dbConfig = config('database.connections.'.config('database.default'));
+            $database = new Manager();
+            $database->addConnection($dbConfig);
 
-            if (! empty($token)) {
-                $larinfo->setIpinfoConfig($token);
-            }
-
-            $larinfo->setDatabaseConfig(config('database.connections.'.config('database.default')));
-
-            return $larinfo;
+    		return new Larinfo($ipinfo, new Request(), new Linfo(), $database);
         });
     }
 }
