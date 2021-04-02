@@ -86,11 +86,19 @@ final class GeoIpInfo implements Arrayable
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getPostal(): string
     {
         return trim($this->host->getPostal());
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimezone(): string
+    {
+        return trim($this->host->getProperties()['timezone'] ?? '');
     }
 
     /**
@@ -105,6 +113,7 @@ final class GeoIpInfo implements Arrayable
             'city' => $this->getCity(),
             'country' => $this->getCountry(),
             'location' => $this->getLocation(),
+            'timezone' => $this->getTimezone(),
             'org' => $this->getOrg(),
             'phone' => $this->getPhone(),
             'postal' => $this->getPostal(),
