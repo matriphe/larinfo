@@ -3,6 +3,7 @@
 namespace Matriphe\Larinfo;
 
 use DavidePastore\Ipinfo\Ipinfo;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Capsule\Manager as Database;
 use Illuminate\Http\Request;
 use Linfo\Linfo;
@@ -13,7 +14,7 @@ use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Entities\ServerInfo;
 use Matriphe\Larinfo\Entities\SystemInfo;
 
-class Larinfo implements LarinfoContract
+class Larinfo implements LarinfoContract, Arrayable
 {
     /**
      * @var Ipinfo
@@ -220,6 +221,14 @@ class Larinfo implements LarinfoContract
             'server' => $this->getServerInfo(),
             'database' => $this->getDatabaseInfo(),
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->getInfo();
     }
 
     /**
