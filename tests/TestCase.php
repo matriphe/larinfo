@@ -6,13 +6,14 @@ use DavidePastore\Ipinfo\Host;
 use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\ConnectionInterface;
+use Illuminate\Http\Request;
 use Linfo\Linfo;
 use Linfo\OS\OS;
+use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Larinfo;
 use Mockery;
 use PDOMock;
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use Symfony\Component\HttpFoundation\Request;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -70,6 +71,8 @@ abstract class TestCase extends BaseTestCase
                 Ipinfo::POSTAL => '',
                 Ipinfo::REGION => 'West Java',
             ],
+            'getIp' => '180.250.116.128',
+//	        'getYourOwnIpDetails' => []
         ]);
     }
 
@@ -157,7 +160,8 @@ abstract class TestCase extends BaseTestCase
             $this->getIpinfo(),
             $this->getRequest(),
             $this->getLinfo(),
-            $this->getDbManager()
+            $this->getDbManager(),
+            new IpAddressChecker()
         );
     }
 }
