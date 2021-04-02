@@ -16,8 +16,10 @@ class GeoIpInfoTest extends TestCase
         return [
             'empty host' => [
                 'host' => [],
+                'ipPrivate' => null,
                 'expected' => [
                     'ip' => '',
+                    'ip_private' => '',
                     'hostname' => '',
                     'region' => '',
                     'city' => '',
@@ -41,8 +43,10 @@ class GeoIpInfoTest extends TestCase
                     'postal' => '17144',
                     'region' => 'West Java',
                 ],
+                'ipPrivate' => '127.0.0.1',
                 'expected' => [
                     'ip' => '180.252.202.108',
+                    'ip_private' => '127.0.0.1',
                     'hostname' => 'indihome.telkom.co.id',
                     'region' => 'West Java',
                     'city' => 'Bekasi',
@@ -63,8 +67,10 @@ class GeoIpInfoTest extends TestCase
                     'org' => 'AS17974 PT Telekomunikasi Indonesia',
                     'region' => 'West Java',
                 ],
+                'ipPrivate' => '',
                 'expected' => [
                     'ip' => '180.252.202.108',
+                    'ip_private' => '',
                     'hostname' => '',
                     'region' => 'West Java',
                     'city' => 'Bekasi',
@@ -86,8 +92,10 @@ class GeoIpInfoTest extends TestCase
                     'region' => 'West Java',
                     'timezone' => 'Asia/Jakarta',
                 ],
+                'ipPrivate' => null,
                 'expected' => [
                     'ip' => '180.252.202.108',
+                    'ip_private' => '',
                     'hostname' => '',
                     'region' => 'West Java',
                     'city' => 'Bekasi',
@@ -104,16 +112,18 @@ class GeoIpInfoTest extends TestCase
 
     /**
      * @dataProvider hostData
-     * @param array $host
-     * @param array $expected
+     * @param array       $host
+     * @param string|null $ipPrivate
+     * @param array       $expected
      */
-    public function testItReturnsCorrectValues(array $host, array $expected): void
+    public function testItReturnsCorrectValues(array $host, ?string $ipPrivate, array $expected): void
     {
         $host = new Host($host);
-        $geoIpInfo = new GeoIpInfo($host);
+        $geoIpInfo = new GeoIpInfo($host, $ipPrivate);
 
         $this->assertEquals($expected, $geoIpInfo->toArray());
         $this->assertEquals($expected['ip'], $geoIpInfo->getIp());
+        $this->assertEquals($expected['ip_private'], $geoIpInfo->getPrivateIp());
         $this->assertEquals($expected['hostname'], $geoIpInfo->getHostname());
         $this->assertEquals($expected['region'], $geoIpInfo->getRegion());
         $this->assertEquals($expected['city'], $geoIpInfo->getCity());

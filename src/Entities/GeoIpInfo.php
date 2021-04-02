@@ -11,14 +11,20 @@ final class GeoIpInfo implements Arrayable
      * @var Host
      */
     private Host $host;
+    /**
+     * @var string|null
+     */
+    private ?string $privateIpAddress;
 
     /**
      * GeoIpInfo constructor.
-     * @param Host $host
+     * @param Host        $host
+     * @param string|null $privateIpAddress
      */
-    public function __construct(Host $host)
+    public function __construct(Host $host, ?string $privateIpAddress = null)
     {
         $this->host = $host;
+        $this->privateIpAddress = $privateIpAddress;
     }
 
     /**
@@ -27,6 +33,14 @@ final class GeoIpInfo implements Arrayable
     public function getIp(): string
     {
         return trim($this->host->getIp());
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrivateIp(): string
+    {
+        return trim($this->privateIpAddress);
     }
 
     /**
@@ -108,6 +122,7 @@ final class GeoIpInfo implements Arrayable
     {
         return [
             'ip' => $this->getIp(),
+            'ip_private' => $this->getPrivateIp(),
             'hostname' => $this->getHostname(),
             'region' => $this->getRegion(),
             'city' => $this->getCity(),
