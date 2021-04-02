@@ -4,139 +4,64 @@ namespace Matriphe\Larinfo;
 
 use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager as Database;
+use Illuminate\Http\Request;
 use Linfo\Linfo;
-use PDO;
-use Symfony\Component\HttpFoundation\Request;
+use Matriphe\Larinfo\Entities\DatabaseInfo;
+use Matriphe\Larinfo\Entities\GeoIpInfo;
+use Matriphe\Larinfo\Entities\HardwareInfo;
+use Matriphe\Larinfo\Entities\IpAddressChecker;
+use Matriphe\Larinfo\Entities\ServerInfo;
+use Matriphe\Larinfo\Entities\SystemInfo;
 
 class Larinfo implements LarinfoContract
 {
     /**
-     * Define results
-     *
-     * @var array
-     * @access protected
+     * @var Ipinfo
      */
-    protected $results = [
-        'host' => [
-            'city' => null,
-            'country' => null,
-            'hostname' => null,
-            'ip' => null,
-            'loc' => null,
-            'org' => null,
-            'phone' => null,
-            'postal' => null,
-            'region' => null,
-        ],
-        'client' => [
-            'city' => null,
-            'country' => null,
-            'hostname' => null,
-            'ip' => null,
-            'loc' => null,
-            'org' => null,
-            'phone' => null,
-            'postal' => null,
-            'region' => null,
-        ],
-        'server' => [
-            'software' => [
-                'os' => null,
-                'distro' => null,
-                'kernel' => null,
-                'arc' => null,
-                'webserver' => null,
-                'php' => null,
-            ],
-            'hardware' => [
-                'cpu' => null,
-                'cpu_count' => null,
-                'model' => null,
-                'virtualization' => null,
-                'ram' => [
-                    'total' => null,
-                    'free' => null,
-                ],
-                'swap' => [
-                    'total' => null,
-                    'free' => null,
-                ],
-                'disk' => [
-                    'total' => null,
-                    'free' => null,
-                ],
-            ],
-            'uptime' => [
-                'uptime' => null,
-                'booted_at' => null,
-            ],
-        ],
-        'database' => [
-            'driver' => null,
-            'version' => null,
-        ],
-    ];
+    private Ipinfo $ipinfo;
+    /**
+     * @var Request
+     */
+    private Request $request;
+    /**
+     * @var Linfo
+     */
+    private Linfo $linfo;
+    /**
+     * @var Database
+     */
+    private Database $database;
+    /**
+     * @var IpAddressChecker
+     */
+    private IpAddressChecker $ipAddressChecker;
 
     /**
-     * Settings for Linfo
-     *
-     * @var array
-     * @access protected
+     * @param Ipinfo           $ipinfo
+     * @param Request          $request
+     * @param Linfo            $linfo
+     * @param Database         $database
+     * @param IpAddressChecker $ipAddressChecker
      */
-    protected $linfoSettings = [
-        'show' => [
-            'kernel' => true,
-            'os' => true,
-            'ram' => true,
-            'mounts' => true,
-            'webservice' => true,
-            'phpversion' => true,
-            'uptime' => true,
-            'cpu' => true,
-            'distro' => true,
-            'model' => true,
-            'virtualization' => true,
-
-            'duplicate_mounts' => false,
-            'mounts_options' => false,
-        ],
-    ];
-
-    protected $databases = [
-        'mysql' => 'MySQL',
-        'sqlite' => 'SQLite',
-        'pgsql' => 'PostgreSQL',
-        'oracle' => 'Oracle',
-    ];
-
-    /**
-     * Constructor.
-     *
-     * @access public
-     * @param \DavidePastore\Ipinfo\Ipinfo              $ipinfo
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param \Linfo\Linfo                              $linfo
-     * @param \Illuminate\Database\Capsule\Manager      $database
-     */
-    public function __construct(Ipinfo $ipinfo, Request $request, Linfo $linfo, Database $database)
-    {
+    public function __construct(
+        Ipinfo $ipinfo,
+        Request $request,
+        Linfo $linfo,
+        Database $database,
+        IpAddressChecker $ipAddressChecker
+    ) {
         $this->ipinfo = $ipinfo;
-
         $this->request = $request;
-
         $this->linfo = $linfo;
-        $this->linfo->__construct($this->linfoSettings);
-
         $this->database = $database;
+        $this->ipAddressChecker = $ipAddressChecker;
     }
 
     /**
-     * Set database connection
-     *
-     * @access public
-     * @param mixed $connection (default: [])
+     * @param  array $connection
+     * @return $this
      */
-    public function setDatabaseConfig($connection = [])
+    public function setDatabaseConfig(array $connection = []): self
     {
         $this->database->addConnection($connection);
 
@@ -144,69 +69,105 @@ class Larinfo implements LarinfoContract
     }
 
     /**
-     * Set token for Ipinfo if exists.
-     *
-     * @access public
-     * @param string $token (default: null)
-     * @param bool   $debug (default: false)
+     * @return GeoIpInfo|null
      */
-    public function setIpinfoConfig($token = null, $debug = false)
+    public function hostIpInfo(): ?GeoIpInfo
     {
-        $this->ipinfo->__construct(compact('token', 'debug'));
+        try {
+            $serverIp = $this->getServerIpAddress();
+            $ipCheck = $this->ipAddressChecker->setIpAddress($serverIp);
 
-        return $this;
+            return new GeoIpInfo(
+                $this->ipinfo->getYourOwnIpDetails(),
+                $ipCheck->isPrivate() === true ? $serverIp : ''
+            );
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     /**
-     * Get Host IP info.
-     *
-     * @access public
-     * @return arrah
-     */
-    public function getHostIpinfo()
-    {
-        $this->hostIpinfo();
-
-        return $this->results['host'];
-    }
-
-    /**
-     * Get Client IP info.
-     *
-     * @access public
      * @return array
      */
-    public function getClientIpinfo()
+    public function getHostIpinfo(): array
     {
-        $this->clientIpinfo();
+        $hostinfo = $this->hostIpInfo();
+        if ($hostinfo === null) {
+            return [];
+        }
 
-        return $this->results['client'];
+        return $hostinfo->toArray();
     }
 
     /**
-     * Get server software info.
-     *
-     * @access public
-     * @return array
+     * @return GeoIpInfo|null
      */
-    public function getServerInfoSoftware()
+    public function clientIpInfo(): ?GeoIpInfo
     {
-        $this->serverInfoSoftware();
+        try {
+            $clientIp = $this->request->ip();
+            $ipCheck = $this->ipAddressChecker->setIpAddress($clientIp);
 
-        return $this->results['server']['software'];
+            return new GeoIpInfo(
+                $this->ipinfo->getFullIpDetails($clientIp),
+                $ipCheck->isPrivate() === true ? $clientIp : ''
+            );
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     /**
-     * Get server hardware info.
-     *
-     * @access public
      * @return array
      */
-    public function getServerInfoHardware()
+    public function getClientIpinfo(): array
     {
-        $this->serverInfoHardware();
+        $clientInfo = $this->clientIpInfo();
+        if ($clientInfo === null) {
+            return [];
+        }
 
-        return $this->results['server']['hardware'];
+        return $clientInfo->toArray();
+    }
+
+    /**
+     * @return ServerInfo
+     */
+    public function serverInfoSoftware(): ServerInfo
+    {
+        return new ServerInfo($this->linfo);
+    }
+
+    /**
+     * @return array
+     */
+    public function getServerInfoSoftware(): array
+    {
+        return $this->serverInfoSoftware()->toArray();
+    }
+
+    /**
+     * @return HardwareInfo
+     */
+    public function serverInfoHardware(): HardwareInfo
+    {
+        return new HardwareInfo($this->linfo);
+    }
+
+    /**
+     * @return array
+     */
+    public function getServerInfoHardware(): array
+    {
+        return $this->serverInfoHardware()->toArray();
+    }
+
+    /**
+     * @return SystemInfo
+     */
+    public function systemInfo(): SystemInfo
+    {
+        return new SystemInfo($this->linfo);
     }
 
     /**
@@ -215,285 +176,62 @@ class Larinfo implements LarinfoContract
      * @access public
      * @return array
      */
-    public function getUptime()
+    public function getUptime(): array
     {
-        $this->uptime();
-
-        return $this->results['server']['uptime'];
+        return $this->systemInfo()->toArray();
     }
 
     /**
-     * Get server info.
-     *
-     * @access public
+     * @return array[]
+     */
+    public function getServerInfo(): array
+    {
+        return [
+            'software' => $this->getServerInfoSoftware(),
+            'hardware' => $this->getServerInfoHardware(),
+            'uptime' => $this->getUptime(),
+        ];
+    }
+
+    /**
+     * @return DatabaseInfo
+     */
+    public function databaseInfo(): DatabaseInfo
+    {
+        return new DatabaseInfo($this->database);
+    }
+
+    /**
      * @return array
      */
-    public function getServerInfo()
+    public function getDatabaseInfo(): array
     {
-        $this->getServerInfoSoftware();
-        $this->serverInfoHardware();
-        $this->uptime();
-
-        return $this->results['server'];
-    }
-
-    public function getDatabaseInfo()
-    {
-        $this->databaseInfo();
-
-        return $this->results['database'];
+        return $this->databaseInfo()->toArray();
     }
 
     /**
-     * Get all info.
-     *
-     * @access public
      * @return array
      */
-    public function getInfo()
+    public function getInfo(): array
     {
-        $this->hostIpinfo();
-        $this->clientIpinfo();
-        $this->getServerInfoSoftware();
-        $this->serverInfoHardware();
-        $this->uptime();
-        $this->databaseInfo();
-
-        return $this->results;
-    }
-
-    /**
-     * Get database info.
-     *
-     * @access protected
-     */
-    protected function databaseInfo()
-    {
-        $pdo = $this->database->getConnection()->getPdo();
-
-        $version = $this->ifExists($pdo->getAttribute(PDO::ATTR_SERVER_VERSION));
-
-        $driver = $this->ifExists($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
-        $driver = $this->ifExists((! empty($this->databases[$driver]) ? $this->databases[$driver] : null));
-
-        $this->results['database'] = compact('driver', 'version');
-
-        return $this;
-    }
-
-    /**
-     * Parse host info.
-     *
-     * @access protected
-     */
-    protected function hostIpinfo()
-    {
-        $ipinfo = $this->ipinfo->getYourOwnIpDetails()->getProperties();
-        $this->results['host'] = $ipinfo;
-
-        return $this;
-    }
-
-    /**
-     * Parse client info.
-     *
-     * @access protected
-     */
-    protected function clientIpinfo()
-    {
-        $ip = $this->request->getClientIp();
-
-        $ipinfo = $this->ipinfo->getFullIpDetails($ip)->getProperties();
-        $this->results['client'] = $ipinfo;
-
-        return $this;
-    }
-
-    /**
-     * Get CPU string.
-     *
-     * @access protected
-     * @param  array  $cpus (default: array())
-     * @return string
-     */
-    protected function getCPUString($cpus = [])
-    {
-        if (empty($cpus)) {
-            return  '';
-        }
-
-        $cpuStrings = [];
-
-        foreach ($cpus as $cpu) {
-            $model = $cpu['Model'];
-            $model = str_replace('(R)', '®', $model);
-            $model = str_replace('(TM)', '™', $model);
-            array_push($cpuStrings, $model);
-        }
-
-        $cpuStrings = array_unique($cpuStrings);
-
-        return trim(implode(' / ', $cpuStrings));
-    }
-
-    /**
-     * Get disk space string.
-     *
-     * @access protected
-     * @param  array  $mounts (default: array())
-     * @return string
-     */
-    protected function getDiskSpace($mounts = [])
-    {
-        $total = $free = 0;
-
-        if (empty($mounts)) {
-            return compact('total', 'free');
-        }
-
-        foreach ($mounts as $mount) {
-            $total += $mount['size'];
-            $free += $mount['free'];
-        }
-
-        return compact('total', 'free');
-    }
-
-    /**
-     * Get virtualization string.
-     *
-     * @access protected
-     * @param  array  $virtualization (default: array())
-     * @return string
-     */
-    protected function getVirtualizationString($virtualization = [])
-    {
-        if (! empty($virtualization['method'])) {
-            return $virtualization['method'];
-        }
-
-        return '';
-    }
-
-    /**
-     * Get Distro string.
-     *
-     * @access protected
-     * @param  array  $distro (default: array())
-     * @return string
-     */
-    protected function getDistroString($distro = [])
-    {
-        if (! empty($distro)) {
-            return implode(' ', array_values($distro));
-        }
-
-        return '';
-    }
-
-    /**
-     * Parse server software.
-     *
-     * @access protected
-     */
-    protected function serverInfoSoftware()
-    {
-        $linfo = $this->linfo->getParser();
-
-        $os = $this->ifExists($linfo->getOS());
-        $kernel = $this->ifExists($linfo->getKernel());
-        $arc = $this->ifExists($linfo->getCPUArchitecture());
-        $webserver = $this->ifExists($linfo->getWebService());
-        $php = $this->ifExists($linfo->getPhpVersion());
-
-        $distro = '';
-        if (method_exists($linfo, 'getDistro')) {
-            $distro = $this->getDistroString(
-                $this->ifExists($linfo->getDistro())
-            );
-        }
-
-        $this->results['server']['software'] = compact(
-            'os', 'distro', 'kernel', 'arc', 'webserver', 'php'
-        );
-
-        return $this;
-    }
-
-    /**
-     * Parse server hardware.
-     *
-     * @access protected
-     */
-    protected function serverInfoHardware()
-    {
-        $linfo = $this->linfo->getParser();
-
-        $CPUs = $this->ifExists($linfo->getCPU());
-        $cpu = $this->getCPUString($CPUs);
-        $cpu_count = count($CPUs);
-
-        $model = $this->ifExists($linfo->getModel());
-        $virtualization = $this->getVirtualizationString(
-            $this->ifExists($linfo->getVirtualization())
-        );
-
-        $memory = $this->ifExists($linfo->getRam());
-        $ram = [
-            'total' => (int) $this->ifExists($memory['total']),
-            'free' => (int) $this->ifExists($memory['free']),
+        return [
+            'host' => $this->getHostIpinfo(),
+            'client' => $this->getClientIpinfo(),
+            'server' => $this->getServerInfo(),
+            'database' => $this->getDatabaseInfo(),
         ];
-        $swap = [
-            'total' => (int) $this->ifExists($memory['swapTotal']),
-            'free' => (int) $this->ifExists($memory['swapFree']),
-        ];
-
-        $disk = $this->getDiskSpace($linfo->getMounts());
-
-        $this->results['server']['hardware'] = compact(
-            'cpu', 'cpu_count', 'model', 'virtualization', 'ram', 'swap', 'disk'
-        );
-
-        return $this;
     }
 
     /**
-     * Parse uptime.
-     *
-     * @access protected
+     * @return string
      */
-    protected function uptime()
+    private function getServerIpAddress(): string
     {
-        $linfo = $this->linfo->getParser();
-
-        $uptime = $booted_at = null;
-
-        $systemUptime = $this->ifExists($linfo->getUpTime());
-
-        if (! empty($systemUptime['text'])) {
-            $uptime = $systemUptime['text'];
+        // for IIS
+        if (! empty($_SERVER['LOCAL_ADDR'])) {
+            return $_SERVER['LOCAL_ADDR'];
         }
 
-        if (! empty($systemUptime['bootedTimestamp'])) {
-            $booted_at = date('Y-m-d H:i:s', $systemUptime['bootedTimestamp']);
-        }
-
-        $this->results['server']['uptime'] = compact(
-            'uptime', 'booted_at'
-        );
-
-        return $this;
-    }
-
-    /**
-     * Check if object exists or return null.
-     *
-     * @access private
-     * @param  mixed $object
-     * @return mixed
-     */
-    private function ifExists($object)
-    {
-        return ! empty($object) ? $object : null;
+        return $_SERVER['SERVER_ADDR'] ?? '';
     }
 }
