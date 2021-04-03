@@ -70,12 +70,11 @@ class SystemInfoTest extends TestCase
      */
     public function testWindows()
     {
-        $this->assertEquals([], $this->larinfo->getServerInfoSoftware());
-        //		$info = $this->larinfo->serverInfoSoftware();
-//
-//		$this->assertEquals('Wi', $info->getOS());
-//		$this->assertEquals('Ubuntu', $info->getDistroName());
-//		$this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
-//		$this->assertEquals('x86_64', $info->getArch());
+        $info = $this->larinfo->serverInfoSoftware();
+
+		$this->assertEquals('Windows', $info->getOS());
+		$this->assertEquals('Windows', $info->getDistroName());
+		$this->assertEquals('Unknown', $info->getKernel());
+		$this->assertEquals('Unknown', $info->getArch());
     }
 }
