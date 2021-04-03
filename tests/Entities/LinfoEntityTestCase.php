@@ -2,19 +2,19 @@
 
 namespace Matriphe\Larinfo\Tests\Entities;
 
-use Linfo\Linfo;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
 abstract class LinfoEntityTestCase extends TestCase
 {
     /**
-     * @param  mixed $parser
-     * @return Linfo
+     * @param  mixed                $parser
+     * @return LinfoWrapperContract
      */
-    protected function setLinfo($parser): Linfo
+    protected function setLinfo($parser): LinfoWrapperContract
     {
-        return Mockery::mock(Linfo::class, [
+        return Mockery::mock(LinfoWrapperContract::class, [
             'getParser' => $parser,
         ]);
     }

@@ -4,8 +4,8 @@ namespace Matriphe\Larinfo\Entities;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
-use Linfo\Linfo;
 use Linfo\OS\Minix;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 
 class SystemInfo extends LinfoEntity implements Arrayable
 {
@@ -22,9 +22,9 @@ class SystemInfo extends LinfoEntity implements Arrayable
 
     /**
      * SystemInfo constructor.
-     * @param Linfo $linfo
+     * @param LinfoWrapperContract $linfo
      */
-    public function __construct(Linfo $linfo)
+    public function __construct(LinfoWrapperContract $linfo)
     {
         parent::__construct($linfo);
 

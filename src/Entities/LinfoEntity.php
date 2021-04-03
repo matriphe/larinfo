@@ -2,8 +2,8 @@
 
 namespace Matriphe\Larinfo\Entities;
 
-use Linfo\Linfo;
 use Linfo\OS\OS;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 
 abstract class LinfoEntity
 {
@@ -14,24 +14,19 @@ abstract class LinfoEntity
 
     /**
      * ServerInfo constructor.
-     * @param Linfo $linfo
+     * @param LinfoWrapperContract $linfo
      */
-    public function __construct(Linfo $linfo)
+    public function __construct(LinfoWrapperContract $linfo)
     {
         $this->linfo = $this->parse($linfo);
     }
 
     /**
-     * @param  Linfo   $linfo
+     * @param  LinfoWrapperContract $linfo
      * @return OS|null
      */
-    protected function parse(Linfo $linfo): ?OS
+    protected function parse(LinfoWrapperContract $linfo): ?OS
     {
-        $parser = $linfo->getParser();
-        if ($parser === null || ! $parser instanceof OS) {
-            return null;
-        }
-
-        return $parser;
+        return $linfo->getParser();
     }
 }

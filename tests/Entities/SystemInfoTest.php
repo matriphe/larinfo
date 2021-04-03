@@ -46,27 +46,15 @@ final class SystemInfoTest extends LinfoEntityTestCase
                     'booted_at' => '',
                 ],
             ],
-            'weird class returns unknown' => [
-                'parser' => new class() {
-                    public function getUpTime(): array
-                    {
-                        return [
-                            'text' => '4 days, 8 hours, 38 seconds',
-                            'bootedTimestamp' => 1615761646,
-                        ];
-                    }
-                },
-                'expected' => ['uptime' => '', 'booted_at' => ''],
-            ],
         ];
     }
 
     /**
      * @dataProvider uptimeData
-     * @param $parser
-     * @param array $expected
+     * @param OS|null $parser
+     * @param array   $expected
      */
-    public function testGetUptimeReturnsCorrectValues($parser, array $expected): void
+    public function testGetUptimeReturnsCorrectValues(?OS $parser, array $expected): void
     {
         $systemInfo = new SystemInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $systemInfo->toArray());

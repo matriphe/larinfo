@@ -129,38 +129,18 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                 'expectedCpuString' => 'Intel® Core™ i5-3210M CPU @ 2.50GHz / Intel® Core™ i5-3210M CPU @ 2.70GHz',
                 'expectedCpuCount' => 2,
             ],
-            'weird class returns unknown' => [
-                'parser' => new class() {
-                    public function getCpu(): array
-                    {
-                        return [
-                            [
-                                'Model' => 'Intel(R) Core(TM) i5-3210M CPU @ 2.50GHz',
-                                'MHz' => '2500',
-                            ],
-                            [
-                                'Model' => 'Intel(R) Core(TM) i5-3210M CPU @ 2.70GHz',
-                                'MHz' => '2700',
-                            ],
-                        ];
-                    }
-                },
-                'expectedCpu' => [],
-                'expectedCpuString' => '',
-                'expectedCpuCount' => 0,
-            ],
         ];
     }
 
     /**
      * @dataProvider cpuData
-     * @param mixed  $parser
-     * @param array  $expectedCpu
-     * @param string $expectedCpuString
-     * @param int    $expectedCpuCount
+     * @param OS|null $parser
+     * @param array   $expectedCpu
+     * @param string  $expectedCpuString
+     * @param int     $expectedCpuCount
      */
     public function testGetCpuReturnsCorrectValues(
-        $parser,
+        ?OS $parser,
         array $expectedCpu,
         string $expectedCpuString,
         int $expectedCpuCount
@@ -189,24 +169,15 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(OS::class),
                 'expected' => '',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getModel(): string
-                    {
-                        return 'MacBook Pro';
-                    }
-                },
-                'expected' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider modelData
-     * @param mixed  $parser
-     * @param string $expected
+     * @param OS|null $parser
+     * @param string  $expected
      */
-    public function testGetModelReturnsCorrectValues($parser, string $expected): void
+    public function testGetModelReturnsCorrectValues(?OS $parser, string $expected): void
     {
         $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $hardwareInfo->getModel());
@@ -242,27 +213,17 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                 'expectedVirtualization' => [],
                 'expectedVirtualizationString' => '',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getVirtualization(): array
-                    {
-                        return ['type' => 'guest', 'method' => 'Docker'];
-                    }
-                },
-                'expectedVirtualization' => [],
-                'expectedVirtualizationString' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider virtualizationData
-     * @param mixed  $parser
-     * @param array  $expectedVirtualization
-     * @param string $expectedVirtualizationString
+     * @param OS|null $parser
+     * @param array   $expectedVirtualization
+     * @param string  $expectedVirtualizationString
      */
     public function testGetVirtualizationReturnsCorrectValues(
-        $parser,
+        ?OS $parser,
         array $expectedVirtualization,
         string $expectedVirtualizationString
     ): void {
@@ -320,34 +281,15 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     'swap' => ['free' => 2000000, 'total' => 4000000],
                 ],
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getRam(): array
-                    {
-                        return [
-                            'type' => 'Physical',
-                            'total' => 8000000,
-                            'free' => 4000000,
-                            'swapTotal' => 4000000,
-                            'swapFree' => 2000000,
-                            'swapInfo' => [],
-                        ];
-                    }
-                },
-                'expected' => [
-                    'ram' => ['free' => 0, 'total' => 0],
-                    'swap' => ['free' => 0, 'total' => 0],
-                ],
-            ],
         ];
     }
 
     /**
      * @dataProvider memoryData
-     * @param mixed $parser
-     * @param array $expected
+     * @param OS|null $parser
+     * @param array   $expected
      */
-    public function testGetMemoryReturnsCorrectValues($parser, array $expected): void
+    public function testGetMemoryReturnsCorrectValues(?OS $parser, array $expected): void
     {
         $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $hardwareInfo->getMemory());
@@ -392,30 +334,15 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                 ]),
                 'expected' => ['free' => 4000000, 'total' => 8000000],
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getMounts(): array
-                    {
-                        return [
-                            [
-                                'devtype' => 'Fixed drive',
-                                'size' => 8000000,
-                                'free' => 4000000,
-                            ],
-                        ];
-                    }
-                },
-                'expected' => ['free' => 0, 'total' => 0],
-            ],
         ];
     }
 
     /**
      * @dataProvider diskData
-     * @param mixed $parser
-     * @param array $expected
+     * @param OS|null $parser
+     * @param array   $expected
      */
-    public function testGetDiskReturnsCorrectValues($parser, array $expected): void
+    public function testGetDiskReturnsCorrectValues(?OS $parser, array $expected): void
     {
         $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $hardwareInfo->getDisk());
@@ -527,72 +454,15 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     'disk' => ['total' => 8000000, 'free' => 4000000],
                 ],
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getCpu(): array
-                    {
-                        return [
-                            [
-                                'Model' => 'Intel(R) Core(TM) i5-3210M CPU @ 2.50GHz',
-                                'Vendor' => 'Datum Corporation',
-                                'MHz' => '2500',
-                                'usage_percentage' => 60,
-                            ],
-                        ];
-                    }
-
-                    public function getModel(): string
-                    {
-                        return 'MacBook Pro';
-                    }
-
-                    public function getVirtualization(): array
-                    {
-                        return ['type' => 'guest', 'method' => 'Docker'];
-                    }
-
-                    public function getRam(): array
-                    {
-                        return [
-                            'type' => 'Physical',
-                            'total' => 8000000,
-                            'free' => 4000000,
-                            'swapTotal' => 4000000,
-                            'swapFree' => 2000000,
-                            'swapInfo' => [],
-                        ];
-                    }
-
-                    public function getMounts(): array
-                    {
-                        return [
-                            [
-                                'devtype' => 'Fixed drive',
-                                'size' => 8000000,
-                                'free' => 4000000,
-                            ],
-                        ];
-                    }
-                },
-                'expected' => [
-                    'cpu' => '',
-                    'cpu_count' => 0,
-                    'model' => '',
-                    'virtualization' => '',
-                    'ram' => ['total' => 0, 'free' => 0],
-                    'swap' => ['total' => 0, 'free' => 0],
-                    'disk' => ['total' => 0, 'free' => 0],
-                ],
-            ],
         ];
     }
 
     /**
      * @dataProvider arrayData
-     * @param mixed $parser
-     * @param array $expected
+     * @param OS|null $parser
+     * @param array   $expected
      */
-    public function testToArrayReturnsCorrectValues($parser, array $expected):void
+    public function testToArrayReturnsCorrectValues(?OS $parser, array $expected):void
     {
         $serverInfo = new HardwareInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->toArray());

@@ -6,13 +6,13 @@ use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Capsule\Manager as Database;
 use Illuminate\Http\Request;
-use Linfo\Linfo;
 use Matriphe\Larinfo\Entities\DatabaseInfo;
 use Matriphe\Larinfo\Entities\GeoIpInfo;
 use Matriphe\Larinfo\Entities\HardwareInfo;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Entities\ServerInfo;
 use Matriphe\Larinfo\Entities\SystemInfo;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 
 class Larinfo implements LarinfoContract, Arrayable
 {
@@ -25,9 +25,9 @@ class Larinfo implements LarinfoContract, Arrayable
      */
     private Request $request;
     /**
-     * @var Linfo
+     * @var LinfoWrapperContract
      */
-    private Linfo $linfo;
+    private LinfoWrapperContract $linfo;
     /**
      * @var Database
      */
@@ -38,16 +38,16 @@ class Larinfo implements LarinfoContract, Arrayable
     private IpAddressChecker $ipAddressChecker;
 
     /**
-     * @param Ipinfo           $ipinfo
-     * @param Request          $request
-     * @param Linfo            $linfo
-     * @param Database         $database
-     * @param IpAddressChecker $ipAddressChecker
+     * @param Ipinfo                       $ipinfo
+     * @param Request                      $request
+     * @param Wrapper\LinfoWrapperContract $linfo
+     * @param Database                     $database
+     * @param IpAddressChecker             $ipAddressChecker
      */
     public function __construct(
         Ipinfo $ipinfo,
         Request $request,
-        Linfo $linfo,
+        LinfoWrapperContract $linfo,
         Database $database,
         IpAddressChecker $ipAddressChecker
     ) {

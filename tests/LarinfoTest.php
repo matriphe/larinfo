@@ -20,6 +20,7 @@ use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Entities\ServerInfo;
 use Matriphe\Larinfo\Entities\SystemInfo;
 use Matriphe\Larinfo\Larinfo;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 use Mockery;
 
 /**
@@ -54,7 +55,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
 
         $this->ipinfo = Mockery::mock(Ipinfo::class);
         $this->request = Mockery::mock(Request::class);
-        $this->linfo = Mockery::mock(Linfo::class);
+        $this->linfo = Mockery::mock(LinfoWrapperContract::class);
         $this->database = Mockery::mock(Manager::class);
         $this->ipAddressChecker = new IpAddressChecker();
     }

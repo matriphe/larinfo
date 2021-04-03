@@ -33,15 +33,6 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(OS::class, ['getOS' => 'Matriphe']),
                 'expected' => 'Matriphe',
             ],
-            'weird class returns unknown' => [
-                'parser' => new class() {
-                    public function getOs(): string
-                    {
-                        return 'Awesome';
-                    }
-                },
-                'expected' => 'Unknown',
-            ],
             'darwin returns empty' => [
                 'parser' => Mockery::mock(Darwin::class, ['getOS' => '']),
                 'expected' => 'MacOS',
@@ -67,10 +58,10 @@ final class ServerInfoTest extends LinfoEntityTestCase
 
     /**
      * @dataProvider osData
-     * @param mixed  $parser
-     * @param string $expected
+     * @param OS|null $parser
+     * @param string  $expected
      */
-    public function testGetOSReturnsCorrectValues($parser, string $expected): void
+    public function testGetOSReturnsCorrectValues(?OS $parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getOS());
@@ -164,31 +155,19 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'expectedDistroName' => 'Ubuntu',
                 'expectedDistroVersion' => '',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getDistro(): array
-                    {
-                        return ['name' => 'Ubuntu', 'version' => '20.04'];
-                    }
-                },
-                'expectedDistro' => [],
-                'expectedDistroString' => '',
-                'expectedDistroName' => '',
-                'expectedDistroVersion' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider distroData
-     * @param mixed  $parser
-     * @param array  $expectedDistro
-     * @param string $expectedDistroString
-     * @param string $expectedDistroName
-     * @param string $expectedDistroVersion
+     * @param OS|null $parser
+     * @param array   $expectedDistro
+     * @param string  $expectedDistroString
+     * @param string  $expectedDistroName
+     * @param string  $expectedDistroVersion
      */
     public function testGetDistroReturnsCorrectValues(
-        $parser,
+        ?OS $parser,
         array $expectedDistro,
         string $expectedDistroString,
         string $expectedDistroName,
@@ -215,24 +194,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(OS::class, ['getKernel' => '1.2.3']),
                 'expected' => '1.2.3',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getKernel(): string
-                    {
-                        return '1.2.3';
-                    }
-                },
-                'expected' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider kernelData
-     * @param mixed  $parser
-     * @param string $expected
+     * @param OS|null $parser
+     * @param string  $expected
      */
-    public function testGetKernelReturnsCorrectValues($parser, string $expected): void
+    public function testGetKernelReturnsCorrectValues(?OS $parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getKernel());
@@ -252,24 +222,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(OS::class, ['getCPUArchitecture' => 'x86_64']),
                 'expected' => 'x86_64',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getCPUArchitecture(): string
-                    {
-                        return 'x86_64';
-                    }
-                },
-                'expected' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider archData
-     * @param mixed  $parser
-     * @param string $expected
+     * @param OS|null $parser
+     * @param string  $expected
      */
-    public function testGetArchReturnsCorrectValues($parser, string $expected):void
+    public function testGetArchReturnsCorrectValues(?OS $parser, string $expected):void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getArch());
@@ -289,24 +250,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(OS::class, ['getWebService' => 'matriphe/1.2.3']),
                 'expected' => 'matriphe/1.2.3',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getWebService(): string
-                    {
-                        return 'matriphe/1.2.3';
-                    }
-                },
-                'expected' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider webServerData
-     * @param mixed  $parser
-     * @param string $expected
+     * @param OS|null $parser
+     * @param string  $expected
      */
-    public function testGetWebServerReturnsCorrectValues($parser, string $expected): void
+    public function testGetWebServerReturnsCorrectValues(?OS $parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getWebServer());
@@ -326,24 +278,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(OS::class, ['getPhpVersion' => '8.0.3']),
                 'expected' => '8.0.3',
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getPhpVersion(): string
-                    {
-                        return '8.0.3';
-                    }
-                },
-                'expected' => '',
-            ],
         ];
     }
 
     /**
      * @dataProvider phpVersionData
-     * @param mixed  $parser
-     * @param string $expected
+     * @param OS|null $parser
+     * @param string  $expected
      */
-    public function testGetPhpVersionReturnsCorrectValues($parser, string $expected): void
+    public function testGetPhpVersionReturnsCorrectValues(?OS $parser, string $expected): void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->getPhpVersion());
@@ -384,56 +327,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
                     'php' => '8.0.3',
                 ],
             ],
-            'weird class returns empty' => [
-                'parser' => new class() {
-                    public function getOs(): string
-                    {
-                        return 'Awesome';
-                    }
-
-                    public function getDistro(): array
-                    {
-                        return ['name' => 'Ubuntu', 'version' => '20.04'];
-                    }
-
-                    public function getKernel(): string
-                    {
-                        return '1.2.3';
-                    }
-
-                    public function getCPUArchitecture(): string
-                    {
-                        return 'x86_64';
-                    }
-
-                    public function getWebService(): string
-                    {
-                        return 'matriphe/1.2.3';
-                    }
-
-                    public function getPhpVersion(): string
-                    {
-                        return '8.0.3';
-                    }
-                },
-                'expected' => [
-                    'os' => 'Unknown',
-                    'distro' => '',
-                    'kernel' => '',
-                    'arc' => '',
-                    'webserver' => '',
-                    'php' => '',
-                ],
-            ],
         ];
     }
 
     /**
      * @dataProvider arrayData
-     * @param mixed $parser
-     * @param array $expected
+     * @param OS|null $parser
+     * @param array   $expected
      */
-    public function testToArrayReturnsCorrectValues($parser, array $expected):void
+    public function testToArrayReturnsCorrectValues(?OS $parser, array $expected):void
     {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expected, $serverInfo->toArray());
