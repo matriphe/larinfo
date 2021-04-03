@@ -135,3 +135,5 @@ jobs:
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
       - name: Run Unit Tests
         run: vendor/bin/phpunit --group unit
+      - name: Run Windwos Tests
+        run: vendor/bin/phpunit --group windows
