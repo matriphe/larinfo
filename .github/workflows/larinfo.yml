@@ -33,6 +33,8 @@ jobs:
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run Unit Tests
         run: vendor/bin/phpunit --group unit
+      - name: Run Ubuntu Tests
+        run: vendor/bin/phpunit --group ubuntu
   laravel-php-8:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
@@ -65,3 +67,5 @@ jobs:
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run Unit Tests
         run: vendor/bin/phpunit --group unit
+      - name: Run Ubuntu Tests
+        run: vendor/bin/phpunit --group ubuntu
