@@ -9,6 +9,13 @@ class WindowsOs extends Windows
     private const OS_WIN = 'Windows';
 
     /**
+     * @param array $settings
+     */
+    public function __construct(array $settings = [])
+    {
+    }
+
+    /**
      * @return string
      */
     public function getOS()
