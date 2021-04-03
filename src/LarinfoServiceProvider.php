@@ -6,12 +6,8 @@ use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
-use Linfo\Exceptions\FatalException;
-use Linfo\Linfo;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
-use Matriphe\Larinfo\Windows\WindowsNoComNet;
-use Matriphe\Larinfo\Wrapper\LinfoWrapper;
-use Matriphe\Larinfo\Wrapper\WindowsWrapper;
+use Matriphe\Larinfo\Wrapper\WrapperFactory;
 
 class LarinfoServiceProvider extends ServiceProvider
 {
@@ -46,28 +42,11 @@ class LarinfoServiceProvider extends ServiceProvider
             return new Larinfo(
                 new Ipinfo($ipinfoConfig),
                 Request::capture(),
-                $this->linfoWrapperFactory($linfoConfig),
+                (new WrapperFactory($linfoConfig))->getWrapper(),
                 $this->getDatabase($dbConfig),
                 new IpAddressChecker()
             );
         });
-    }
-
-    /**
-     * @param  array        $linfoConfig
-     * @return LinfoWrapper
-     */
-    private function linfoWrapperFactory(array $linfoConfig): LinfoWrapper
-    {
-        try {
-            $linfo = new Linfo($linfoConfig);
-
-            return new LinfoWrapper($linfo);
-        } catch (FatalException $exception) {
-            $windows = new WindowsNoComNet();
-
-            return new WindowsWrapper($windows);
-        }
     }
 
     /**
