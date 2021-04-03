@@ -61,6 +61,22 @@ final class ServerInfo extends LinfoEntity implements Arrayable
     /**
      * @return string
      */
+    public function getDistroName(): string
+    {
+        return $this->getDistro()['name'] ?? '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getDistroVersion(): string
+    {
+        return $this->getDistro()['version'] ?? '';
+    }
+
+    /**
+     * @return string
+     */
     public function getDistroString(): string
     {
         $distro = $this->getDistro();

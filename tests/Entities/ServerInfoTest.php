@@ -86,16 +86,22 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => null,
                 'expectedDistro' => [],
                 'expectedDistroString' => '',
+                'expectedDistroName' => '',
+                'expectedDistroVersion' => '',
             ],
             'darwin returns empty' => [
                 'parser' => Mockery::mock(Darwin::class),
                 'expectedDistro' => [],
                 'expectedDistroString' => '',
+                'expectedDistroName' => '',
+                'expectedDistroVersion' => '',
             ],
             'windows returns empty' => [
                 'parser' => Mockery::mock(Windows::class),
                 'expectedDistro' => [],
                 'expectedDistroString' => '',
+                'expectedDistroName' => '',
+                'expectedDistroVersion' => '',
             ],
             'linux returns empty' => [
                 'parser' => Mockery::mock(Linux::class, [
@@ -103,6 +109,8 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 ]),
                 'expectedDistro' => ['name' => 'Ubuntu', 'version' => '20.04'],
                 'expectedDistroString' => 'Ubuntu 20.04',
+                'expectedDistroName' => 'Ubuntu',
+                'expectedDistroVersion' => '20.04',
             ],
             'linux returns distro without version' => [
                 'parser' => Mockery::mock(Linux::class, [
@@ -110,6 +118,8 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 ]),
                 'expectedDistro' => ['name' => 'Ubuntu', 'version' => ''],
                 'expectedDistroString' => 'Ubuntu',
+                'expectedDistroName' => 'Ubuntu',
+                'expectedDistroVersion' => '',
             ],
             'weird class returns empty' => [
                 'parser' => new class() {
@@ -120,6 +130,8 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 },
                 'expectedDistro' => [],
                 'expectedDistroString' => '',
+                'expectedDistroName' => '',
+                'expectedDistroVersion' => '',
             ],
         ];
     }
@@ -129,15 +141,21 @@ final class ServerInfoTest extends LinfoEntityTestCase
      * @param mixed  $parser
      * @param array  $expectedDistro
      * @param string $expectedDistroString
+     * @param string $expectedDistroName
+     * @param string $expectedDistroVersion
      */
     public function testGetDistroReturnsCorrectValues(
         $parser,
         array $expectedDistro,
-        string $expectedDistroString
+        string $expectedDistroString,
+        string $expectedDistroName,
+        string $expectedDistroVersion
     ): void {
         $serverInfo = new ServerInfo($this->setLinfo($parser));
         $this->assertEquals($expectedDistro, $serverInfo->getDistro());
         $this->assertEquals($expectedDistroString, $serverInfo->getDistroString());
+        $this->assertEquals($expectedDistroName, $serverInfo->getDistroName());
+        $this->assertEquals($expectedDistroVersion, $serverInfo->getDistroVersion());
     }
 
     /**
