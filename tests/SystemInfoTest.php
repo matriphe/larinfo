@@ -41,7 +41,7 @@ class SystemInfoTest extends TestCase
     /**
      * @group macos
      */
-    public function testMacOsCatalina()
+    public function testMacOs()
     {
         $info = $this->larinfo->serverInfoSoftware();
 
