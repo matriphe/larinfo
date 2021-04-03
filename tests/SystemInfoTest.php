@@ -51,6 +51,13 @@ class SystemInfoTest extends TestCase
             'webserver' => 'Unknown',
             'php' => '8.0.3',
         ], $this->larinfo->getServerInfoSoftware());
+
+        $info = $this->larinfo->serverInfoSoftware();
+
+        $this->assertEquals('Linux', $info->getOS());
+        $this->assertEquals('Ubuntu', $info->getDistroName());
+        $this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
+        $this->assertEquals('x86_64', $info->getArch());
     }
 
     /**

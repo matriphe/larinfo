@@ -20,22 +20,11 @@ final class ServerInfo extends LinfoEntity implements Arrayable
             return self::OS_UNKNOWN;
         }
 
-        $os = $this->linfo->getOS();
-        if (! $this->linfo instanceof Darwin) {
-            return $os;
-        }
-
-        preg_match('/Darwin\s+\((.+)\)/i', $os, $m);
-        if (empty($m) || empty($m[1])) {
+        if ($this->linfo instanceof Darwin) {
             return self::OS_MAC;
         }
 
-        preg_match('/(.+)\s+(\d+\.\d+\.\d+)/i', $m[1], $n);
-        if (empty($n) || empty($n[2])) {
-            return trim(sprintf('%s X', self::OS_MAC));
-        }
-
-        return trim(sprintf('%s %s', self::OS_MAC, $n[2]));
+        return $this->linfo->getOS();
     }
 
     /**
@@ -43,6 +32,10 @@ final class ServerInfo extends LinfoEntity implements Arrayable
      */
     public function getDistro(): array
     {
+        if ($this->linfo instanceof Darwin) {
+            return $this->parseDarwinDistro($this->linfo);
+        }
+
         if (! $this->linfo instanceof Linux) {
             return [];
         }
@@ -148,5 +141,34 @@ final class ServerInfo extends LinfoEntity implements Arrayable
             'webserver' => $this->getWebServer(),
             'php' => $this->getPhpVersion(),
         ];
+    }
+
+    /**
+     * @param  Darwin   $linfo
+     * @return string[]
+     */
+    private function parseDarwinDistro(Darwin $linfo): array
+    {
+        $distro = [
+            'name' => self::OS_MAC,
+            'version' => '',
+        ];
+
+        $os = $linfo->getOS();
+        preg_match('/Darwin\s+\((.+)\)/i', $os, $m);
+        if (empty($m) || empty($m[1])) {
+            return $distro;
+        }
+
+        preg_match('/(.+)\s+(\d+\.\d+\.\d+)/i', $m[1], $n);
+        if (empty($n) || empty($n[2])) {
+            $distro['version'] = 'X';
+
+            return $distro;
+        }
+
+        $distro['version'] = $n[2];
+
+        return $distro;
     }
 }

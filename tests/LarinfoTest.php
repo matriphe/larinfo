@@ -267,8 +267,8 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
                     'getPhpVersion' => '8.0.3',
                 ]),
                 'expected' => [
-                    'os' => 'MacOS 10.15.4',
-                    'distro' => '',
+                    'os' => 'MacOS',
+                    'distro' => 'MacOS 10.15.4',
                     'kernel' => '19.6.0',
                     'arc' => 'x86_64',
                     'webserver' => 'nginx/1.19.8',
@@ -285,7 +285,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
                 ]),
                 'expected' => [
                     'os' => 'MacOS',
-                    'distro' => '',
+                    'distro' => 'MacOS',
                     'kernel' => '19.6.0',
                     'arc' => 'x86_64',
                     'webserver' => 'nginx/1.19.8',
@@ -301,8 +301,8 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
                     'getPhpVersion' => '8.0.3',
                 ]),
                 'expected' => [
-                    'os' => 'MacOS X',
-                    'distro' => '',
+                    'os' => 'MacOS',
+                    'distro' => 'MacOS X',
                     'kernel' => '19.6.0',
                     'arc' => 'x86_64',
                     'webserver' => 'nginx/1.19.8',

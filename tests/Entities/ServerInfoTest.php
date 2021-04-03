@@ -52,15 +52,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
             ],
             'darwin returns macos 10.12.6 with space' => [
                 'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (macOS 10.12.6 )']),
-                'expected' => 'MacOS 10.12.6',
+                'expected' => 'MacOS',
             ],
             'darwin returns macos 10.15.7 without space' => [
                 'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (macOS 10.15.7)']),
-                'expected' => 'MacOS 10.15.7',
+                'expected' => 'MacOS',
             ],
             'darwin returns macos X' => [
                 'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (Mac OS X)']),
-                'expected' => 'MacOS X',
+                'expected' => 'MacOS',
             ],
         ];
     }
@@ -89,12 +89,55 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'expectedDistroName' => '',
                 'expectedDistroVersion' => '',
             ],
-            'darwin returns empty' => [
-                'parser' => Mockery::mock(Darwin::class),
-                'expectedDistro' => [],
-                'expectedDistroString' => '',
-                'expectedDistroName' => '',
+            'darwin returns macos on empty' => [
+                'parser' => Mockery::mock(Darwin::class, ['getOS' => '']),
+                'expectedDistro' => [
+                    'name' => 'MacOS',
+                    'version' => '',
+                ],
+                'expectedDistroString' => 'MacOS',
+                'expectedDistroName' => 'MacOS',
                 'expectedDistroVersion' => '',
+            ],
+            'darwin returns macos' => [
+                'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin']),
+                'expectedDistro' => [
+                    'name' => 'MacOS',
+                    'version' => '',
+                ],
+                'expectedDistroString' => 'MacOS',
+                'expectedDistroName' => 'MacOS',
+                'expectedDistroVersion' => '',
+            ],
+            'darwin returns macos 10.12.6 with space' => [
+                'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (macOS 10.12.6 )']),
+                'expectedDistro' => [
+                    'name' => 'MacOS',
+                    'version' => '10.12.6',
+                ],
+                'expectedDistroString' => 'MacOS 10.12.6',
+                'expectedDistroName' => 'MacOS',
+                'expectedDistroVersion' => '10.12.6',
+            ],
+            'darwin returns macos 10.15.7 without space' => [
+                'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (macOS 10.15.7)']),
+                'expectedDistro' => [
+                    'name' => 'MacOS',
+                    'version' => '10.15.7',
+                ],
+                'expectedDistroString' => 'MacOS 10.15.7',
+                'expectedDistroName' => 'MacOS',
+                'expectedDistroVersion' => '10.15.7',
+            ],
+            'darwin returns macos X' => [
+                'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (Mac OS X)']),
+                'expectedDistro' => [
+                    'name' => 'MacOS',
+                    'version' => 'X',
+                ],
+                'expectedDistroString' => 'MacOS X',
+                'expectedDistroName' => 'MacOS',
+                'expectedDistroVersion' => 'X',
             ],
             'windows returns empty' => [
                 'parser' => Mockery::mock(Windows::class),
