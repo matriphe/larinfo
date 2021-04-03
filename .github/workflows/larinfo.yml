@@ -146,7 +146,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
-        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist -vvv
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run test
