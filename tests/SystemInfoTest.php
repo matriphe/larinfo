@@ -64,4 +64,18 @@ class SystemInfoTest extends TestCase
         $this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
         $this->assertEquals('x86_64', $info->getArch());
     }
+
+    /**
+     * @group windows
+     */
+    public function testWindows()
+    {
+        $this->assertEquals([], $this->larinfo->getServerInfoSoftware());
+        //		$info = $this->larinfo->serverInfoSoftware();
+//
+//		$this->assertEquals('Wi', $info->getOS());
+//		$this->assertEquals('Ubuntu', $info->getDistroName());
+//		$this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
+//		$this->assertEquals('x86_64', $info->getArch());
+    }
 }
