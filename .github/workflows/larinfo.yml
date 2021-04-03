@@ -2,7 +2,7 @@ name: Larinfo
 on: [push, pull_request]
 jobs:
   ubuntu-unit-laravel-5:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    name: Unit Test Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -32,7 +32,7 @@ jobs:
       - name: Run test
         run: vendor/bin/phpunit --group unit
   ubuntu-unit-laravel-6-7:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    name: Unit Test Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -62,7 +62,7 @@ jobs:
       - name: Run test
         run: vendor/bin/phpunit --group unit
   ubuntu-unit-laravel-8:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    name: Unit Test Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -92,7 +92,37 @@ jobs:
       - name: Run test
         run: vendor/bin/phpunit --group unit
   mac-os-catalina-unit-laravel:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    name: Unit Test Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [macos-10.15]
+        php-versions: ['8.0']
+        laravel-versions: ['^6.0', '^7.0', '^8.0']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP with Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+      - name: Install Laravel
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
+      - name: Update Composer dependencies
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
+      - name: Run test
+        run: vendor/bin/phpunit --group group
+  windows-unit-laravel:
+    name: Unit Test Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
