@@ -2,6 +2,7 @@
 
 namespace Matriphe\Larinfo\Entities;
 
+use Linfo\Exceptions\FatalException;
 use Linfo\Linfo;
 use Linfo\OS\OS;
 
@@ -27,7 +28,12 @@ abstract class LinfoEntity
      */
     protected function parse(Linfo $linfo): ?OS
     {
-        $parser = $linfo->getParser();
+        try {
+            $parser = $linfo->getParser();
+        } catch (FatalException $e) {
+            return null;
+        }
+
         if ($parser === null || ! $parser instanceof OS) {
             return null;
         }
