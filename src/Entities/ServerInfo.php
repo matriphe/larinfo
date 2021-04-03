@@ -5,6 +5,7 @@ namespace Matriphe\Larinfo\Entities;
 use Illuminate\Contracts\Support\Arrayable;
 use Linfo\OS\Darwin;
 use Linfo\OS\Linux;
+use Matriphe\Larinfo\Windows\WindowsOs;
 
 final class ServerInfo extends LinfoEntity implements Arrayable
 {
@@ -34,6 +35,10 @@ final class ServerInfo extends LinfoEntity implements Arrayable
     {
         if ($this->linfo instanceof Darwin) {
             return $this->parseDarwinDistro($this->linfo);
+        }
+
+        if ($this->linfo instanceof WindowsOs) {
+            return $this->getDistro();
         }
 
         if (! $this->linfo instanceof Linux) {
