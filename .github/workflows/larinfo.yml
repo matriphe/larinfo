@@ -145,8 +145,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-      - name: Get PHP Version
-        run: php -v
+          extensions: pdo
+      - name: Get PHP Version and Modules
+        run: php -v && php -m
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
