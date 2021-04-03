@@ -8,8 +8,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.1', '7.2', '7.3']
-        laravel-versions: ['5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
+        php-versions: ['7.4', '8.0']
+        laravel-versions: ['^5.7', '^5.8']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.4', '8.0']
         laravel-versions: ['^6.0', '^7.0']
     steps:
       - name: Checkout
@@ -68,7 +68,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.4', '8.0']
         laravel-versions: ['^8.0']
     steps:
       - name: Checkout
