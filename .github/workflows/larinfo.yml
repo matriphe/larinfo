@@ -30,7 +30,7 @@ jobs:
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run test
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --group unit
   laravel-6-7:
     name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
@@ -60,7 +60,7 @@ jobs:
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run test
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --group unit
   laravel-8:
     name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
     runs-on: ${{ matrix.operating-system }}
@@ -90,4 +90,4 @@ jobs:
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
       - name: Run test
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --group unit
