@@ -120,7 +120,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
       - name: Check PHP Version and Modules
-        run: php -v && php -m && php --ini
+        run: php -v && php -m && php --ini && type C:\tools\php\php.ini
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
