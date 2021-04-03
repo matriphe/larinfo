@@ -61,8 +61,8 @@ class SystemInfoTest extends TestCase
         $info = $this->larinfo->serverInfoSoftware();
 
         $this->assertEquals('Linux', $info->getOS());
-        $this->assertEquals('Ubuntu 20.04 (Focal)', $info->getDistroString());
-        $this->assertEquals('5.10.13', $info->getKernel());
+        $this->assertEquals('Ubuntu', $info->getDistroName());
+        $this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
         $this->assertEquals('x86_64', $info->getArch());
     }
 }
