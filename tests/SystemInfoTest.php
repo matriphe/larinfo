@@ -43,19 +43,11 @@ class SystemInfoTest extends TestCase
      */
     public function testMacOsCatalina()
     {
-        $this->assertEquals([
-            'os' => 'MacOS 10.15.7',
-            'distro' => '',
-            'kernel' => '19.6.0',
-            'arc' => 'x86_64',
-            'webserver' => 'Unknown',
-            'php' => '8.0.3',
-        ], $this->larinfo->getServerInfoSoftware());
-
         $info = $this->larinfo->serverInfoSoftware();
 
-        $this->assertEquals('Linux', $info->getOS());
-        $this->assertEquals('Ubuntu', $info->getDistroName());
+        $this->assertEquals('MacOS', $info->getOS());
+        $this->assertEquals('MacOS', $info->getDistroName());
+        $this->assertMatchesRegularExpression('/\d+\.\d+\.\d+/i', $info->getDistroVersion());
         $this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
         $this->assertEquals('x86_64', $info->getArch());
     }
