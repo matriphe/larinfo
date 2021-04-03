@@ -11,6 +11,10 @@ use Linfo\OS\Windows;
 use Matriphe\Larinfo\Entities\HardwareInfo;
 use Mockery;
 
+/**
+ * @group unit
+ * @group entity
+ */
 class HardwareInfoTest extends LinfoEntityTestCase
 {
     /**

@@ -9,6 +9,10 @@ use Linfo\OS\Windows;
 use Matriphe\Larinfo\Entities\ServerInfo;
 use Mockery;
 
+/**
+ * @group unit
+ * @group entity
+ */
 class ServerInfoTest extends LinfoEntityTestCase
 {
     /**

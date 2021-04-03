@@ -5,6 +5,10 @@ namespace Matriphe\Larinfo\Tests\Entities;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group unit
+ * @group entity
+ */
 class IpAddressCheckerCheckerTest extends TestCase
 {
     /**

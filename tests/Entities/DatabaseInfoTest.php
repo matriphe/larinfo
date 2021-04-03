@@ -8,6 +8,10 @@ use Matriphe\Larinfo\Entities\DatabaseInfo;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group unit
+ * @group entity
+ */
 class DatabaseInfoTest extends TestCase
 {
     /**

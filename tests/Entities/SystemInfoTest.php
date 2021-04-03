@@ -6,6 +6,10 @@ use Linfo\OS\OS;
 use Matriphe\Larinfo\Entities\SystemInfo;
 use Mockery;
 
+/**
+ * @group unit
+ * @group entity
+ */
 class SystemInfoTest extends LinfoEntityTestCase
 {
     /**

@@ -22,6 +22,9 @@ use Matriphe\Larinfo\Entities\SystemInfo;
 use Matriphe\Larinfo\Larinfo;
 use Mockery;
 
+/**
+ * @group unit
+ */
 class LarinfoTest extends \PHPUnit\Framework\TestCase
 {
     /**

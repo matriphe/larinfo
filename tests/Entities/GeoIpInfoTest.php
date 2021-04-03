@@ -6,6 +6,10 @@ use DavidePastore\Ipinfo\Host;
 use Matriphe\Larinfo\Entities\GeoIpInfo;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group unit
+ * @group entity
+ */
 class GeoIpInfoTest extends TestCase
 {
     /**
