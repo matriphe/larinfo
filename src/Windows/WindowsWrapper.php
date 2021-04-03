@@ -1,9 +1,10 @@
 <?php
 
-namespace Matriphe\Larinfo\Wrapper;
+namespace Matriphe\Larinfo\Windows;
 
 use Linfo\OS\OS;
 use Linfo\OS\Windows;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 
 class WindowsWrapper implements LinfoWrapperContract
 {
