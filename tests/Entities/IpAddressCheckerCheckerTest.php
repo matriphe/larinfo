@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group entity
  */
-class IpAddressCheckerCheckerTest extends TestCase
+final class IpAddressCheckerCheckerTest extends TestCase
 {
     /**
      * @return array

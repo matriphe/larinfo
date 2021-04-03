@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group entity
  */
-class GeoIpInfoTest extends TestCase
+final class GeoIpInfoTest extends TestCase
 {
     /**
      * @return array

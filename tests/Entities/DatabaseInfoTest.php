@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group entity
  */
-class DatabaseInfoTest extends TestCase
+final class DatabaseInfoTest extends TestCase
 {
     /**
      * @return \string[][]

@@ -10,7 +10,7 @@ use Mockery;
  * @group unit
  * @group entity
  */
-class SystemInfoTest extends LinfoEntityTestCase
+final class SystemInfoTest extends LinfoEntityTestCase
 {
     /**
      * @return array[]

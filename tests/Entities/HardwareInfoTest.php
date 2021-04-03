@@ -15,7 +15,7 @@ use Mockery;
  * @group unit
  * @group entity
  */
-class HardwareInfoTest extends LinfoEntityTestCase
+final class HardwareInfoTest extends LinfoEntityTestCase
 {
     /**
      * @return array[]

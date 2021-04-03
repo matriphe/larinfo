@@ -25,7 +25,7 @@ use Mockery;
 /**
  * @group unit
  */
-class LarinfoTest extends \PHPUnit\Framework\TestCase
+final class LarinfoTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Ipinfo|Mockery\MockInterface
