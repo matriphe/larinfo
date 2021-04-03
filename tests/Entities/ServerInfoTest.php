@@ -7,6 +7,7 @@ use Linfo\OS\Linux;
 use Linfo\OS\OS;
 use Linfo\OS\Windows;
 use Matriphe\Larinfo\Entities\ServerInfo;
+use Matriphe\Larinfo\Windows\WindowsOs;
 use Mockery;
 
 /**
@@ -154,6 +155,15 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'expectedDistroString' => 'Ubuntu',
                 'expectedDistroName' => 'Ubuntu',
                 'expectedDistroVersion' => '',
+            ],
+            'windows os returns empty' => [
+                'parser' => Mockery::mock(WindowsOs::class, [
+                    'getDistro' => ['name' => 'Windows', 'version' => '10'],
+                ]),
+                'expectedDistro' => ['name' => 'Windows', 'version' => '10'],
+                'expectedDistroString' => 'Windows 10',
+                'expectedDistroName' => 'Windows',
+                'expectedDistroVersion' => '10',
             ],
         ];
     }
