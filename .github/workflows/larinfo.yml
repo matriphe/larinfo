@@ -156,6 +156,8 @@ jobs:
           key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+      - name: Force platfor to use PHP 8.0
+        run: composer config platform.php 8.0.3
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist -vvv
       - name: Update Composer dependencies
