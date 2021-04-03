@@ -11,7 +11,7 @@ use Matriphe\Larinfo\Wrapper\WrapperFactory;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class SystemInfoTest extends TestCase
+class OSSystemInfoTest extends TestCase
 {
     /**
      * @var Larinfo
