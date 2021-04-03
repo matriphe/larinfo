@@ -38,7 +38,7 @@ final class ServerInfo extends LinfoEntity implements Arrayable
         }
 
         if ($this->linfo instanceof WindowsOs) {
-            return $this->getDistro();
+            return $this->linfo->getDistro();
         }
 
         if (! $this->linfo instanceof Linux) {
