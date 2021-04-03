@@ -5,9 +5,9 @@ namespace Matriphe\Larinfo\Tests;
 use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
-use Linfo\Linfo;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Larinfo;
+use Matriphe\Larinfo\Wrapper\WrapperFactory;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -22,10 +22,10 @@ class SystemInfoTest extends TestCase
     {
         parent::setUp();
 
-        $this->larinfo = $larinfo = new Larinfo(
+        $this->larinfo = new Larinfo(
             new Ipinfo(),
             Request::capture(),
-            new Linfo(),
+            (new WrapperFactory())->getWrapper(),
             Mockery::mock(Manager::class),
             new IpAddressChecker()
         );
