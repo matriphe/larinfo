@@ -72,9 +72,9 @@ class SystemInfoTest extends TestCase
     {
         $info = $this->larinfo->serverInfoSoftware();
 
-		$this->assertEquals('Windows', $info->getOS());
-		$this->assertEquals('Windows', $info->getDistroName());
-		$this->assertEquals('Unknown', $info->getKernel());
-		$this->assertEquals('Unknown', $info->getArch());
+        $this->assertEquals('Windows', $info->getOS());
+        $this->assertEquals('Windows', $info->getDistroName());
+        $this->assertEquals('Unknown', $info->getKernel());
+        $this->assertEquals('Unknown', $info->getArch());
     }
 }
