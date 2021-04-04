@@ -118,6 +118,7 @@ jobs:
         operating-system: [windows-2019]
         php-versions: ['8.0']
         laravel-versions: ['^6.0', '^7.0', '^8.0']
+        extensions: pdo_sqlite,sqlite3,
     steps:
       - name: Checkout
         uses: actions/checkout@v2
