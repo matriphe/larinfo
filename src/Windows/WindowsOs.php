@@ -3,12 +3,10 @@
 namespace Matriphe\Larinfo\Windows;
 
 use Linfo\OS\Windows;
+use Matriphe\Larinfo\Entities\OperatingSystemContract;
 
-class WindowsOs extends Windows
+class WindowsOs extends Windows implements OperatingSystemContract
 {
-    private const OS_WIN = 'Windows';
-    private const NAME_WIN = 'Microsoft Windows';
-
     /**
      * @var WindowsUname
      */
@@ -28,7 +26,7 @@ class WindowsOs extends Windows
      */
     public function getOS()
     {
-        return self::OS_WIN;
+        return self::OS_WINDOWS;
     }
 
     /**
@@ -37,11 +35,8 @@ class WindowsOs extends Windows
     public function getDistro()
     {
         return [
-            'name' => self::NAME_WIN,
-            'version' => trim(implode(' ', [
-                php_uname('r'), // release
-                php_uname('v'), // version
-            ])),
+            self::DISTRO_NAME => self::NAME_WINDOWS,
+            self::DISTRO_VERSION => $this->uname->getVersion(),
         ];
     }
 
@@ -50,7 +45,7 @@ class WindowsOs extends Windows
      */
     public function getKernel()
     {
-        return 'Unknown';
+        return $this->uname->getKernel();
     }
 
     /**
@@ -58,7 +53,7 @@ class WindowsOs extends Windows
      */
     public function getCPUArchitecture()
     {
-        return php_uname('m'); // machine name
+        return $this->uname->getMachine();
     }
 
     /**

@@ -20,6 +20,7 @@ use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Entities\ServerInfo;
 use Matriphe\Larinfo\Entities\SystemInfo;
 use Matriphe\Larinfo\Larinfo;
+use Matriphe\Larinfo\Windows\WindowsOs;
 use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 use Mockery;
 
@@ -312,17 +313,37 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
             ],
             'windows' => [
                 'os' => Mockery::mock(Windows::class, [
-                    'getOS' => 'Windows',
+                    'getOS' => 'Microsoft Windows 10 Enterprise Evaluation',
                     'getKernel' => '19.6.0',
-                    'getCPUArchitecture' => 'x86_64',
+                    'getCPUArchitecture' => 'x64',
                     'getWebService' => 'nginx/1.19.8',
                     'getPhpVersion' => '8.0.3',
                 ]),
                 'expected' => [
                     'os' => 'Windows',
-                    'distro' => '',
+                    'distro' => 'Microsoft Windows 10 Enterprise Evaluation',
                     'kernel' => '19.6.0',
-                    'arc' => 'x86_64',
+                    'arc' => 'x64',
+                    'webserver' => 'nginx/1.19.8',
+                    'php' => '8.0.3',
+                ],
+            ],
+            'windows os' => [
+                'os' => Mockery::mock(WindowsOs::class, [
+                    'getDistro' => [
+                        'name' => 'Microsoft Windows',
+                        'version' => '10.0',
+                    ],
+                    'getKernel' => '19.6.0',
+                    'getCPUArchitecture' => 'AMD64',
+                    'getWebService' => 'nginx/1.19.8',
+                    'getPhpVersion' => '8.0.3',
+                ]),
+                'expected' => [
+                    'os' => 'Windows',
+                    'distro' => 'Microsoft Windows 10.0',
+                    'kernel' => '19.6.0',
+                    'arc' => 'AMD64',
                     'webserver' => 'nginx/1.19.8',
                     'php' => '8.0.3',
                 ],

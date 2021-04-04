@@ -139,13 +139,6 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'expectedDistroName' => 'MacOS',
                 'expectedDistroVersion' => 'X',
             ],
-            'windows returns empty' => [
-                'parser' => Mockery::mock(Windows::class),
-                'expectedDistro' => [],
-                'expectedDistroString' => '',
-                'expectedDistroName' => '',
-                'expectedDistroVersion' => '',
-            ],
             'linux returns empty' => [
                 'parser' => Mockery::mock(Linux::class, [
                     'getDistro' => ['name' => 'Ubuntu', 'version' => '20.04'],
@@ -164,13 +157,37 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'expectedDistroName' => 'Ubuntu',
                 'expectedDistroVersion' => '',
             ],
-            'windows os returns empty' => [
-                'parser' => Mockery::mock(WindowsOs::class, [
-                    'getDistro' => ['name' => 'Windows', 'version' => '10'],
+            'windows returns empty' => [
+                'parser' => Mockery::mock(Windows::class, [
+                    'getOS' => '',
                 ]),
-                'expectedDistro' => ['name' => 'Windows', 'version' => '10'],
-                'expectedDistroString' => 'Windows 10',
-                'expectedDistroName' => 'Windows',
+                'expectedDistro' => [
+                    'name' => 'Microsoft Windows',
+                    'version' => '',
+                ],
+                'expectedDistroString' => 'Microsoft Windows',
+                'expectedDistroName' => 'Microsoft Windows',
+                'expectedDistroVersion' => '',
+            ],
+            'windows returns windows' => [
+                'parser' => Mockery::mock(Windows::class, [
+                    'getOS' => 'Microsoft Windows 10 Enterprise Evaluation',
+                ]),
+                'expectedDistro' => [
+                    'name' => 'Microsoft Windows',
+                    'version' => '10 Enterprise Evaluation',
+                ],
+                'expectedDistroString' => 'Microsoft Windows 10 Enterprise Evaluation',
+                'expectedDistroName' => 'Microsoft Windows',
+                'expectedDistroVersion' => '10 Enterprise Evaluation',
+            ],
+            'windows os returns windows' => [
+                'parser' => Mockery::mock(WindowsOs::class, [
+                    'getDistro' => ['name' => 'Microsoft Windows', 'version' => '10'],
+                ]),
+                'expectedDistro' => ['name' => 'Microsoft Windows', 'version' => '10'],
+                'expectedDistroString' => 'Microsoft Windows 10',
+                'expectedDistroName' => 'Microsoft Windows',
                 'expectedDistroVersion' => '10',
             ],
         ];

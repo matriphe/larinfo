@@ -8,14 +8,10 @@ use Linfo\OS\Linux;
 use Linfo\OS\Windows;
 use Matriphe\Larinfo\Windows\WindowsOs;
 
-final class ServerInfo extends LinfoEntity implements Arrayable
+final class ServerInfo extends LinfoEntity implements
+    Arrayable,
+    OperatingSystemContract
 {
-    public const DISTRO_NAME = 'name';
-    public const DISTRO_VERSION = 'version';
-    private const OS_UNKNOWN = 'Unknown';
-    private const OS_MAC = 'MacOS';
-    private const OS_WINDOWS = 'Windows';
-
     /**
      * @return string
      */
@@ -45,8 +41,8 @@ final class ServerInfo extends LinfoEntity implements Arrayable
             return $this->parseDarwinDistro($this->linfo);
         }
 
-        if ($this->linfo instanceof WindowsOs) {
-            return $this->linfo->getDistro();
+        if ($this->linfo instanceof Windows) {
+            return $this->parseWindowsDistro($this->linfo);
         }
 
         if (! $this->linfo instanceof Linux) {
@@ -187,5 +183,24 @@ final class ServerInfo extends LinfoEntity implements Arrayable
         $distro[self::DISTRO_VERSION] = $n[2];
 
         return $distro;
+    }
+
+    /**
+     * @param  Windows $os
+     * @return array
+     */
+    private function parseWindowsDistro(Windows $os): array
+    {
+        if ($os instanceof WindowsOs) {
+            return $os->getDistro();
+        }
+
+        $name = $os->getOS();
+        $version = str_replace(self::NAME_WINDOWS, '', $name);
+
+        return [
+            self::DISTRO_NAME => self::NAME_WINDOWS,
+            self::DISTRO_VERSION => trim($version),
+        ];
     }
 }
