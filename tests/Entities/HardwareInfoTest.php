@@ -8,6 +8,7 @@ use Linfo\OS\Linux;
 use Linfo\OS\Minix;
 use Linfo\OS\OS;
 use Linfo\OS\Windows;
+use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\HardwareInfo;
 use Mockery;
 
@@ -17,6 +18,18 @@ use Mockery;
  */
 final class HardwareInfoTest extends LinfoEntityTestCase
 {
+    /**
+     * @var StorageSizeConverter
+     */
+    private $converter;
+
+    protected function setUp():void
+    {
+        parent::setUp();
+
+        $this->converter = new StorageSizeConverter();
+    }
+
     /**
      * @return array[]
      */
@@ -145,7 +158,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
         string $expectedCpuString,
         int $expectedCpuCount
     ): void {
-        $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
+        $hardwareInfo = new HardwareInfo($this->setLinfo($parser), $this->converter);
         $this->assertEquals($expectedCpu, $hardwareInfo->getCpu());
         $this->assertEquals($expectedCpuString, $hardwareInfo->getCpuString());
         $this->assertEquals($expectedCpuCount, $hardwareInfo->getCpuCount());
@@ -179,7 +192,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
      */
     public function testGetModelReturnsCorrectValues(?OS $parser, string $expected): void
     {
-        $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
+        $hardwareInfo = new HardwareInfo($this->setLinfo($parser), $this->converter);
         $this->assertEquals($expected, $hardwareInfo->getModel());
     }
 
@@ -227,7 +240,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
         array $expectedVirtualization,
         string $expectedVirtualizationString
     ): void {
-        $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
+        $hardwareInfo = new HardwareInfo($this->setLinfo($parser), $this->converter);
         $this->assertEquals($expectedVirtualization, $hardwareInfo->getVirtualization());
         $this->assertEquals($expectedVirtualizationString, $hardwareInfo->getVirtualizationString());
     }
@@ -291,8 +304,8 @@ final class HardwareInfoTest extends LinfoEntityTestCase
      */
     public function testGetMemoryReturnsCorrectValues(?OS $parser, array $expected): void
     {
-        $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
-        $this->assertEquals($expected, $hardwareInfo->getMemory());
+        $hardwareInfo = new HardwareInfo($this->setLinfo($parser), $this->converter);
+        $this->assertEquals($expected, $hardwareInfo->getMemory()->toArray());
     }
 
     /**
@@ -344,8 +357,8 @@ final class HardwareInfoTest extends LinfoEntityTestCase
      */
     public function testGetDiskReturnsCorrectValues(?OS $parser, array $expected): void
     {
-        $hardwareInfo = new HardwareInfo($this->setLinfo($parser));
-        $this->assertEquals($expected, $hardwareInfo->getDisk());
+        $hardwareInfo = new HardwareInfo($this->setLinfo($parser), $this->converter);
+        $this->assertEquals($expected, $hardwareInfo->getDisk()->toArray());
     }
 
     /**
@@ -464,7 +477,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
      */
     public function testToArrayReturnsCorrectValues(?OS $parser, array $expected):void
     {
-        $serverInfo = new HardwareInfo($this->setLinfo($parser));
+        $serverInfo = new HardwareInfo($this->setLinfo($parser), $this->converter);
         $this->assertEquals($expected, $serverInfo->toArray());
     }
 }
