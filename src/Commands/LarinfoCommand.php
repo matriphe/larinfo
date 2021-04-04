@@ -53,11 +53,17 @@ class LarinfoCommand extends Command
         $systemInformation = $this->larinfo->serverInfoSoftware();
         $uptime = $this->larinfo->systemInfo();
         $hostInformation = $this->larinfo->hostIpInfo();
+        $hardwareInfo = $this->larinfo->serverInfoHardware();
+        $databaseInfo = $this->larinfo->databaseInfo();
 
         $data = [
             'Application' => [
                 ['PHP version', $systemInformation->getPhpVersion()],
                 ['Laravel version', app()->version()],
+            ],
+            'Database' => [
+                ['Engine', $databaseInfo->getDriver()],
+                ['Version', $databaseInfo->getVersion()],
             ],
             'Operating System' => [
                 ['Type', $systemInformation->getOS()],
@@ -82,17 +88,22 @@ class LarinfoCommand extends Command
                 ['Application', config('app.timezone')],
                 ['Server Location', $hostInformation->getTimezone()],
             ],
-        ];
-
-        $this->renderTable($data);
-
-        $hardwareInfo = $this->larinfo->serverInfoHardware();
-
-        $data = [
             'Hardware' => [
                 ['Model', $hardwareInfo->getModel()],
                 ['CPU count', $hardwareInfo->getCpuCount()],
                 ['CPU', $hardwareInfo->getCpuString()],
+            ],
+            'RAM' => [
+                ['Total', $hardwareInfo->getMemory()->getRAM()->getTotalHuman()],
+                ['Free', $hardwareInfo->getMemory()->getRAM()->getFreeHuman()],
+            ],
+            'SWAP' => [
+                ['Total', $hardwareInfo->getMemory()->getSWAP()->getTotalHuman()],
+                ['Free', $hardwareInfo->getMemory()->getSWAP()->getFreeHuman()],
+            ],
+            'Disk Space' => [
+                ['Total', $hardwareInfo->getDisk()->getTotalHuman()],
+                ['Free', $hardwareInfo->getDisk()->getFreeHuman()],
             ],
         ];
 
