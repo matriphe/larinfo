@@ -160,7 +160,7 @@ class Larinfo implements LarinfoContract, Arrayable
      */
     public function serverInfoHardware(): HardwareInfo
     {
-        return new HardwareInfo($this->linfo);
+        return new HardwareInfo($this->linfo, $this->converter);
     }
 
     /**

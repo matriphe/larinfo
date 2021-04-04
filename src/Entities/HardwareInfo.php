@@ -7,6 +7,8 @@ use Linfo\OS\Darwin;
 use Linfo\OS\FreeBSD;
 use Linfo\OS\Linux;
 use Linfo\OS\Minix;
+use Matriphe\Larinfo\Converters\StorageSizeConverter;
+use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 
 final class HardwareInfo extends LinfoEntity implements Arrayable
 {
@@ -21,6 +23,24 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
     private const MEM_FREE = 'free';
     private const VIRTUAL_TYPE = 'type';
     private const VIRTUAL_METHOD = 'method';
+
+    /**
+     * @var StorageSizeConverter
+     */
+    private StorageSizeConverter $converter;
+
+    /**
+     * @param LinfoWrapperContract $linfo
+     * @param StorageSizeConverter $converter
+     */
+    public function __construct(
+        LinfoWrapperContract $linfo,
+        StorageSizeConverter $converter
+    ) {
+        parent::__construct($linfo);
+
+        $this->converter = $converter;
+    }
 
     /**
      * @return array
@@ -122,59 +142,55 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
     }
 
     /**
-     * @return array|array[]
+     * @return MemoryInfo
      */
-    public function getMemory(): array
+    public function getMemory(): MemoryInfo
     {
-        $result = [
-            self::MEM_RAM => [
-                self::MEM_TOTAL => 0,
-                self::MEM_FREE => 0,
-            ],
-            self::MEM_SWAP => [
-                self::MEM_TOTAL => 0,
-                self::MEM_FREE => 0,
-            ],
-        ];
-
         if ($this->linfo === null || $this->linfo instanceof Minix) {
-            return $result;
+            return new MemoryInfo(
+                new StorageInfo(0, 0, $this->converter),
+                new StorageInfo(0, 0, $this->converter)
+            );
         }
 
         $memory = $this->linfo->getRam();
-        $result[self::MEM_RAM][self::MEM_TOTAL] = $memory['total'];
-        $result[self::MEM_RAM][self::MEM_FREE] = $memory['free'];
-        $result[self::MEM_SWAP][self::MEM_TOTAL] = $memory['swapTotal'] ?? 0;
-        $result[self::MEM_SWAP][self::MEM_FREE] = $memory['swapFree'] ?? 0;
 
-        return $result;
+        return new MemoryInfo(
+            new StorageInfo(
+                $memory['total'],
+                $memory['free'],
+                $this->converter
+            ),
+            new StorageInfo(
+                $memory['swapTotal'] ?? 0,
+                $memory['swapFree'] ?? 0,
+                $this->converter
+            )
+        );
     }
 
     /**
-     * @return int[]
+     * @return StorageInfo
      */
-    public function getDisk(): array
+    public function getDisk(): StorageInfo
     {
-        $result = [
-            self::MEM_TOTAL => 0,
-            self::MEM_FREE => 0,
-        ];
-
+        $total = 0;
+        $free = 0;
         if ($this->linfo === null) {
-            return $result;
+            return new StorageInfo($total, $free, $this->converter);
         }
 
         $mounts = $this->linfo->getMounts();
         if (empty($mounts)) {
-            return $result;
+            return new StorageInfo($total, $free, $this->converter);
         }
 
         foreach ($mounts as $mount) {
-            $result[self::MEM_TOTAL] += $mount['size'];
-            $result[self::MEM_FREE] += $mount['free'];
+            $total += $mount['size'];
+            $free += $mount['free'];
         }
 
-        return $result;
+        return new StorageInfo($total, $free, $this->converter);
     }
 
     /**
@@ -182,12 +198,15 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
      */
     public function toArray(): array
     {
-        return array_merge([
-            'cpu' => $this->getCpuString(),
-            'cpu_count' => $this->getCpuCount(),
-            'model' => $this->getModel(),
-            'virtualization' => $this->getVirtualizationString(),
-            'disk' => $this->getDisk(),
-        ], $this->getMemory());
+        return array_merge(
+            [
+                'cpu' => $this->getCpuString(),
+                'cpu_count' => $this->getCpuCount(),
+                'model' => $this->getModel(),
+                'virtualization' => $this->getVirtualizationString(),
+                'disk' => $this->getDisk()->toArray(),
+            ],
+            $this->getMemory()->toArray()
+        );
     }
 }
