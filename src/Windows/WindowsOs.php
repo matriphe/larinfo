@@ -7,12 +7,20 @@ use Linfo\OS\Windows;
 class WindowsOs extends Windows
 {
     private const OS_WIN = 'Windows';
+    private const NAME_WIN = 'Microsoft Windows';
 
     /**
-     * @param array $settings
+     * @var WindowsUname
      */
-    public function __construct(array $settings = [])
+    private WindowsUname $uname;
+
+    /**
+     * @param array        $settings
+     * @param WindowsUname $uname
+     */
+    public function __construct(array $settings, WindowsUname $uname)
     {
+        $this->uname = $uname;
     }
 
     /**
@@ -29,8 +37,11 @@ class WindowsOs extends Windows
     public function getDistro()
     {
         return [
-            'name' => self::OS_WIN,
-            'version' => '',
+            'name' => self::NAME_WIN,
+            'version' => trim(implode(' ', [
+                php_uname('r'), // release
+                php_uname('v'), // version
+            ])),
         ];
     }
 
@@ -47,7 +58,7 @@ class WindowsOs extends Windows
      */
     public function getCPUArchitecture()
     {
-        return 'Unknown';
+        return php_uname('m'); // machine name
     }
 
     /**

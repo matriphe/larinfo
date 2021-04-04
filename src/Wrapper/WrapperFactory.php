@@ -5,6 +5,7 @@ namespace Matriphe\Larinfo\Wrapper;
 use Linfo\Exceptions\FatalException;
 use Linfo\Linfo;
 use Matriphe\Larinfo\Windows\WindowsOs;
+use Matriphe\Larinfo\Windows\WindowsUname;
 use Matriphe\Larinfo\Windows\WindowsWrapper;
 
 class WrapperFactory
@@ -33,7 +34,7 @@ class WrapperFactory
 
             return new LinfoWrapper($linfo);
         } catch (FatalException $exception) {
-            $windows = new WindowsOs();
+            $windows = new WindowsOs($this->config, new WindowsUname());
 
             return new WindowsWrapper($windows);
         }
