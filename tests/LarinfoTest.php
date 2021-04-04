@@ -415,14 +415,20 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
                     'disk' => [
                         'total' => 0,
                         'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
                     ],
                     'ram' => [
                         'total' => 0,
                         'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
                     ],
                     'swap' => [
                         'total' => 0,
                         'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
                     ],
                 ],
             ],
@@ -443,14 +449,20 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
                     'disk' => [
                         'total' => 1000,
                         'free' => 500,
+                        'human_total' => '1 KB',
+                        'human_free' => '500 B',
                     ],
                     'ram' => [
                         'total' => 0,
                         'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
                     ],
                     'swap' => [
                         'total' => 0,
                         'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
                     ],
                 ],
             ],
@@ -489,14 +501,20 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
                     'disk' => [
                         'total' => 1000,
                         'free' => 500,
+                        'human_total' => '1 KB',
+                        'human_free' => '500 B',
                     ],
                     'ram' => [
                         'total' => 1500,
                         'free' => 500,
+                        'human_total' => '2 KB',
+                        'human_free' => '500 B',
                     ],
                     'swap' => [
                         'total' => 500,
                         'free' => 100,
+                        'human_total' => '500 B',
+                        'human_free' => '100 B',
                     ],
                 ],
             ],

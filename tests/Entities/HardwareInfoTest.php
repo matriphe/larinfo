@@ -254,15 +254,35 @@ final class HardwareInfoTest extends LinfoEntityTestCase
             'null returns empty' => [
                 'parser' => null,
                 'expected' => [
-                    'ram' => ['free' => 0, 'total' => 0],
-                    'swap' => ['free' => 0, 'total' => 0],
+                    'ram' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
+                    'swap' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
                 ],
             ],
             'minix returns empty' => [
                 'parser' => Mockery::mock(Minix::class),
                 'expected' => [
-                    'ram' => ['free' => 0, 'total' => 0],
-                    'swap' => ['free' => 0, 'total' => 0],
+                    'ram' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
+                    'swap' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
                 ],
             ],
             'windows returns ram only' => [
@@ -274,8 +294,18 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     ],
                 ]),
                 'expected' => [
-                    'ram' => ['free' => 4000000, 'total' => 8000000],
-                    'swap' => ['free' => 0, 'total' => 0],
+                    'ram' => [
+                        'total' => 8000000,
+                        'free' => 4000000,
+                        'human_total' => '8 MB',
+                        'human_free' => '4 MB',
+                    ],
+                    'swap' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
                 ],
             ],
             'os returns ram and swap' => [
@@ -290,8 +320,18 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     ],
                 ]),
                 'expected' => [
-                    'ram' => ['free' => 4000000, 'total' => 8000000],
-                    'swap' => ['free' => 2000000, 'total' => 4000000],
+                    'ram' => [
+                        'total' => 8000000,
+                        'free' => 4000000,
+                        'human_total' => '8 MB',
+                        'human_free' => '4 MB',
+                    ],
+                    'swap' => [
+                        'total' => 4000000,
+                        'free' => 2000000,
+                        'human_total' => '4 MB',
+                        'human_free' => '2 MB',
+                    ],
                 ],
             ],
         ];
@@ -316,7 +356,12 @@ final class HardwareInfoTest extends LinfoEntityTestCase
         return [
             'null returns empty' => [
                 'parser' => null,
-                'expected' => ['free' => 0, 'total' => 0],
+                'expected' => [
+                    'free' => 0,
+                    'total' => 0,
+                    'human_total' => '0 B',
+                    'human_free' => '0 B',
+                ],
             ],
             'os returns disk multiple' => [
                 'parser' => Mockery::mock(OS::class, [
@@ -333,7 +378,12 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                         ],
                     ],
                 ]),
-                'expected' => ['free' => 6000000, 'total' => 12000000],
+                'expected' => [
+                    'total' => 12000000,
+                    'free' => 6000000,
+                    'human_total' => '12 MB',
+                    'human_free' => '6 MB',
+                ],
             ],
             'os returns disk single' => [
                 'parser' => Mockery::mock(OS::class, [
@@ -345,7 +395,12 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                         ],
                     ],
                 ]),
-                'expected' => ['free' => 4000000, 'total' => 8000000],
+                'expected' => [
+                    'total' => 8000000,
+                    'free' => 4000000,
+                    'human_total' => '8 MB',
+                    'human_free' => '4 MB',
+                ],
             ],
         ];
     }
@@ -374,9 +429,24 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     'cpu_count' => 0,
                     'model' => '',
                     'virtualization' => '',
-                    'ram' => ['total' => 0, 'free' => 0],
-                    'swap' => ['total' => 0, 'free' => 0],
-                    'disk' => ['total' => 0, 'free' => 0],
+                    'ram' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
+                    'swap' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
+                    'disk' => [
+                        'total' => 0,
+                        'free' => 0,
+                        'human_total' => '0 B',
+                        'human_free' => '0 B',
+                    ],
                 ],
             ],
             'OS returns data' => [
@@ -418,9 +488,24 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     'cpu_count' => 2,
                     'model' => '',
                     'virtualization' => '',
-                    'ram' => ['total' => 8000000, 'free' => 4000000],
-                    'swap' => ['total' => 4000000, 'free' => 2000000],
-                    'disk' => ['total' => 8000000, 'free' => 4000000],
+                    'ram' => [
+                        'total' => 8000000,
+                        'free' => 4000000,
+                        'human_total' => '8 MB',
+                        'human_free' => '4 MB',
+                    ],
+                    'swap' => [
+                        'total' => 4000000,
+                        'free' => 2000000,
+                        'human_total' => '4 MB',
+                        'human_free' => '2 MB',
+                    ],
+                    'disk' => [
+                        'total' => 8000000,
+                        'free' => 4000000,
+                        'human_total' => '8 MB',
+                        'human_free' => '4 MB',
+                    ],
                 ],
             ],
             'darwin returns data' => [
@@ -462,9 +547,24 @@ final class HardwareInfoTest extends LinfoEntityTestCase
                     'cpu_count' => 2,
                     'model' => 'MacBook Pro',
                     'virtualization' => 'Docker',
-                    'ram' => ['total' => 8000000, 'free' => 4000000],
-                    'swap' => ['total' => 4000000, 'free' => 2000000],
-                    'disk' => ['total' => 8000000, 'free' => 4000000],
+                    'ram' => [
+                        'total' => 8000000,
+                        'free' => 4000000,
+                        'human_total' => '8 MB',
+                        'human_free' => '4 MB',
+                        ],
+                    'swap' => [
+                        'total' => 4000000,
+                        'free' => 2000000,
+                        'human_total' => '4 MB',
+                        'human_free' => '2 MB',
+                    ],
+                    'disk' => [
+                        'total' => 8000000,
+                        'free' => 4000000,
+                        'human_total' => '8 MB',
+                        'human_free' => '4 MB',
+                    ],
                 ],
             ],
         ];

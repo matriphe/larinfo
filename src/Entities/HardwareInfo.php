@@ -17,10 +17,6 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
     private const CPU_CLOCK_MHZ = 'clock_mhz';
     private const CPU_USAGE_PERCENTAGE = 'usage_percentage';
     private const CPU_SEPARATOR = ' / ';
-    private const MEM_RAM = 'ram';
-    private const MEM_SWAP = 'swap';
-    private const MEM_TOTAL = 'total';
-    private const MEM_FREE = 'free';
     private const VIRTUAL_TYPE = 'type';
     private const VIRTUAL_METHOD = 'method';
 
@@ -28,18 +24,32 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
      * @var StorageSizeConverter
      */
     private StorageSizeConverter $converter;
+    /**
+     * @var int
+     */
+    private int $precision;
+    /**
+     * @var bool
+     */
+    private bool $useBinary;
 
     /**
      * @param LinfoWrapperContract $linfo
      * @param StorageSizeConverter $converter
+     * @param int                  $precision
+     * @param bool                 $useBinary
      */
     public function __construct(
         LinfoWrapperContract $linfo,
-        StorageSizeConverter $converter
+        StorageSizeConverter $converter,
+        int $precision = 0,
+        bool $useBinary = false
     ) {
         parent::__construct($linfo);
 
         $this->converter = $converter;
+        $this->precision = $precision;
+        $this->useBinary = $useBinary;
     }
 
     /**
@@ -148,8 +158,20 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
     {
         if ($this->linfo === null || $this->linfo instanceof Minix) {
             return new MemoryInfo(
-                new StorageInfo(0, 0, $this->converter),
-                new StorageInfo(0, 0, $this->converter)
+                new StorageInfo(
+                    0,
+                    0,
+                    $this->converter,
+                    $this->precision,
+                    $this->useBinary
+                ),
+                new StorageInfo(
+                    0,
+                    0,
+                    $this->converter,
+                    $this->precision,
+                    $this->useBinary
+                ),
             );
         }
 
@@ -159,12 +181,16 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
             new StorageInfo(
                 $memory['total'],
                 $memory['free'],
-                $this->converter
+                $this->converter,
+                $this->precision,
+                $this->useBinary
             ),
             new StorageInfo(
                 $memory['swapTotal'] ?? 0,
                 $memory['swapFree'] ?? 0,
-                $this->converter
+                $this->converter,
+                $this->precision,
+                $this->useBinary
             )
         );
     }
@@ -177,12 +203,24 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
         $total = 0;
         $free = 0;
         if ($this->linfo === null) {
-            return new StorageInfo($total, $free, $this->converter);
+            return new StorageInfo(
+                $total,
+                $free,
+                $this->converter,
+                $this->precision,
+                $this->useBinary
+            );
         }
 
         $mounts = $this->linfo->getMounts();
         if (empty($mounts)) {
-            return new StorageInfo($total, $free, $this->converter);
+            return new StorageInfo(
+                $total,
+                $free,
+                $this->converter,
+                $this->precision,
+                $this->useBinary
+            );
         }
 
         foreach ($mounts as $mount) {
@@ -190,7 +228,13 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
             $free += $mount['free'];
         }
 
-        return new StorageInfo($total, $free, $this->converter);
+        return new StorageInfo(
+            $total,
+            $free,
+            $this->converter,
+            $this->precision,
+            $this->useBinary
+        );
     }
 
     /**

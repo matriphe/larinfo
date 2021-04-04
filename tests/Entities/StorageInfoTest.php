@@ -51,7 +51,13 @@ class StorageInfoTest extends TestCase
         string $totalHuman,
         string $freeHuman
     ) {
-        $storage = new StorageInfo($total, $free, new StorageSizeConverter());
+        $storage = new StorageInfo(
+            $total,
+            $free,
+            new StorageSizeConverter(),
+            $precision,
+            $useBinary
+        );
 
         $this->assertEquals($total, $storage->getTotal());
         $this->assertEquals($free, $storage->getFree());

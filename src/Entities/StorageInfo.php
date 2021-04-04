@@ -19,21 +19,35 @@ class StorageInfo implements Arrayable
      * @var StorageSizeConverter
      */
     private StorageSizeConverter $converter;
+    /**
+     * @var int
+     */
+    private int $precision;
+    /**
+     * @var bool
+     */
+    private bool $useBinary;
 
     /**
      * StorageInfo constructor.
      * @param int                  $total
      * @param int                  $free
+     * @param int                  $precision
+     * @param bool                 $useBinary
      * @param StorageSizeConverter $converter
      */
     public function __construct(
         int $total,
         int $free,
-        StorageSizeConverter $converter
+        StorageSizeConverter $converter,
+        int $precision = 0,
+        bool $useBinary = false
     ) {
         $this->total = $total;
         $this->free = $free;
         $this->converter = $converter;
+        $this->precision = $precision;
+        $this->useBinary = $useBinary;
     }
 
     /**
@@ -53,23 +67,19 @@ class StorageInfo implements Arrayable
     }
 
     /**
-     * @param  int    $precision
-     * @param  bool   $useBinary
      * @return string
      */
-    public function getTotalHuman(int $precision = 0, bool $useBinary = true):string
+    public function getTotalHuman():string
     {
-        return $this->converter->toHuman($this->total, $precision, $useBinary);
+        return $this->converter->toHuman($this->total, $this->precision, $this->useBinary);
     }
 
     /**
-     * @param  int    $precision
-     * @param  bool   $useBinary
      * @return string
      */
-    public function getFreeHuman(int $precision = 0, bool $useBinary = true): string
+    public function getFreeHuman(): string
     {
-        return $this->converter->toHuman($this->free, $precision, $useBinary);
+        return $this->converter->toHuman($this->free, $this->precision, $this->useBinary);
     }
 
     /**
@@ -80,6 +90,8 @@ class StorageInfo implements Arrayable
         return [
             'total' => $this->total,
             'free' => $this->free,
+            'human_total' => $this->getTotalHuman(),
+            'human_free' => $this->getFreeHuman(),
         ];
     }
 }

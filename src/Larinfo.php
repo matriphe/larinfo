@@ -41,6 +41,14 @@ class Larinfo implements LarinfoContract, Arrayable
      * @var StorageSizeConverter
      */
     private StorageSizeConverter $converter;
+    /**
+     * @var int
+     */
+    private int $precision;
+    /**
+     * @var bool
+     */
+    private bool $useBinary;
 
     /**
      * @param Ipinfo                       $ipinfo
@@ -49,6 +57,8 @@ class Larinfo implements LarinfoContract, Arrayable
      * @param Database                     $database
      * @param IpAddressChecker             $ipAddressChecker
      * @param StorageSizeConverter         $converter
+     * @param int                          $precision
+     * @param bool                         $useBinary
      */
     public function __construct(
         Ipinfo $ipinfo,
@@ -56,7 +66,9 @@ class Larinfo implements LarinfoContract, Arrayable
         LinfoWrapperContract $linfo,
         Database $database,
         IpAddressChecker $ipAddressChecker,
-        StorageSizeConverter $converter
+        StorageSizeConverter $converter,
+        int $precision = 0,
+        bool $useBinary = true
     ) {
         $this->ipinfo = $ipinfo;
         $this->request = $request;
@@ -64,6 +76,8 @@ class Larinfo implements LarinfoContract, Arrayable
         $this->database = $database;
         $this->ipAddressChecker = $ipAddressChecker;
         $this->converter = $converter;
+        $this->precision = $precision;
+        $this->useBinary = $useBinary;
     }
 
     /**
