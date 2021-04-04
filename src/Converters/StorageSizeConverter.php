@@ -15,8 +15,12 @@ class StorageSizeConverter
      * @param  bool   $useBinary
      * @return string
      */
-    public function toHuman(int $num, int $precision = 0, bool $useBinary = true): string
+    public function toHuman(int $num, int $precision = 0, bool $useBinary = false): string
     {
+        if ($num === 0) {
+            return sprintf('%s B', number_format(0, $precision));
+        }
+
         $divider = 1024; // use binary
         $units = self::UNIT_BIN;
         if (! $useBinary) {

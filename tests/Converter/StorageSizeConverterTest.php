@@ -17,6 +17,8 @@ class StorageSizeConverterTest extends TestCase
     public function data(): array
     {
         return [
+            ['num' => 0, 'precision' => 0, 'useBinary' => true, 'human' => '0 B'],
+            ['num' => 0, 'precision' => 0, 'useBinary' => false, 'human' => '0 B'],
             ['num' => 5, 'precision' => 0, 'useBinary' => true, 'human' => '5 B'],
             ['num' => 5, 'precision' => 0, 'useBinary' => false, 'human' => '5 B'],
             ['num' => 1024, 'precision' => 0, 'useBinary' => true, 'human' => '1 KiB'],
