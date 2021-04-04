@@ -236,7 +236,9 @@ class Larinfo implements LarinfoContract, Arrayable
      */
     private function getServerIpAddress(): string
     {
-        return $this->request->server('LOCAL_ADDR')
+        $ipAddress = $this->request->server('LOCAL_ADDR')
             ?? $this->request->server('SERVER_ADDR');
+
+        return trim($ipAddress);
     }
 }
