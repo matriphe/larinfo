@@ -13,6 +13,7 @@ use Linfo\OS\Linux;
 use Linfo\OS\Minix;
 use Linfo\OS\OS;
 use Linfo\OS\Windows;
+use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\DatabaseInfo;
 use Matriphe\Larinfo\Entities\GeoIpInfo;
 use Matriphe\Larinfo\Entities\HardwareInfo;
@@ -49,6 +50,10 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
      * @var IpAddressChecker
      */
     private $ipAddressChecker;
+    /**
+     * @var StorageSizeConverter
+     */
+    private $converter;
 
     protected function setUp(): void
     {
@@ -59,6 +64,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
         $this->linfo = Mockery::mock(LinfoWrapperContract::class);
         $this->database = Mockery::mock(Manager::class);
         $this->ipAddressChecker = new IpAddressChecker();
+        $this->converter = new StorageSizeConverter();
     }
 
     protected function tearDown(): void
@@ -606,7 +612,8 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
             $this->request,
             $this->linfo,
             $this->database,
-            $this->ipAddressChecker
+            $this->ipAddressChecker,
+            $this->converter
         );
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Matriphe\Larinfo\Commands\LarinfoCommand;
+use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Wrapper\WrapperFactory;
 
@@ -49,7 +50,8 @@ class LarinfoServiceProvider extends ServiceProvider
                 Request::capture(),
                 (new WrapperFactory($linfoConfig))->getWrapper(),
                 $this->getDatabase($dbConfig),
-                new IpAddressChecker()
+                new IpAddressChecker(),
+                new StorageSizeConverter()
             );
         });
     }

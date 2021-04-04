@@ -6,6 +6,7 @@ use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Capsule\Manager as Database;
 use Illuminate\Http\Request;
+use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\DatabaseInfo;
 use Matriphe\Larinfo\Entities\GeoIpInfo;
 use Matriphe\Larinfo\Entities\HardwareInfo;
@@ -36,6 +37,10 @@ class Larinfo implements LarinfoContract, Arrayable
      * @var IpAddressChecker
      */
     private IpAddressChecker $ipAddressChecker;
+    /**
+     * @var StorageSizeConverter
+     */
+    private StorageSizeConverter $converter;
 
     /**
      * @param Ipinfo                       $ipinfo
@@ -43,19 +48,22 @@ class Larinfo implements LarinfoContract, Arrayable
      * @param Wrapper\LinfoWrapperContract $linfo
      * @param Database                     $database
      * @param IpAddressChecker             $ipAddressChecker
+     * @param StorageSizeConverter         $converter
      */
     public function __construct(
         Ipinfo $ipinfo,
         Request $request,
         LinfoWrapperContract $linfo,
         Database $database,
-        IpAddressChecker $ipAddressChecker
+        IpAddressChecker $ipAddressChecker,
+        StorageSizeConverter $converter
     ) {
         $this->ipinfo = $ipinfo;
         $this->request = $request;
         $this->linfo = $linfo;
         $this->database = $database;
         $this->ipAddressChecker = $ipAddressChecker;
+        $this->converter = $converter;
     }
 
     /**
