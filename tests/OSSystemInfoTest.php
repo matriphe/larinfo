@@ -65,7 +65,7 @@ class OSSystemInfoTest extends TestCase
 
         $this->assertEquals('Linux', $info->getOS());
         $this->assertEquals('Ubuntu', $info->getDistroName());
-        $this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
+        $this->assertNotEmpty($info->getKernel());
         $this->assertEquals('x86_64', $info->getArch());
     }
 
