@@ -30,10 +30,10 @@ class LarinfoCommand extends Command
      */
     private $larinfo;
 
-    /**
-     * Create a new command instance.
-     *
-     */
+	/**
+	 * Create a new command instance.
+	 * @param  LarinfoContract  $larinfo
+	 */
     public function __construct(LarinfoContract $larinfo)
     {
         parent::__construct();
