@@ -1,0 +1,6 @@
+env:
+  - DB_CONNECTION="sqlite"
+  - DB_DATABASE=":memory:"
+
+providers:
+  - Matriphe\Larinfo\LarinfoServiceProvider
