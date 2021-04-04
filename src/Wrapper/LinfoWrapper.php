@@ -10,7 +10,7 @@ class LinfoWrapper implements LinfoWrapperContract
     /**
      * @var Linfo
      */
-    private $linfo;
+    private Linfo $linfo;
 
     /**
      * @param Linfo $linfo

@@ -13,7 +13,7 @@ class WrapperFactory
     /**
      * @var array
      */
-    private $config;
+    private array $config;
 
     /**
      * WrapperFactory constructor.

@@ -11,7 +11,7 @@ class WindowsWrapper implements LinfoWrapperContract
     /**
      * @var Windows
      */
-    private $windows;
+    private Windows $windows;
 
     /**
      * @param Windows $windows
