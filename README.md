@@ -1,6 +1,6 @@
 # Larinfo
 
-![Larinfo](https://github.com/matriphe/larinfo/workflows/Larinfo/badge.svg)
+[![Larinfo](https://github.com/matriphe/larinfo/actions/workflows/larinfo.yml/badge.svg)](https://github.com/matriphe/larinfo/actions/workflows/larinfo.yml)
 [![Total Download](https://img.shields.io/packagist/dt/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 
