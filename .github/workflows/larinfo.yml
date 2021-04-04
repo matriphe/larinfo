@@ -118,7 +118,6 @@ jobs:
         operating-system: [windows-2019]
         php-versions: ['8.0']
         laravel-versions: ['^6.0', '^7.0', '^8.0']
-        extensions: pdo_sqlite,sqlite3,
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -126,6 +125,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          extensions: pdo_sqlite,sqlite3
       - name: Check PHP Version and Modules
         run: php -v && php -m
       - name: Cache Composer packages
