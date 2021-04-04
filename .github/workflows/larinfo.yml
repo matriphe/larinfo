@@ -1,15 +1,15 @@
 name: Larinfo
 on: [push, pull_request]
 jobs:
-  laravel-5:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+  ubuntu-laravel-5-6:
+    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.1', '7.2', '7.3']
-        laravel-versions: ['5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
+        php-versions: ['7.4']
+        laravel-versions: ['5.7.*', '5.8.*', '^6.20']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -17,29 +17,33 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
-      - name: Run test
-        run: vendor/bin/phpunit
-  laravel-6-7:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+      - name: Run Unit Tests
+        run: php vendor/bin/phpunit --group unit
+      - name: Run Ubuntu Tests
+        run: php vendor/bin/phpunit --group ubuntu
+  ubuntu-laravel-7-8:
+    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4']
-        laravel-versions: ['^6.0', '^7.0']
+        php-versions: ['7.4', '8.0']
+        laravel-versions: ['^7.29', '^8.12']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -47,29 +51,35 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
-      - name: Run test
-        run: vendor/bin/phpunit
-  laravel-8:
-    name: Laravel ${{ matrix.laravel-versions }} (PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }})
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit --group unit
+      - name: Run Ubuntu Tests
+        run: vendor/bin/phpunit --group ubuntu
+      - name: Run Larinfo Command
+        run: php vendor/bin/testbench larinfo
+  macos-laravel-7-8:
+    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['7.3', '7.4']
-        laravel-versions: ['^8.0']
+        operating-system: [macos-10.15]
+        php-versions: ['8.0']
+        laravel-versions: ['^7.29', '^8.12']
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -77,17 +87,97 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
         with:
           path: vendor
-          key: ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
       - name: Install Laravel
         run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress
       - name: Update Composer dependencies
         run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader
-      - name: Run test
-        run: vendor/bin/phpunit
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit --group unit
+      - name: Run MacOS Tests
+        run: vendor/bin/phpunit --group macos
+      - name: Run Larinfo Command
+        run: php vendor/bin/testbench larinfo
+  windows-laravel-7-8:
+    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} without com_dotnet
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [windows-2019]
+        php-versions: ['8.0']
+        laravel-versions: ['^7.29', '^8.12']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP with Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: pdo_sqlite,sqlite3
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+      - name: Install Laravel
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-reqs
+      - name: Update Composer dependencies
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit --group unit
+      - name: Run Windows Tests
+        run: vendor/bin/phpunit --group windows
+      - name: Run Larinfo Command
+        run: php vendor/bin/testbench larinfo
+  windows-with-com-dotnet-laravel-7-8:
+    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} with com_dotnet
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [windows-2019]
+        php-versions: ['8.0']
+        laravel-versions: ['^7.29', '^8.12']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP with Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: pdo_sqlite,sqlite3,com_dotnet
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+      - name: Install Laravel
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-reqs
+      - name: Update Composer dependencies
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit --group unit
+      - name: Run Windows Tests
+        run: vendor/bin/phpunit --group windows
+      - name: Run Larinfo Command
+        run: php vendor/bin/testbench larinfo

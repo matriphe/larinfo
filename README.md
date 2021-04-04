@@ -1,44 +1,61 @@
 # Larinfo
 
-![Larinfo](https://github.com/matriphe/larinfo/workflows/Larinfo/badge.svg)
+[![Larinfo](https://github.com/matriphe/larinfo/actions/workflows/larinfo.yml/badge.svg)](https://github.com/matriphe/larinfo/actions/workflows/larinfo.yml)
 [![Total Download](https://img.shields.io/packagist/dt/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 [![Latest Stable Version](https://img.shields.io/packagist/v/matriphe/larinfo.svg)](https://packagist.org/packages/matriphe/larinfo)
 
-Larinfo provide system information for Laravel 5+ application. It show IP address information for host and client, server software versions, and hardware information.
+Larinfo provide system information for Laravel. 
+
+It wraps [Linfo](https://github.com/jrgp/linfo) to show IP address information on the server and client side, server software versions, and hardware information.
+
+## Requirements
+
+- **PHP version**: `^7.4` and `^8.0`.
+- **Laravel version**: `5.7.*`, `5.8.*`, `^6.0`, `^7.0`, and `^8.0`.
+
+### For Windows User
+
+It is recommended to [enable `com_dotnet` extension](https://www.php.net/manual/en/com.installation.php) to get more accurate information.
+
+In your `php.ini` file, add this line, and make sure you have `php_com_dotnet.dll` in your PHP `ext` directory.
+```ini
+extension=com_dotnet
+```
 
 ## Installation
 
 To install using [Composer](https://getcomposer.org/), just run this command below.
 
-### For Laravel > 5.6
-
-```bash
+```shell
 composer require matriphe/larinfo
 ```
+### Older Version
 
-### For Laravel < 5.6
+For older version, **[please check version 2.x](https://github.com/matriphe/larinfo/tree/2.2)** which supports Laravel `5.0`, `5.1`, `5.2`, `5.3`, `5.4`, `5.5`, and `5.6`.
 
-```bash
-composer require matriphe/larinfo:1.0.2
+### Configuration
+
+To publish the config (optional) run this command below.
+
+```shell
+php artisan vendor:publish
 ```
 
-### For Laravel 5.0, 5.1, 5.2, 5.3, and 5.4
+Then select the number that points to `Matriphe\Larinfo\LarinfoServiceProvider` provider.
 
-Open the `config/app.php` and add this line in `providers` section.
+The new config will be placed in `config/larinfo.php`.
+
+#### Service Configuration
+
+IP address information is taken using [ipinfo.io](http://ipinfo.io/) service. If you've registered and has access token, put your token in the `config/services.php` inside the `ipinfo` variable.
 
 ```php
-Matriphe\Larinfo\LarinfoServiceProvider::class,
+'ipinfo' => [
+    'token'  => 'your_ipinfo_token',
+]
 ```
 
-Still on `config/app.php` file, add this line in `aliases` section.
-
-```php
-'Larinfo' => Matriphe\Larinfo\LarinfoFacade::class,
-```
-
-### For Laravel > 5.5
-
-Nothing to do. It uses Laravel's package auto discovery.
+If you don't want to hit ipinfo.io rate limit, it is recommended to cache it using Laravel built-in cache.
 
 ## Usage
 
@@ -50,20 +67,12 @@ use Larinfo;
 $larinfo = Larinfo::getInfo();
 ```
 
-If you don't want to use facade, just create the implementation of `Matriphe\Larinfo\Larinfo` class.
-
-```php
-use Matriphe\Larinfo\Larinfo;
-
-$larinfo = (new Larinfo())->getInfo();
-```
-
-Result of that command is shown below.
+The result of that command is shown below.
 
 ```php
 $larinfo = [
    'host'=> [
-       'city'=> '104.20.8.94',
+       'city'=> 'San Francisco',
        'country'=> 'US',
        'hostname'=> '',
        'ip'=> '104.20.8.94',
@@ -71,7 +80,8 @@ $larinfo = [
        'org'=> 'AS13335 Cloudflare, Inc.',
        'phone'=> '',
        'postal'=> '94107',
-       'region'=> ''
+       'region'=> 'California',
+       'timezone' => 'America/Los_Angeles',
    ],
    'client'=> [
        'city'=> 'Bekasi',
@@ -86,41 +96,47 @@ $larinfo = [
    ],
    'server'=> [
        'software'=> [
-           'os'=> 'Darwin (macOS 10.12.6 )',
-           'distro'=> '',
-           'kernel'=> '16.7.0',
+           'os'=> 'MacOS',
+           'distro'=> 'MacOS 10.15.7',
+           'kernel'=> '19.6.0',
            'arc'=> 'x86_64',
-           'webserver'=> 'nginx/1.12.0',
-           'php'=> '7.0.20'
+           'webserver'=> 'nginx/1.19.8',
+           'php'=> '8.0.3'
        ],
        'hardware'=> [
            'cpu'=> 'Intel® Core™ i5-3210M CPU @ 2.50GHz',
            'cpu_count'=> 4,
-           'model'=> 'MacBook Pro',
+           'model'=> 'Apple device',
            'virtualization'=> '',
            'ram'=> [
                'total'=> 8589934592,
-               'free'=> 8578883584
+               'free'=> 8578883584,
+               'human_total' => '8.0 GiB',
+               'human_free' => '15.0 MiB',
            ],
            'swap'=> [
-               'total'=> 4294967296,
-               'free'=> 747110400
+               'total'=> 2147483648,
+               'free'=> 426246144,
+               'human_total' => '2.0 GiB',
+               'human_free' => '406.5 MiB',
            ],
            'disk'=> [
-               'total'=> 754593608704,
-               'free'=> 265534066688
+               'total'=> 2999590176768,
+               'free'=> 1879852326912,
+               'human_total' => '2.7 TiB',
+               'human_free' => '1.7 TiB',
            ]
        ],
        'uptime'=> [
-           'uptime'=> '4 days, 8 hours, 38 seconds',
-           'booted_at'=> '2017-07-28 07:12:21'
+           'uptime'=> '2 days, 12 hours, 13 minutes, 43 seconds',
+           'booted_at'=> '2021-04-02 15:27:54'
        ]
    ],
    'database'=> [
        'driver'=> 'MySQL',
-       'version'=> '5.7.18'
+       'version'=> '8.0.22'
    ]
-]
+];
 ```
 
 Other method you can use are:
@@ -133,17 +149,80 @@ Other method you can use are:
 * `getServerInfo` to get server info (`Larinfo::getServerInfo()`)
 * `getDatabaseInfo` to get database info (`Larinfo::getDatabaseInfo()`)
 
-### Config
+### Artisan Command
 
-IP information is taken using [ipinfo.io](http://ipinfo.io/) service. If you've registered and has token access, put your token in the `config/services.php` in `ipinfo` variable.
+You also can check using `larinfo` artisan command, by running this command below.
 
-```php
-'ipinfo' => [
-    'token'  => 'your_ipinfo_token',
-],
+```shell
+php artisan larinfo
 ```
 
-If you don't want to hit ipinfo.io rate limit, you can cache it using Laravel built-in cache.
+The example of the result is shown below.
+
+```
+Larinfo
+=======
+
++--------------------+------------------------------------------+
+| Application                                                   |
++--------------------+------------------------------------------+
+| PHP version        | 8.0.3                                    |
+| Laravel version    | 8.35.1                                   |
++--------------------+------------------------------------------+
+| Database                                                      |
++--------------------+------------------------------------------+
+| Engine             | MySQL                                    |
+| Version            | 8.0.22                                   |
++--------------------+------------------------------------------+
+| Operating System                                              |
++--------------------+------------------------------------------+
+| Type               | MacOS                                    |
+| Name               | MacOS 10.15.7                            |
+| Architecture       | x86_64                                   |
+| Kernel Version     | 19.6.0                                   |
++--------------------+------------------------------------------+
+| Uptime                                                        |
++--------------------+------------------------------------------+
+| Uptime             | 2 days, 12 hours, 13 minutes, 43 seconds |
+| First Boot         | 2021-04-02 15:27:54                      |
++--------------------+------------------------------------------+
+| Server                                                        |
++--------------------+------------------------------------------+
+| IP Address         | 104.20.8.94                              |
+| Private IP Address |                                          |
+| Hostname           | mue-88-130-49-204.dsl.cloudflare.com     |
+| Provider           | AS13335 Cloudflare, Inc.                 |
+| City               | San Francisco                            |
+| Region             | California                               |
+| Country            | US                                       |
++--------------------+------------------------------------------+
+| Timezone                                                      |
++--------------------+------------------------------------------+
+| Application        | Asia/Jakarta                             |
+| Server Location    | America/Los_Angeles                      |
++--------------------+------------------------------------------+
+| Hardware                                                      |
++--------------------+------------------------------------------+
+| Model              | Apple device                             |
+| CPU count          | 4                                        |
+| CPU                | Intel® Core™ i5-3210M CPU @ 2.50GHz      |
++--------------------+------------------------------------------+
+| RAM                                                           |
++--------------------+------------------------------------------+
+| Total              | 8.0 GiB                                  |
+| Free               | 15.0 MiB                                 |
++--------------------+------------------------------------------+
+| SWAP                                                          |
++--------------------+------------------------------------------+
+| Total              | 2.0 GiB                                  |
+| Free               | 406.5 MiB                                |
++--------------------+------------------------------------------+
+| Disk Space                                                    |
++--------------------+------------------------------------------+
+| Total              | 2.7 TiB                                  |
+| Free               | 1.7 TiB                                  |
++--------------------+------------------------------------------+
+```
 
 ## License
 

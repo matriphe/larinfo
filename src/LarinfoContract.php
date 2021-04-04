@@ -1,75 +1,97 @@
-<?php 
+<?php
 
 namespace Matriphe\Larinfo;
 
+use Matriphe\Larinfo\Entities\DatabaseInfo;
+use Matriphe\Larinfo\Entities\GeoIpInfo;
+use Matriphe\Larinfo\Entities\HardwareInfo;
+use Matriphe\Larinfo\Entities\ServerInfo;
+use Matriphe\Larinfo\Entities\SystemInfo;
+
 interface LarinfoContract
 {
-    public function setDatabaseConfig($connection = []);
+    /**
+     * Set database connection.
+     * @param  array           $connection
+     * @return LarinfoContract
+     */
+    public function setDatabaseConfig(array $connection = []): self;
 
     /**
-     * Set token for Ipinfo if exists.
-     *
-     * @access public
-     * @param string $token (default: null)
-     * @param bool   $debug (default: false)
+     * @return GeoIpInfo|null
      */
-    public function setIpinfoConfig($token = null, $debug = false);
+    public function hostIpInfo(): ?GeoIpInfo;
 
     /**
      * Get Host IP info.
-     *
-     * @access public
-     * @return arrah
+     * @return array
      */
-    public function getHostIpinfo();
+    public function getHostIpinfo(): array;
+
+    /**
+     * @return GeoIpInfo|null
+     */
+    public function clientIpInfo(): ?GeoIpInfo;
 
     /**
      * Get Client IP info.
-     *
-     * @access public
      * @return array
      */
-    public function getClientIpinfo();
+    public function getClientIpinfo(): array;
+
+    /**
+     * @return ServerInfo
+     */
+    public function serverInfoSoftware(): ServerInfo;
 
     /**
      * Get server software info.
-     *
-     * @access public
      * @return array
      */
-    public function getServerInfoSoftware();
+    public function getServerInfoSoftware(): array;
+
+    /**
+     * @return HardwareInfo
+     */
+    public function serverInfoHardware(): HardwareInfo;
 
     /**
      * Get server hardware info.
-     *
-     * @access public
      * @return array
      */
-    public function getServerInfoHardware();
+    public function getServerInfoHardware(): array;
+
+    /**
+     * @return SystemInfo
+     */
+    public function systemInfo(): SystemInfo;
 
     /**
      * Get server uptime.
-     *
-     * @access public
      * @return array
      */
-    public function getUptime();
+    public function getUptime(): array;
 
     /**
      * Get server info.
-     *
-     * @access public
      * @return array
      */
-    public function getServerInfo();
+    public function getServerInfo(): array;
 
-    public function getDatabaseInfo();
+    /**
+     * @return DatabaseInfo
+     */
+    public function databaseInfo(): DatabaseInfo;
+
+    /**
+     * Get database info.
+     * @return array
+     */
+    public function getDatabaseInfo(): array;
 
     /**
      * Get all info.
-     *
-     * @access public
      * @return array
      */
-    public function getInfo();
+    public function getInfo(): array;
 }
