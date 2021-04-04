@@ -631,7 +631,9 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
             $this->linfo,
             $this->database,
             $this->ipAddressChecker,
-            $this->converter
+            $this->converter,
+            0,
+            false
         );
     }
 }

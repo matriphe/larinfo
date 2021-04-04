@@ -42,7 +42,7 @@ class LarinfoServiceProvider extends ServiceProvider
 
         $this->app->singleton(LarinfoContract::class, function () {
             $ipinfoConfig = ['token' => config('services.ipinfo.token')];
-            $linfoConfig = config('larinfo.linfo');
+            $linfoConfig = config('larinfo.linfo', []);
             $dbConfig = config('database.connections.'.config('database.default'));
 
             return new Larinfo(
@@ -51,7 +51,9 @@ class LarinfoServiceProvider extends ServiceProvider
                 (new WrapperFactory($linfoConfig))->getWrapper(),
                 $this->getDatabase($dbConfig),
                 new IpAddressChecker(),
-                new StorageSizeConverter()
+                new StorageSizeConverter(),
+                config('larinfo.converter.precision', 1),
+                config('larinfo.converter.use_binary', true)
             );
         });
     }

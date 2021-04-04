@@ -17,8 +17,8 @@ return [
     */
 
     'converter' => [
-        'precision' => 0,
-        'use_binary' => false,
+        'precision' => 1,
+        'use_binary' => true,
     ],
 
     /*
