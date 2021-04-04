@@ -179,8 +179,8 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
 
         return new MemoryInfo(
             new StorageInfo(
-                $memory['total'],
-                $memory['free'],
+                $memory['total'] ?? 0,
+                $memory['free'] ?? 0,
                 $this->converter,
                 $this->precision,
                 $this->useBinary
