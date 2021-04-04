@@ -10,6 +10,8 @@ use Matriphe\Larinfo\Windows\WindowsOs;
 
 final class ServerInfo extends LinfoEntity implements Arrayable
 {
+    public const DISTRO_NAME = 'name';
+    public const DISTRO_VERSION = 'version';
     private const OS_UNKNOWN = 'Unknown';
     private const OS_MAC = 'MacOS';
     private const OS_WINDOWS = 'Windows';
@@ -57,8 +59,8 @@ final class ServerInfo extends LinfoEntity implements Arrayable
         }
 
         return [
-            'name' => $distro['name'] ?? '',
-            'version' => $distro['version'] ?? '',
+            self::DISTRO_NAME => $distro[self::DISTRO_NAME] ?? '',
+            self::DISTRO_VERSION => $distro[self::DISTRO_VERSION] ?? '',
         ];
     }
 
@@ -67,7 +69,7 @@ final class ServerInfo extends LinfoEntity implements Arrayable
      */
     public function getDistroName(): string
     {
-        return $this->getDistro()['name'] ?? '';
+        return $this->getDistro()[self::DISTRO_NAME] ?? '';
     }
 
     /**
@@ -75,7 +77,7 @@ final class ServerInfo extends LinfoEntity implements Arrayable
      */
     public function getDistroVersion(): string
     {
-        return $this->getDistro()['version'] ?? '';
+        return $this->getDistro()[self::DISTRO_VERSION] ?? '';
     }
 
     /**
@@ -88,7 +90,11 @@ final class ServerInfo extends LinfoEntity implements Arrayable
             return '';
         }
 
-        return trim(sprintf('%s %s', $distro['name'], $distro['version']));
+        return trim(sprintf(
+            '%s %s',
+            $distro[self::DISTRO_NAME],
+            $distro[self::DISTRO_VERSION]
+        ));
     }
 
     /**
@@ -155,17 +161,17 @@ final class ServerInfo extends LinfoEntity implements Arrayable
     }
 
     /**
-     * @param  Darwin   $linfo
+     * @param  Darwin   $os
      * @return string[]
      */
-    private function parseDarwinDistro(Darwin $linfo): array
+    private function parseDarwinDistro(Darwin $os): array
     {
         $distro = [
-            'name' => self::OS_MAC,
-            'version' => '',
+            self::DISTRO_NAME => self::OS_MAC,
+            self::DISTRO_VERSION => '',
         ];
 
-        $os = $linfo->getOS();
+        $os = $os->getOS();
         preg_match('/Darwin\s+\((.+)\)/i', $os, $m);
         if (empty($m) || empty($m[1])) {
             return $distro;
@@ -173,12 +179,12 @@ final class ServerInfo extends LinfoEntity implements Arrayable
 
         preg_match('/(.+)\s+(\d+\.\d+\.\d+)/i', $m[1], $n);
         if (empty($n) || empty($n[2])) {
-            $distro['version'] = 'X';
+            $distro[self::DISTRO_VERSION] = 'X';
 
             return $distro;
         }
 
-        $distro['version'] = $n[2];
+        $distro[self::DISTRO_VERSION] = $n[2];
 
         return $distro;
     }
