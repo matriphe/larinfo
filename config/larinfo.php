@@ -4,6 +4,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Converter
+    |--------------------------------------------------------------------------
+    |
+    | This configuration to set the size converter.
+    | Precision is the decimal precision.
+    | Use binary to get unit in binary (KiB) instead of decimal (KB).
+    | Example:
+    | - precision = 2, use_binary = false, will result 123.45 MB
+    | - precision = 1, use_binary = true, will result 123.5 MiB
+    |
+    */
+
+    'converter' => [
+        'precision' => 0,
+        'use_binary' => true,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Linfo Settings
     |--------------------------------------------------------------------------
     |
