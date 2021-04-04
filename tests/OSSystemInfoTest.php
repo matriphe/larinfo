@@ -5,6 +5,7 @@ namespace Matriphe\Larinfo\Tests;
 use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
+use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Larinfo;
 use Matriphe\Larinfo\Wrapper\WrapperFactory;
@@ -27,7 +28,10 @@ class OSSystemInfoTest extends TestCase
             Request::capture(),
             (new WrapperFactory())->getWrapper(),
             Mockery::mock(Manager::class),
-            new IpAddressChecker()
+            new IpAddressChecker(),
+            new StorageSizeConverter(),
+            0,
+            false
         );
     }
 

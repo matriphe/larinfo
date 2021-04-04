@@ -6,6 +6,9 @@ use Matriphe\Larinfo\Windows\WindowsUname;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @group unit
+ */
 class WindowsUnameTest extends TestCase
 {
     /**
