@@ -5,12 +5,14 @@ namespace Matriphe\Larinfo\Entities;
 use Illuminate\Contracts\Support\Arrayable;
 use Linfo\OS\Darwin;
 use Linfo\OS\Linux;
+use Linfo\OS\Windows;
 use Matriphe\Larinfo\Windows\WindowsOs;
 
 final class ServerInfo extends LinfoEntity implements Arrayable
 {
     private const OS_UNKNOWN = 'Unknown';
     private const OS_MAC = 'MacOS';
+    private const OS_WINDOWS = 'Windows';
 
     /**
      * @return string
@@ -23,6 +25,10 @@ final class ServerInfo extends LinfoEntity implements Arrayable
 
         if ($this->linfo instanceof Darwin) {
             return self::OS_MAC;
+        }
+
+        if ($this->linfo instanceof Windows) {
+            return self::OS_WINDOWS;
         }
 
         return $this->linfo->getOS();

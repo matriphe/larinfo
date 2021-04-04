@@ -54,6 +54,14 @@ final class ServerInfoTest extends LinfoEntityTestCase
                 'parser' => Mockery::mock(Darwin::class, ['getOS' => 'Darwin (Mac OS X)']),
                 'expected' => 'MacOS',
             ],
+            'windows returns windows' => [
+                'parser' => Mockery::mock(Windows::class),
+                'expected' => 'Windows',
+            ],
+            'windows os returns windows' => [
+                'parser' => Mockery::mock(WindowsOs::class),
+                'expected' => 'Windows',
+            ],
         ];
     }
 
