@@ -6,6 +6,7 @@ use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Matriphe\Larinfo\Commands\LarinfoCommand;
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use Matriphe\Larinfo\Wrapper\WrapperFactory;
 
@@ -22,6 +23,10 @@ class LarinfoServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.self::CONFIG_FILEPATH => config_path('larinfo.php'),
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([LarinfoCommand::class]);
+        }
     }
 
     /**
