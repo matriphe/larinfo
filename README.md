@@ -10,8 +10,8 @@ It wraps [Linfo](https://github.com/jrgp/linfo) to show IP address information o
 
 ## Requirements
 
-- **PHP version**: `^7.4` and `^8.0`.
-- **Laravel version**: `5.7.*`, `5.8.*`, `^6.0`, `^7.0`, and `^8.0`.
+- **PHP version**: `^8.0.2`.
+- **Laravel version**: `^9.0`.
 
 ### For Windows User
 
@@ -31,7 +31,8 @@ composer require matriphe/larinfo
 ```
 ### Older Version
 
-For older version, **[please check version 2.x](https://github.com/matriphe/larinfo/tree/2.2)** which supports Laravel `5.0`, `5.1`, `5.2`, `5.3`, `5.4`, `5.5`, and `5.6`.
+- Laravel `5.0`, `5.1`, `5.2`, `5.3`, `5.4`, `5.5`, and `5.6`, **[please use version 2.2](https://github.com/matriphe/larinfo/releases/tag/2.2)** by running `composer require matriphe/larinfo:2.2`.
+- Laravel `5.7.*`, `5.8.*`, `^6.0`, `^7.0`, and `^8.0`, **[please use version 3.0.0](https://github.com/matriphe/larinfo/releases/tag/3.0.0)** by running `composer require matriphe/larinfo:3.0.0`.
 
 ### Configuration
 

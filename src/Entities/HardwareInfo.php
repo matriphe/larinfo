@@ -69,7 +69,7 @@ final class HardwareInfo extends LinfoEntity implements Arrayable
             $results[] = [
                 self::CPU_MODEL => $model,
                 self::CPU_VENDOR => $cpu['Vendor'] ?? null,
-                self::CPU_CLOCK_MHZ => $cpu['MHz'],
+                self::CPU_CLOCK_MHZ => $cpu['MHz'] ?? '',
                 self::CPU_USAGE_PERCENTAGE => $cpu['usage_percentage'] ?? null,
             ];
         }
