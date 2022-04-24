@@ -21,7 +21,7 @@
         "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5"
     },
-    "license": "GPL-3.0",
+    "license": "MIT",
     "authors": [
         {
             "name": "Muhammad Zamroni",
