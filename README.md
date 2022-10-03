@@ -227,4 +227,4 @@ Larinfo
 
 ## License
 
-The GPLv3 License. Please see [License File](LICENSE.md) for more information.
+Please see [License File](LICENSE.md) for more information.
