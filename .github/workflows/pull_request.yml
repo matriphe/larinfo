@@ -18,7 +18,7 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['8.0']
-        laravel-versions: ['^9.0']
+        laravel-versions: [ '9.*' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -42,7 +42,7 @@ jobs:
       matrix:
         operating-system: [macos-10.15]
         php-versions: ['8.0']
-        laravel-versions: ['^9.0']
+        laravel-versions: [ '9.*' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -66,7 +66,7 @@ jobs:
       matrix:
         operating-system: [windows-2019]
         php-versions: ['8.0']
-        laravel-versions: ['^9.0']
+        laravel-versions: [ '9.*' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -114,7 +114,7 @@ jobs:
       matrix:
         operating-system: [windows-2019]
         php-versions: ['8.0']
-        laravel-versions: ['^9.0']
+        laravel-versions: [ '9.*' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
