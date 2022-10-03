@@ -191,7 +191,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '7.3', '7.4' ]
+        php-versions: [ '7.4' ]
         laravel-versions: [ '5.7.*', '^6.0', '^7.0', '^8.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
