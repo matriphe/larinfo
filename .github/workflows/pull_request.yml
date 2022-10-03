@@ -68,7 +68,7 @@ jobs:
         php-versions: ['8.0']
         laravel-versions: ['^9.0']
     steps:
-      - uses: matriphe/laravel-pkg-test-action@v2
+      - uses: matriphe/laravel-pkg-test-action@main
         with:
           operating_system: ${{ matrix.operating-system }}
           php_version: ${{ matrix.php-versions }}
@@ -77,6 +77,7 @@ jobs:
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
           php_extensions: pdo_sqlite,sqlite3
+          shell_name: pwsh
 
       - name: Run Windows Tests
         run: vendor/bin/phpunit --group windows
@@ -95,7 +96,7 @@ jobs:
         php-versions: ['8.0']
         laravel-versions: ['^9.0']
     steps:
-      - uses: matriphe/laravel-pkg-test-action@v2
+      - uses: matriphe/laravel-pkg-test-action@main
         with:
           operating_system: ${{ matrix.operating-system }}
           php_version: ${{ matrix.php-versions }}
@@ -104,6 +105,7 @@ jobs:
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
           php_extensions: pdo_sqlite,sqlite3,com_dotnet
+          shell_name: pwsh
 
       - name: Run Windows Tests
         run: vendor/bin/phpunit --group windows
