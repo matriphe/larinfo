@@ -123,7 +123,7 @@ jobs:
         laravel-versions: [ '^9.0' ]
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP with Composer
         uses: shivammathur/setup-php@v2
@@ -144,10 +144,10 @@ jobs:
             ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
 
       - name: Install Laravel
-        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-reqs
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-req=php+
 
       - name: Update Composer dependencies
-        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-req=php+
 
       - name: Run Unit Tests
         run: vendor/bin/phpunit --group unit
