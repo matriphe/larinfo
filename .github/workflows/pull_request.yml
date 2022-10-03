@@ -68,16 +68,35 @@ jobs:
         php-versions: ['8.0']
         laravel-versions: ['^9.0']
     steps:
-      - uses: matriphe/laravel-pkg-test-action@main
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP with Composer
+        uses: shivammathur/setup-php@v2
         with:
-          operating_system: ${{ matrix.operating-system }}
-          php_version: ${{ matrix.php-versions }}
-          laravel_version: ${{ matrix.laravel-versions }}
-          phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
-          php_extensions: pdo_sqlite,sqlite3
-          shell_name: pwsh
+          php-version: ${{ matrix.php-versions }}
+          extensions: pdo_sqlite,sqlite3
+
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+
+      - name: Install Laravel
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-reqs
+
+      - name: Update Composer dependencies
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit --group unit
 
       - name: Run Windows Tests
         run: vendor/bin/phpunit --group windows
@@ -96,16 +115,35 @@ jobs:
         php-versions: ['8.0']
         laravel-versions: ['^9.0']
     steps:
-      - uses: matriphe/laravel-pkg-test-action@main
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP with Composer
+        uses: shivammathur/setup-php@v2
         with:
-          operating_system: ${{ matrix.operating-system }}
-          php_version: ${{ matrix.php-versions }}
-          laravel_version: ${{ matrix.laravel-versions }}
-          phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins --ignore-platform-reqs
-          php_extensions: pdo_sqlite,sqlite3,com_dotnet
-          shell_name: pwsh
+          php-version: ${{ matrix.php-versions }}
+          extensions: pdo_sqlite,sqlite3,com_dotnet
+
+      - name: Check PHP Version and Modules
+        run: php -v && php -m
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
+
+      - name: Install Laravel
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-reqs
+
+      - name: Update Composer dependencies
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+
+      - name: Run Unit Tests
+        run: vendor/bin/phpunit --group unit
 
       - name: Run Windows Tests
         run: vendor/bin/phpunit --group windows
