@@ -129,7 +129,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: pdo_sqlite,sqlite3,com_dotnet
+          extensions: pdo_sqlite,sqlite3,com_dotnet,fileinfo
 
       - name: Check PHP Version and Modules
         run: php -v && php -m
