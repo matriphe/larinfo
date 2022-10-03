@@ -182,3 +182,25 @@ jobs:
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
+
+
+  version-3:
+    name: Version 3.0.0 Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '7.3', '7.4' ]
+        laravel-versions: [ '5.7.*', '^6.0', '^7.0', '*8.0' ]
+    steps:
+      - uses: matriphe/laravel-pkg-test-action@v2
+        with:
+          operating_system: ${{ matrix.operating-system }}
+          php_version: ${{ matrix.php-versions }}
+          laravel_version: ${{ matrix.laravel-versions }}
+          phpunit_args: --group unit
+          branch: 3.0.0
+
+      - name: Run Ubuntu Tests
+        run: vendor/bin/phpunit --group ubuntu
