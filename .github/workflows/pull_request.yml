@@ -124,49 +124,39 @@ jobs:
         run: php vendor/bin/testbench larinfo
 
 
-#  windows-with-com-dotnet-laravel-9:
-#    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} with com_dotnet
-#    runs-on: ${{ matrix.operating-system }}
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        operating-system: [ windows-2019 ]
-#        php-versions: [ '8.0' ]
-#        laravel-versions: [ '^9.0' ]
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v3
-#
-#      - name: Setup PHP with Composer
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: ${{ matrix.php-versions }}
-#          extensions: pdo_sqlite,sqlite3,com_dotnet,fileinfo
-#
-#      - name: Check PHP Version and Modules
-#        run: php -v && php -m
-#
-#      - name: Cache Composer packages
-#        id: composer-cache
-#        uses: actions/cache@v2
-#        with:
-#          path: vendor
-#          key: ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: |
-#            ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
-#
-#      - name: Install Laravel
-#        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-req=php+
-#
-#      - name: Update Composer dependencies
-#        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-req=php+
-#
-#      - name: Run Unit Tests
-#        run: vendor/bin/phpunit --group unit
-#
-#      - name: Run Windows Tests
-#        run: vendor/bin/phpunit --group windows
-#
-#      - name: Run Larinfo Command
-#        shell: pwsh
-#        run: php vendor/bin/testbench larinfo
+  windows-with-com-dotnet-laravel-9:
+    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} with com_dotnet
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ windows-2019 ]
+        php-versions: [ '8.0', '8.1' ]
+        laravel-versions: [ '^9.0' ]
+    steps:
+      - id: composer-flag
+        name: Set Composer Flag based on PHP Version input
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: ${{ matrix.php-versions == '8.0' }}
+          if_true: '--ignore-platform-req=php+'
+          if_false: ''
+
+      - uses: matriphe/laravel-pkg-test-action@v2
+        with:
+          operating_system: ${{ matrix.operating-system }}
+          php_version: ${{ matrix.php-versions }}
+          laravel_version: ${{ matrix.laravel-versions }}
+          phpunit_args: --group unit
+          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
+          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
+          php_extensions: pdo_sqlite,sqlite3,fileinfo,com_dotnet
+          shell_name: pwsh
+
+      - name: Run Windows Tests
+        shell: pwsh
+        run: vendor/bin/phpunit --group windows
+
+      - name: Run Larinfo Command
+        shell: pwsh
+        run: php vendor/bin/testbench larinfo
