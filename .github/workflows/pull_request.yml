@@ -182,6 +182,3 @@ jobs:
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
-
-      - name: Run Larinfo Command
-        run: php vendor/bin/testbench larinfo
