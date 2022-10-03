@@ -10,7 +10,7 @@
         "sysinfo"
     ],
     "require": {
-        "php": "^8.0.2",
+        "php": "^8.0",
         "ext-pdo": "*",
         "davidepastore/ipinfo": "^0.6",
         "laravel/framework": "^9.0",
@@ -18,8 +18,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^7.0",
-        "phpunit/phpunit": "^9.5"
+        "orchestra/testbench": "^7.0"
     },
     "license": "MIT",
     "authors": [
