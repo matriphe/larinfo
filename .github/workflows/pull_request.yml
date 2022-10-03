@@ -102,6 +102,7 @@ jobs:
         run: vendor/bin/phpunit --group windows
 
       - name: Run Larinfo Command
+        shell: pwsh
         run: php vendor/bin/testbench larinfo
 
 
@@ -149,4 +150,5 @@ jobs:
         run: vendor/bin/phpunit --group windows
 
       - name: Run Larinfo Command
+        shell: pwsh
         run: php vendor/bin/testbench larinfo
