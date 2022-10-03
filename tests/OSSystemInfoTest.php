@@ -53,7 +53,7 @@ class OSSystemInfoTest extends TestCase
         $this->assertEquals('MacOS', $info->getDistroName());
         $this->assertMatchesRegularExpression('/(X|(\d+\.\d+\.\d+))/i', $info->getDistroVersion());
         $this->assertMatchesRegularExpression('/\d+\.\d+\.[\d\-a-z]+/i', $info->getKernel());
-        $this->assertEquals('x86_64', $info->getArch());
+        $this->assertMatchesRegularExpression('/(.*64)/i', $info->getArch());
     }
 
     /**
