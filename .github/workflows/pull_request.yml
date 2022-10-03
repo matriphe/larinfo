@@ -138,10 +138,10 @@ jobs:
             ${{ runner.os }}-${{ matrix.operating-system }}-php-${{ matrix.php-versions }}-laravel-${{ matrix.laravel-versions }}-
 
       - name: Install Laravel
-        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-req=php+
+        run: composer require "laravel/framework:${{ matrix.laravel-versions }}" --prefer-dist --no-progress --ignore-platform-req
 
       - name: Update Composer dependencies
-        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-req=php+
+        run: composer update --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-req
 
       - name: Run Unit Tests
         run: vendor/bin/phpunit --group unit
