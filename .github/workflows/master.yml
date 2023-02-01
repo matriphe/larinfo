@@ -22,8 +22,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [8.1]
+        laravel-versions: [10.0]
     steps:
       - id: composer-flag
         name: Set Composer Flag based on PHP Version input
@@ -56,8 +56,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '7.4' ]
-        laravel-versions: [ '5.7.*', '^6.0', '^7.0', '^8.0' ]
+        php-versions: [8.1]
+        laravel-versions: [10.*]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -78,8 +78,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '7.3', '7.4' ]
-        laravel-versions: [ '5.6.*' ]
+        php-versions: [8.1]
+        laravel-versions: [10.*]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:

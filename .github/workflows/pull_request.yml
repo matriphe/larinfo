@@ -24,8 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [8.1]
+        laravel-versions: [10.0]
     steps:
       - id: composer-flag
         name: Set Composer Flag based on PHP Version input
@@ -58,8 +58,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ macos-11, macos-12 ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [8.1]
+        laravel-versions: [10.0]
     steps:
       - id: composer-flag
         name: Set Composer Flag based on PHP Version input
@@ -92,8 +92,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ windows-2019 ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [8.1]
+        laravel-versions: [10.0]
     steps:
       - id: composer-flag
         name: Set Composer Flag based on PHP Version input
@@ -130,8 +130,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ windows-2019 ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [8.1]
+        laravel-versions: [10.0]
     steps:
       - id: composer-flag
         name: Set Composer Flag based on PHP Version input
