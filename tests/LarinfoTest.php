@@ -24,11 +24,12 @@ use Matriphe\Larinfo\Larinfo;
 use Matriphe\Larinfo\Windows\WindowsOs;
 use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group unit
  */
-final class LarinfoTest extends \PHPUnit\Framework\TestCase
+final class LarinfoTest extends TestCase
 {
     /**
      * @var Ipinfo|Mockery\MockInterface

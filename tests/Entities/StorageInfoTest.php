@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group entity
  */
-class StorageInfoTest extends TestCase
+final class StorageInfoTest extends TestCase
 {
     public static function storageData(): array
     {

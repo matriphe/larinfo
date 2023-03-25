@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group converter
  */
-class StorageSizeConverterTest extends TestCase
+final class StorageSizeConverterTest extends TestCase
 {
     /**
      * @return array
