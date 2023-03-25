@@ -33,7 +33,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function cpuData(): array
+    public static function cpuData(): array
     {
         return [
             'null returns empty' => [
@@ -167,7 +167,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function modelData(): array
+    public static function modelData(): array
     {
         return [
             'null returns empty' => [
@@ -199,7 +199,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function virtualizationData(): array
+    public static function virtualizationData(): array
     {
         return [
             'null returns empty' => [
@@ -248,7 +248,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function memoryData(): array
+    public static function memoryData(): array
     {
         return [
             'null returns empty' => [
@@ -351,7 +351,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function diskData(): array
+    public static function diskData(): array
     {
         return [
             'null returns empty' => [
@@ -419,7 +419,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function arrayData(): array
+    public static function arrayData(): array
     {
         return [
             'null returns empty' => [

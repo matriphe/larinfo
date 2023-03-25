@@ -15,7 +15,7 @@ final class SystemInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function uptimeData(): array
+    public static function uptimeData(): array
     {
         return [
             'null returns unknown' => [

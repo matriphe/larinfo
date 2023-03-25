@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StorageInfoTest extends TestCase
 {
-    public function storageData(): array
+    public static function storageData(): array
     {
         return [
             [

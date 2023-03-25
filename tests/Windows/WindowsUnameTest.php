@@ -14,7 +14,7 @@ class WindowsUnameTest extends TestCase
     /**
      * @return \string[][]
      */
-    public function kernelData(): array
+    public static function kernelData(): array
     {
         return [
             [

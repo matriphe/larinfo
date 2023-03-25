@@ -17,7 +17,7 @@ final class DatabaseInfoTest extends TestCase
     /**
      * @return \string[][]
      */
-    public function driverData(): array
+    public static function driverData(): array
     {
         return [
             'return mysql' => [
@@ -47,7 +47,7 @@ final class DatabaseInfoTest extends TestCase
         $this->assertEquals($expected, $databaseInfo->getDriver());
     }
 
-    public function versionData(): array
+    public static function versionData(): array
     {
         return [
             'return mysql' => [

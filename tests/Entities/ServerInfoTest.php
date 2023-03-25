@@ -19,7 +19,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function osData(): array
+    public static function osData(): array
     {
         return [
             'null returns unknown' => [
@@ -79,7 +79,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function distroData(): array
+    public static function distroData(): array
     {
         return [
             'null returns empty' => [
@@ -218,7 +218,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function kernelData(): array
+    public static function kernelData(): array
     {
         return [
             'null returns empty' => [
@@ -246,7 +246,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function archData(): array
+    public static function archData(): array
     {
         return [
             'null returns empty' => [
@@ -274,7 +274,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function webServerData(): array
+    public static function webServerData(): array
     {
         return [
             'null returns empty' => [
@@ -302,7 +302,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function phpVersionData(): array
+    public static function phpVersionData(): array
     {
         return [
             'null returns empty' => [
@@ -330,7 +330,7 @@ final class ServerInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function arrayData(): array
+    public static function arrayData(): array
     {
         return [
             'null returns empty' => [

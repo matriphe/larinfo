@@ -15,7 +15,7 @@ final class GeoIpInfoTest extends TestCase
     /**
      * @return array
      */
-    public function hostData(): array
+    public static function hostData(): array
     {
         return [
             'empty host' => [

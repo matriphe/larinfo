@@ -14,7 +14,7 @@ final class IpAddressCheckerCheckerTest extends TestCase
     /**
      * @return array
      */
-    public function ipAddressData(): array
+    public static function ipAddressData(): array
     {
         return [
             [

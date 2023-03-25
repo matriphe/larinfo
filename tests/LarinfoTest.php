@@ -77,7 +77,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function hostData(): array
+    public static function hostData(): array
     {
         return [
             [
@@ -252,7 +252,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function softwareData(): array
+    public static function softwareData(): array
     {
         return [
             'unknown' => [
@@ -402,7 +402,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function hardwareData(): array
+    public static function hardwareData(): array
     {
         return [
             'unknown' => [
@@ -545,7 +545,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function systemData(): array
+    public static function systemData(): array
     {
         return [
             'unknown' => [
