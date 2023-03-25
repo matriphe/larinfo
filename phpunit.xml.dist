@@ -6,8 +6,8 @@
     </include>
   </coverage>
   <testsuites>
-    <testsuite name="Larinfo Test Suite">
-      <directory suffix=".php">./tests/</directory>
+    <testsuite name="Larinfo Unit Test Suite">
+      <directory suffix=".php">./tests/unit/</directory>
     </testsuite>
   </testsuites>
   <php>

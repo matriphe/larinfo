@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Converter;
+namespace Matriphe\Larinfo\Tests\unit\Converter;
 
 use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use PHPUnit\Framework\TestCase;

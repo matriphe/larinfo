@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\StorageInfo;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests;
+namespace Matriphe\Larinfo\Tests\unit;
 
 use DavidePastore\Ipinfo\Host;
 use DavidePastore\Ipinfo\Ipinfo;

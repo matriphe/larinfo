@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Windows;
+namespace Matriphe\Larinfo\Tests\unit\Windows;
 
 use Matriphe\Larinfo\Windows\WindowsUname;
 use Mockery;
