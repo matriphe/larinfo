@@ -67,7 +67,7 @@ jobs:
           phpunit_args: --group unit
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
-          branch: 4.0
+          branch: 4.0.0
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
