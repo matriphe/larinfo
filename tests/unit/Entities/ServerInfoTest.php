@@ -7,6 +7,7 @@ use Linfo\OS\Linux;
 use Linfo\OS\OS;
 use Linfo\OS\Windows;
 use Matriphe\Larinfo\Entities\ServerInfo;
+use Matriphe\Larinfo\Tests\LinfoEntityTestCase;
 use Matriphe\Larinfo\Windows\WindowsOs;
 use Mockery;
 

@@ -10,6 +10,7 @@ use Linfo\OS\OS;
 use Linfo\OS\Windows;
 use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\HardwareInfo;
+use Matriphe\Larinfo\Tests\LinfoEntityTestCase;
 use Mockery;
 
 /**

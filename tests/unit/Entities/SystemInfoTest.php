@@ -4,6 +4,7 @@ namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use Linfo\OS\OS;
 use Matriphe\Larinfo\Entities\SystemInfo;
+use Matriphe\Larinfo\Tests\LinfoEntityTestCase;
 use Mockery;
 
 /**
