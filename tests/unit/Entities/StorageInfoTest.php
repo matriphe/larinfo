@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\StorageInfo;
@@ -10,9 +10,9 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group entity
  */
-class StorageInfoTest extends TestCase
+final class StorageInfoTest extends TestCase
 {
-    public function storageData(): array
+    public static function storageData(): array
     {
         return [
             [

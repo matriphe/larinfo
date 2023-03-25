@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests;
+namespace Matriphe\Larinfo\Tests\unit;
 
 use DavidePastore\Ipinfo\Ipinfo;
 use Illuminate\Database\Capsule\Manager;
@@ -12,7 +12,7 @@ use Matriphe\Larinfo\Wrapper\WrapperFactory;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class OSSystemInfoTest extends TestCase
+final class OSSystemInfoTest extends TestCase
 {
     /**
      * @var Larinfo

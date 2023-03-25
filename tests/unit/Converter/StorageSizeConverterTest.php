@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Converter;
+namespace Matriphe\Larinfo\Tests\unit\Converter;
 
 use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use PHPUnit\Framework\TestCase;
@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @group converter
  */
-class StorageSizeConverterTest extends TestCase
+final class StorageSizeConverterTest extends TestCase
 {
     /**
      * @return array
      */
-    public function data(): array
+    public static function data(): array
     {
         return [
             ['num' => 0, 'precision' => 0, 'useBinary' => true, 'human' => '0 B'],

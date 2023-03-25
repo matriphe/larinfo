@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests;
 
 use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 use Mockery;

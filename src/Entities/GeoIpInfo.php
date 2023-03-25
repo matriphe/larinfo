@@ -40,7 +40,7 @@ final class GeoIpInfo implements Arrayable
      */
     public function getPrivateIp(): string
     {
-        return trim($this->privateIpAddress);
+        return trim((string) $this->privateIpAddress);
     }
 
     /**

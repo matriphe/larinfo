@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use DavidePastore\Ipinfo\Host;
 use Matriphe\Larinfo\Entities\GeoIpInfo;
@@ -15,7 +15,7 @@ final class GeoIpInfoTest extends TestCase
     /**
      * @return array
      */
-    public function hostData(): array
+    public static function hostData(): array
     {
         return [
             'empty host' => [

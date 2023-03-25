@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Windows;
+namespace Matriphe\Larinfo\Tests\unit\Windows;
 
 use Matriphe\Larinfo\Windows\WindowsUname;
 use Mockery;
@@ -9,12 +9,12 @@ use PHPUnit\Framework\TestCase;
 /**
  * @group unit
  */
-class WindowsUnameTest extends TestCase
+final class WindowsUnameTest extends TestCase
 {
     /**
      * @return \string[][]
      */
-    public function kernelData(): array
+    public static function kernelData(): array
     {
         return [
             [

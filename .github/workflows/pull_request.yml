@@ -9,40 +9,24 @@ on:
 
 
 jobs:
-  # Note for PHP 8.0.
-  # For PHP 8.0, we need to force Laravel to use Symfony 6.0 instead of 6.1. Because some syntax support is missing.
-  #
-  # The error:
-  # PHP Parse error:  syntax error, unexpected token ")" in path\vendor\symfony\finder\Finder.php on line 588
-  #
-  # The reason: https://github.com/symfony/symfony/discussions/46540#discussioncomment-2861896
-
-  ubuntu-laravel-9:
+  ubuntu-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [ '8.1' ]
+        laravel-versions: [ '^10.0' ]
     steps:
-      - id: composer-flag
-        name: Set Composer Flag based on PHP Version input
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ matrix.php-versions == '8.0' }}
-          if_true: '--ignore-platform-req=php+'
-          if_false: ''
-
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
           operating_system: ${{ matrix.operating-system }}
           php_version: ${{ matrix.php-versions }}
           laravel_version: ${{ matrix.laravel-versions }}
           phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
+          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
@@ -51,32 +35,24 @@ jobs:
         run: php vendor/bin/testbench larinfo
 
 
-  macos-laravel-9:
+  macos-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ macos-11, macos-12 ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [ '8.1' ]
+        laravel-versions: [ '^10.0' ]
     steps:
-      - id: composer-flag
-        name: Set Composer Flag based on PHP Version input
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ matrix.php-versions == '8.0' }}
-          if_true: '--ignore-platform-req=php+'
-          if_false: ''
-
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
           operating_system: ${{ matrix.operating-system }}
           php_version: ${{ matrix.php-versions }}
           laravel_version: ${{ matrix.laravel-versions }}
           phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
+          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
 
       - name: Run MacOS Tests
         run: vendor/bin/phpunit --group macos
@@ -85,32 +61,24 @@ jobs:
         run: php vendor/bin/testbench larinfo
 
 
-  windows-laravel-9:
+  windows-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} without com_dotnet
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ windows-2019 ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [ '8.1' ]
+        laravel-versions: [ '^10.0' ]
     steps:
-      - id: composer-flag
-        name: Set Composer Flag based on PHP Version input
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ matrix.php-versions == '8.0' }}
-          if_true: '--ignore-platform-req=php+'
-          if_false: ''
-
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
           operating_system: ${{ matrix.operating-system }}
           php_version: ${{ matrix.php-versions }}
           laravel_version: ${{ matrix.laravel-versions }}
           phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
+          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           php_extensions: pdo_sqlite,sqlite3,fileinfo
           shell_name: pwsh
 
@@ -123,32 +91,24 @@ jobs:
         run: php vendor/bin/testbench larinfo
 
 
-  windows-with-com-dotnet-laravel-9:
+  windows-with-com-dotnet-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} with com_dotnet
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ windows-2019 ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        php-versions: [ '8.1' ]
+        laravel-versions: [ '^10.0' ]
     steps:
-      - id: composer-flag
-        name: Set Composer Flag based on PHP Version input
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ matrix.php-versions == '8.0' }}
-          if_true: '--ignore-platform-req=php+'
-          if_false: ''
-
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
           operating_system: ${{ matrix.operating-system }}
           php_version: ${{ matrix.php-versions }}
           laravel_version: ${{ matrix.laravel-versions }}
           phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
+          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           php_extensions: pdo_sqlite,sqlite3,fileinfo,com_dotnet
           shell_name: pwsh
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests;
+namespace Matriphe\Larinfo\Tests\unit;
 
 use DavidePastore\Ipinfo\Host;
 use DavidePastore\Ipinfo\Ipinfo;
@@ -24,11 +24,12 @@ use Matriphe\Larinfo\Larinfo;
 use Matriphe\Larinfo\Windows\WindowsOs;
 use Matriphe\Larinfo\Wrapper\LinfoWrapperContract;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @group unit
  */
-final class LarinfoTest extends \PHPUnit\Framework\TestCase
+final class LarinfoTest extends TestCase
 {
     /**
      * @var Ipinfo|Mockery\MockInterface
@@ -77,7 +78,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function hostData(): array
+    public static function hostData(): array
     {
         return [
             [
@@ -252,7 +253,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function softwareData(): array
+    public static function softwareData(): array
     {
         return [
             'unknown' => [
@@ -402,7 +403,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function hardwareData(): array
+    public static function hardwareData(): array
     {
         return [
             'unknown' => [
@@ -545,7 +546,7 @@ final class LarinfoTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array[]
      */
-    public function systemData(): array
+    public static function systemData(): array
     {
         return [
             'unknown' => [

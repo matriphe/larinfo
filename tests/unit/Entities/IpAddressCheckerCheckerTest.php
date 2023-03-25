@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use Matriphe\Larinfo\Entities\IpAddressChecker;
 use PHPUnit\Framework\TestCase;
@@ -14,7 +14,7 @@ final class IpAddressCheckerCheckerTest extends TestCase
     /**
      * @return array
      */
-    public function ipAddressData(): array
+    public static function ipAddressData(): array
     {
         return [
             [

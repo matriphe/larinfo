@@ -1,9 +1,10 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use Linfo\OS\OS;
 use Matriphe\Larinfo\Entities\SystemInfo;
+use Matriphe\Larinfo\Tests\LinfoEntityTestCase;
 use Mockery;
 
 /**
@@ -15,7 +16,7 @@ final class SystemInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function uptimeData(): array
+    public static function uptimeData(): array
     {
         return [
             'null returns unknown' => [

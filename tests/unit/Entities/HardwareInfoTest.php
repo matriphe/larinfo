@@ -1,6 +1,6 @@
 <?php
 
-namespace Matriphe\Larinfo\Tests\Entities;
+namespace Matriphe\Larinfo\Tests\unit\Entities;
 
 use Linfo\OS\Darwin;
 use Linfo\OS\FreeBSD;
@@ -10,6 +10,7 @@ use Linfo\OS\OS;
 use Linfo\OS\Windows;
 use Matriphe\Larinfo\Converters\StorageSizeConverter;
 use Matriphe\Larinfo\Entities\HardwareInfo;
+use Matriphe\Larinfo\Tests\LinfoEntityTestCase;
 use Mockery;
 
 /**
@@ -33,7 +34,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function cpuData(): array
+    public static function cpuData(): array
     {
         return [
             'null returns empty' => [
@@ -167,7 +168,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function modelData(): array
+    public static function modelData(): array
     {
         return [
             'null returns empty' => [
@@ -199,7 +200,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function virtualizationData(): array
+    public static function virtualizationData(): array
     {
         return [
             'null returns empty' => [
@@ -248,7 +249,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function memoryData(): array
+    public static function memoryData(): array
     {
         return [
             'null returns empty' => [
@@ -351,7 +352,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function diskData(): array
+    public static function diskData(): array
     {
         return [
             'null returns empty' => [
@@ -419,7 +420,7 @@ final class HardwareInfoTest extends LinfoEntityTestCase
     /**
      * @return array[]
      */
-    public function arrayData(): array
+    public static function arrayData(): array
     {
         return [
             'null returns empty' => [
