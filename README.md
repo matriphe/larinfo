@@ -226,6 +226,36 @@ Larinfo
 +--------------------+------------------------------------------+
 ```
 
+## Running Tests
+
+To run the unit tests, execute this following command.
+
+```shell
+vendor/bin/phpunit --group unit
+```
+
+### GitHub Actions
+
+On the GitHub Actions, the tests run on the respective operating system, which are `ubuntu`, `macos`, and `windows` when a pull request is made.
+
+To run the tests on [Ubuntu 20.04 LTS (Focal Fossa)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/linux/Ubuntu2004-Readme.md) and [Ubuntu 22.04 LTS (Jammy Jellyfish)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/linux/Ubuntu2204-Readme.md), run this following command.
+
+```shell
+vendor/bin/phpunit --group ubuntu
+```
+
+To run the tests on [macOS Monterey (12)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/macos/macos-12-Readme.md) and [macOS Ventura (13)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/macos/macos-13-Readme.md), run this following command.
+
+```shell
+vendor/bin/phpunit --group macos
+```
+
+To run the tests on [Windows Server 2019](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/win/Windows2019-Readme.md) and [Windows Server 2022](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/win/Windows2022-Readme.md), run this following command.
+
+```shell
+vendor/bin/phpunit --group windows
+```
+
 ## License
 
 Please see [License File](LICENSE.md) for more information.
