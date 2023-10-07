@@ -226,6 +226,14 @@ Larinfo
 +--------------------+------------------------------------------+
 ```
 
+## Running Tests
+
+To run the unit tests, execute this following command.
+
+```shell
+vendor/bin/phpunit --group unit
+```
+
 ## License
 
 Please see [License File](LICENSE.md) for more information.
