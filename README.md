@@ -236,7 +236,7 @@ vendor/bin/phpunit --group unit
 
 On the GitHub Actions, the tests run on the respective operating system, which are `ubuntu`, `macos`, and `windows`.
 
-To run the tests on [Ubuntu 20.24](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/linux/Ubuntu2004-Readme.md) and [Ubuntu 22.04 (Jammy)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/linux/Ubuntu2204-Readme.md), run this following command.
+To run the tests on [Ubuntu 20.04 LTS (Focal Fossa)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/linux/Ubuntu2004-Readme.md) and [Ubuntu 22.04 LTS (Jammy Jellyfish)](https://github.com/actions/runner-images/blob/23ff0d746804fc3c0ac7f961f2fbca953824c775/images/linux/Ubuntu2204-Readme.md), run this following command.
 
 ```shell
 vendor/bin/phpunit --group ubuntu
