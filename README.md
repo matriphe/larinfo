@@ -234,6 +234,26 @@ To run the unit tests, execute this following command.
 vendor/bin/phpunit --group unit
 ```
 
+On the GitHub Actions, the tests run on the respective operating system, which are `ubuntu`, `macos`, and `windows`.
+
+To run the **Ubuntu** specific test on Ubuntu, run this following command.
+
+```shell
+vendor/bin/phpunit --group ubuntu
+```
+
+To run the **MacOS** specific test on MacOS, run this following command.
+
+```shell
+vendor/bin/phpunit --group macos
+```
+
+To run the **Windows** specific test on Windows, run this following command.
+
+```shell
+vendor/bin/phpunit --group windows
+```
+
 ## License
 
 Please see [License File](LICENSE.md) for more information.
