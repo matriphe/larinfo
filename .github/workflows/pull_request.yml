@@ -41,8 +41,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ macos-11, macos-12 ]
-        php-versions: [ '8.1' ]
+        operating-system: [ macos-12, macos-13 ]
+        php-versions: [ '8.2' ] # default is PHP 8.2 from https://github.com/shivammathur/setup-php#github-hosted-runners
         laravel-versions: [ '^10.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
