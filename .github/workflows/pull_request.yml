@@ -1,4 +1,4 @@
-name: Test PR
+name: Test Pull Request
 
 on:
   pull_request:
@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.1' ]
+        operating-system: [ ubuntu-20.04, ubuntu-22.04 ]
+        php-versions: [ '8.1', '8.2' ]
         laravel-versions: [ '^10.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
@@ -41,8 +41,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ macos-11, macos-12 ]
-        php-versions: [ '8.1' ]
+        operating-system: [ macos-12, macos-13 ]
+        php-versions: [ '8.1', '8.2' ] # default is PHP 8.2 from https://github.com/shivammathur/setup-php#github-hosted-runners
         laravel-versions: [ '^10.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
@@ -67,9 +67,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ windows-2019 ]
-        php-versions: [ '8.1' ]
+        operating-system: [ windows-2019, windows-2022 ]
+        php-versions: [ '8.1', '8.2' ]
         laravel-versions: [ '^10.0' ]
+        php-extension: [ 'pdo_sqlite,sqlite3,fileinfo' , 'pdo_sqlite,sqlite3,fileinfo,com_dotnet']
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -79,37 +80,7 @@ jobs:
           phpunit_args: --group unit
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
-          php_extensions: pdo_sqlite,sqlite3,fileinfo
-          shell_name: pwsh
-
-      - name: Run Windows Tests
-        shell: pwsh
-        run: vendor/bin/phpunit --group windows
-
-      - name: Run Larinfo Command
-        shell: pwsh
-        run: php vendor/bin/testbench larinfo
-
-
-  windows-with-com-dotnet-laravel-10:
-    name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} with com_dotnet
-    runs-on: ${{ matrix.operating-system }}
-    strategy:
-      fail-fast: false
-      matrix:
-        operating-system: [ windows-2019 ]
-        php-versions: [ '8.1' ]
-        laravel-versions: [ '^10.0' ]
-    steps:
-      - uses: matriphe/laravel-pkg-test-action@v2
-        with:
-          operating_system: ${{ matrix.operating-system }}
-          php_version: ${{ matrix.php-versions }}
-          laravel_version: ${{ matrix.laravel-versions }}
-          phpunit_args: --group unit
-          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
-          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
-          php_extensions: pdo_sqlite,sqlite3,fileinfo,com_dotnet
+          php_extensions: ${{ matrix.php-extension }}
           shell_name: pwsh
 
       - name: Run Windows Tests
