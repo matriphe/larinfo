@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ] # Ubuntu 22.04
-        php-versions: [ '8.1' ] # default is PHP 8.1 from https://github.com/shivammathur/setup-php#github-hosted-runners
+        operating-system: [ ubuntu-20.04, ubuntu-22.04 ]
+        php-versions: [ '8.1', '8.2' ]
         laravel-versions: [ '^10.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
