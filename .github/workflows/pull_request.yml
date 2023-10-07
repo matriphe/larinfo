@@ -67,8 +67,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ windows-2019 ]
-        php-versions: [ '8.1' ]
+        operating-system: [ windows-2019, windows-2022 ]
+        php-versions: [ '8.1', '8.2' ]
         laravel-versions: [ '^10.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
