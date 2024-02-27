@@ -7,17 +7,28 @@ on:
       - reopened
       - synchronize
 
-
 jobs:
   ubuntu-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-20.04, ubuntu-22.04 ]
-        php-versions: [ '8.1', '8.2', '8.3' ]
-        laravel-versions: [ '^10.0' ]
+        operating-system: [ubuntu-20.04, ubuntu-22.04]
+        php-versions: ['8.1', '8.2', '8.3']
+        laravel-versions: ['11.0', ^10.0]
+        exclude:
+          - laravel-versions: '11.0'
+            php-versions: '8.1'
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -27,23 +38,38 @@ jobs:
           phpunit_args: --group unit
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+
+
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
 
+
+
       - name: Run Larinfo Command
         run: php vendor/bin/testbench larinfo
 
-
   macos-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ macos-12, macos-13 ]
-        php-versions: [ '8.1', '8.2', '8.3' ]
-        laravel-versions: [ '^10.0' ]
+        operating-system: [macos-12, macos-13]
+        php-versions: ['8.1', '8.2', '8.3']
+        laravel-versions: ['11.0', ^10.0]
+        exclude:
+          - laravel-versions: '11.0'
+            php-versions: '8.1'
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -54,23 +80,38 @@ jobs:
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
 
+
+
       - name: Run MacOS Tests
         run: vendor/bin/phpunit --group macos
+
+
 
       - name: Run Larinfo Command
         run: php vendor/bin/testbench larinfo
 
-
   windows-laravel-10:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} without com_dotnet
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ windows-2019, windows-2022 ]
-        php-versions: [ '8.1', '8.2', '8.3' ]
-        laravel-versions: [ '^10.0' ]
-        php-extension: [ 'pdo_sqlite,sqlite3,fileinfo' , 'pdo_sqlite,sqlite3,fileinfo,com_dotnet']
+        operating-system: [windows-2019, windows-2022]
+        php-versions: ['8.1', '8.2', '8.3']
+        laravel-versions: ['11.0', ^10.0]
+        php-extension: ['8.2', 'pdo_sqlite,sqlite3,fileinfo', 'pdo_sqlite,sqlite3,fileinfo,com_dotnet']
+        exclude:
+          - laravel-versions: '11.0'
+            php-versions: '8.1'
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -83,9 +124,13 @@ jobs:
           php_extensions: ${{ matrix.php-extension }}
           shell_name: pwsh
 
+
+
       - name: Run Windows Tests
         shell: pwsh
         run: vendor/bin/phpunit --group windows
+
+
 
       - name: Run Larinfo Command
         shell: pwsh
