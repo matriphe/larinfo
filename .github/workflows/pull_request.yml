@@ -17,7 +17,7 @@ jobs:
       matrix:
         operating-system: [ ubuntu-20.04, ubuntu-22.04 ]
         php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '^11.0' ]
+        laravel-versions: [ '11.*' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -43,7 +43,7 @@ jobs:
       matrix:
         operating-system: [ macos-12, macos-13 ]
         php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '^11.0' ]
+        laravel-versions: [ '11.*' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -69,7 +69,7 @@ jobs:
       matrix:
         operating-system: [ windows-2019, windows-2022 ]
         php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '^11.0' ]
+        laravel-versions: [ '11.*' ]
         php-extension: [ 'pdo_sqlite,sqlite3,fileinfo' , 'pdo_sqlite,sqlite3,fileinfo,com_dotnet']
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
