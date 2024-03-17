@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.2', '8.3' ] # PHP minimum support for Laravel 11
-        laravel-versions: [ '^10.0', '^11.0' ]
+        php-versions: [ '8.2', '8.3' ]
+        laravel-versions: [ '^11.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -25,6 +25,33 @@ jobs:
           phpunit_args: --group unit
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+
+      - name: Run Ubuntu Tests
+        run: vendor/bin/phpunit --group ubuntu
+
+      - name: Run Larinfo Command
+        run: php vendor/bin/testbench larinfo
+
+
+  version-4-1:
+    name: Latest version Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '8.1', '8.2', '8.3' ]
+        laravel-versions: [ '^10.0' ]
+    steps:
+      - uses: matriphe/laravel-pkg-test-action@v2
+        with:
+          operating_system: ${{ matrix.operating-system }}
+          php_version: ${{ matrix.php-versions }}
+          laravel_version: ${{ matrix.laravel-versions }}
+          phpunit_args: --group unit
+          laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+          package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
+          branch: 4.1.0
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
