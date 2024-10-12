@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ macos-12, macos-13 ]
+        operating-system: [ macos-13, macos-14 ]
         php-versions: [ '8.2', '8.3' ]
         laravel-versions: [ '11.*' ]
     steps:
