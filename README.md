@@ -29,12 +29,15 @@ To install using [Composer](https://getcomposer.org/), just run this command bel
 ```shell
 composer require matriphe/larinfo
 ```
-### Older Version
+### Versions
 
-- Laravel `5.0`, `5.1`, `5.2`, `5.3`, `5.4`, `5.5`, and `5.6`, **[please use version 2.2](https://github.com/matriphe/larinfo/releases/tag/2.2)** by running `composer require matriphe/larinfo:2.2`.
-- Laravel `5.7.*`, `5.8.*`, `^6.0`, `^7.0`, and `^8.0`, **[please use version 3.0.0](https://github.com/matriphe/larinfo/releases/tag/3.0.0)** by running `composer require matriphe/larinfo:3.0.0`.
-- Laravel `^9.0` **[please use version 4.0.0](https://github.com/matriphe/larinfo/releases/tag/4.0.0)** by running `composer require matriphe/larinfo:4.0.0`.
-- Laravel `^10.0` **[please use version 4.1.0](https://github.com/matriphe/larinfo/releases/tag/4.1.0)** by running `composer require matriphe/larinfo:4.1.0`.
+| Larinfo                                                                  | Laravel                                             | Composer Command                          |
+|--------------------------------------------------------------------------|-----------------------------------------------------|-------------------------------------------|
+| [2.2](https://github.com/matriphe/larinfo/releases/tag/2.2)              | `5.0`, `5.1`, `5.2`, `5.3`, `5.4`, `5.5`, and `5.6` | `composer require matriphe/larinfo:2.2`   |
+| [3.0.0](https://github.com/matriphe/larinfo/releases/tag/3.0.0)          | `5.7.*`, `5.8.*`, `^6.0`, `^7.0`, and `^8.0`        | `composer require matriphe/larinfo:3.0.0` |
+| [4.0.0](https://github.com/matriphe/larinfo/releases/tag/4.0.0)          | `^9.0`                                              | `composer require matriphe/larinfo:4.0.0` |
+| [4.1.0](https://github.com/matriphe/larinfo/releases/tag/4.1.0)          | `^10.0`                                             | `composer require matriphe/larinfo:4.1.0` |
+| latest ([4.2.0](https://github.com/matriphe/larinfo/releases/tag/4.2.0)) | `^11.0`                                             | `composer require matriphe/larinfo`       |
 
 ### Configuration
 
