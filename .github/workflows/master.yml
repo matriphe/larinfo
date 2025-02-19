@@ -5,17 +5,31 @@ on:
     branches:
       - master
 
-
 jobs:
   version-latest:
     name: Latest version Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '^11.0' ]
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.2', '8.3']
+        laravel-versions: ['12.0', ^11.0]
+
+
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -26,22 +40,47 @@ jobs:
           laravel_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
 
+
+
+
+
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
+
+
+
+
 
       - name: Run Larinfo Command
         run: php vendor/bin/testbench larinfo
 
-
   version-4-1:
     name: Version 4.1.0 Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.1', '8.2', '8.3' ]
-        laravel-versions: [ '^10.0' ]
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.1', '8.2', '8.3']
+        laravel-versions: ['12.0', ^10.0]
+        exclude:
+          - laravel-versions: '12.0'
+            php-versions: '8.1'
+
+
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -53,38 +92,61 @@ jobs:
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins
           branch: 4.1.0
 
+
+
+
+
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
+
+
+
+
 
       - name: Run Larinfo Command
         run: php vendor/bin/testbench larinfo
 
-
-  # Note for PHP 8.0.
-  # For PHP 8.0, we need to force Laravel to use Symfony 6.0 instead of 6.1. Because some syntax support is missing.
-  #
-  # The error:
-  # PHP Parse error:  syntax error, unexpected token ")" in path\vendor\symfony\finder\Finder.php on line 588
-  #
-  # The reason: https://github.com/symfony/symfony/discussions/46540#discussioncomment-2861896
-
   version-4-0:
     name: Version 4.0.0 Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.0', '8.1' ]
-        laravel-versions: [ '^9.0' ]
+        operating-system: [ubuntu-latest]
+        php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4']
+        laravel-versions: ['12.0', ^9.0]
+        exclude:
+          - laravel-versions: '12.0'
+            php-versions: '8.0'
+          - laravel-versions: '12.0'
+            php-versions: '8.1'
+
+
+
+
+
     steps:
       - id: composer-flag
         name: Set Composer Flag based on PHP Version input
         uses: haya14busa/action-cond@v1
         with:
           cond: ${{ matrix.php-versions == '8.0' }}
-          if_true: '--ignore-platform-req=php+'
+          if_true: --ignore-platform-req=php+
           if_false: ''
+
+
+
+
 
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -96,22 +158,47 @@ jobs:
           package_install_args: --prefer-dist --no-progress --no-suggest --optimize-autoloader --no-plugins ${{ steps.composer-flag.outputs.value }}
           branch: 4.0.0
 
+
+
+
+
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
+
+
+
+
 
       - name: Run Larinfo Command
         run: php vendor/bin/testbench larinfo
 
-
   version-3:
     name: Version 3.0.0 Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '7.4' ]
-        laravel-versions: [ '5.7.*', '^6.0', '^7.0', '^8.0' ]
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.4', '8.2', '8.3', '8.4']
+        laravel-versions: ['5.7.*', '12.*', ^6.0, ^7.0, ^8.0]
+        exclude:
+          - laravel-versions: 12.*
+            php-versions: '7.4'
+
+
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -121,19 +208,42 @@ jobs:
           phpunit_args: --group unit
           branch: 3.0.0
 
+
+
+
+
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
 
-
   version-2:
     name: Version 2.2 Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
+
+
+
+
+
     runs-on: ${{ matrix.operating-system }}
+
+
+
+
+
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-latest ]
-        php-versions: [ '7.3', '7.4' ]
-        laravel-versions: [ '5.6.*' ]
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.3', '7.4', '8.2', '8.3', '8.4']
+        laravel-versions: ['5.6.*', '12.*']
+        exclude:
+          - laravel-versions: 12.*
+            php-versions: '7.3'
+          - laravel-versions: 12.*
+            php-versions: '7.4'
+
+
+
+
+
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -142,6 +252,10 @@ jobs:
           laravel_version: ${{ matrix.laravel-versions }}
           phpunit_args: --group unit
           branch: 2.2
+
+
+
+
 
       - name: Run Ubuntu Tests
         run: vendor/bin/phpunit --group ubuntu
