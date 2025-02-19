@@ -2,7 +2,7 @@
     "name": "matriphe/larinfo",
     "description": "Display system information (IP address, OS, versions) for Laravel.",
     "type": "library",
-    "keywords":[
+    "keywords": [
         "laravel",
         "larinfo",
         "ipinfo",
@@ -13,12 +13,12 @@
         "php": "^8.2",
         "ext-pdo": "*",
         "davidepastore/ipinfo": "^0.6",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^11.0|^12.0",
         "linfo/linfo": "^4.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^9.0"
+        "orchestra/testbench": "^9.0|^10.0"
     },
     "license": "MIT",
     "authors": [
