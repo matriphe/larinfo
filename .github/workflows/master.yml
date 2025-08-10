@@ -14,8 +14,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '^11.0' ]
+        php-versions: [ '8.2', '8.3', '8.4' ]
+        laravel-versions: [ '^11.0', '^12.0' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:

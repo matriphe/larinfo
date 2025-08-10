@@ -9,15 +9,15 @@ on:
 
 
 jobs:
-  ubuntu-laravel-11:
+  ubuntu-laravel-latest:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ ubuntu-20.04, ubuntu-22.04 ]
-        php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '11.*' ]
+        operating-system: [ ubuntu-latest ]
+        php-versions: [ '8.2', '8.3', '8.4' ]
+        laravel-versions: [ '11.*', '12.*' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -35,15 +35,15 @@ jobs:
         run: php vendor/bin/testbench larinfo
 
 
-  macos-laravel-11:
+  macos-laravel-latest:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }}
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
         operating-system: [ macos-13, macos-14 ]
-        php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '11.*' ]
+        php-versions: [ '8.2', '8.3', '8.4' ]
+        laravel-versions: [ '11.*', '12.*' ]
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
         with:
@@ -61,15 +61,15 @@ jobs:
         run: php vendor/bin/testbench larinfo
 
 
-  windows-laravel-11:
+  windows-laravel-latest:
     name: Laravel ${{ matrix.laravel-versions }} PHP ${{ matrix.php-versions }} ${{ matrix.operating-system }} without com_dotnet
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ windows-2019, windows-2022 ]
-        php-versions: [ '8.2', '8.3' ]
-        laravel-versions: [ '11.*' ]
+        operating-system: [ windows-latest ]
+        php-versions: [ '8.2', '8.3', '8.4' ]
+        laravel-versions: [ '11.*', '12.*' ]
         php-extension: [ 'pdo_sqlite,sqlite3,fileinfo' , 'pdo_sqlite,sqlite3,fileinfo,com_dotnet']
     steps:
       - uses: matriphe/laravel-pkg-test-action@v2
