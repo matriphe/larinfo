@@ -67,7 +67,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ windows-2019, windows-2022 ]
+        operating-system: [ windows-latest ]
         php-versions: [ '8.2', '8.3', '8.4' ]
         laravel-versions: [ '11.*', '12.*' ]
         php-extension: [ 'pdo_sqlite,sqlite3,fileinfo' , 'pdo_sqlite,sqlite3,fileinfo,com_dotnet']
